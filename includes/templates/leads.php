@@ -9,8 +9,14 @@
  * @since      0.0.1
  *
  * @package    BaseCRM
- * @subpackage BaseCRM/public/partials
+ * @subpackage BaseCRM/includes/layouts
  */
 ?>
 
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
+
+<?php
+
+echo 'Hello World!';
+
+?>

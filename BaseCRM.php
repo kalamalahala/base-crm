@@ -9,14 +9,14 @@
  * that starts the plugin.
  *
  * @link              https://github.com/kalamalahala
- * @since             1.0.0
- * @package           Base_Crm
+ * @since             0.0.1
+ * @package           BaseCRM
  *
  * @wordpress-plugin
  * Plugin Name:       Base CRM
  * Plugin URI:        https://thejohnson.group/
  * Description:       Base CRM is a Lead Management plugin that provides a front-end area for website members to upload referrals while out in the field.
- * Version:           1.0.0
+ * Version:           0.0.1
  * Author:            Tyler Karle
  * Author URI:        https://github.com/kalamalahala
  * License:           GPL-2.0+
@@ -32,31 +32,41 @@ if ( ! defined( 'WPINC' ) ) {
 
 /**
  * Currently plugin version.
- * Start at version 1.0.0 and use SemVer - https://semver.org
+ * Start at version 0.0.1 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'BASE_CRM_VERSION', '1.0.0' );
+define( 'BaseCRM_VERSION', '0.0.1' );
+define( 'BaseCRM_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
+define( 'BaseCRM_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+
+global $wpdb;
+$prefix = $wpdb->prefix;
+define( 'BaseCRM_LEADS_TABLE', $prefix . 'base_crm_leads' );
+define( 'BaseCRM_LEADS_META_TABLE', $prefix . 'base_crm_leads_meta' );
+define( 'BaseCRM_LOGS_TABLE', $prefix . 'base_crm_logs' );
+define( 'BaseCRM_APPOINTMENTS_TABLE', $prefix . 'base_crm_appointments' );
+
 
 /**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-base-crm-activator.php
  */
-function activate_base_crm() {
+function init_BaseCRM() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-base-crm-activator.php';
-	Base_Crm_Activator::activate();
+	BaseCRM_Activator::activate();
 }
 
 /**
  * The code that runs during plugin deactivation.
  * This action is documented in includes/class-base-crm-deactivator.php
  */
-function deactivate_base_crm() {
+function deactivate_BaseCRM() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-base-crm-deactivator.php';
-	Base_Crm_Deactivator::deactivate();
+	BaseCRM_Deactivator::deactivate();
 }
 
-register_activation_hook( __FILE__, 'activate_base_crm' );
-register_deactivation_hook( __FILE__, 'deactivate_base_crm' );
+register_activation_hook( __FILE__, 'init_BaseCRM' );
+register_deactivation_hook( __FILE__, 'deactivate_BaseCRM' );
 
 /**
  * The core plugin class that is used to define internationalization,
@@ -71,12 +81,12 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-base-crm.php';
  * then kicking off the plugin from this point in the file does
  * not affect the page life cycle.
  *
- * @since    1.0.0
+ * @since    0.0.1
  */
-function run_base_crm() {
+function run_BaseCRM() {
 
-	$plugin = new Base_Crm();
+	$plugin = new BaseCRM();
 	$plugin->run();
 
 }
-run_base_crm();
+run_BaseCRM();

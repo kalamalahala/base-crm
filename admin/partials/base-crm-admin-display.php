@@ -6,10 +6,10 @@
  * This file is used to markup the admin-facing aspects of the plugin.
  *
  * @link       https://github.com/kalamalahala
- * @since      1.0.0
+ * @since      0.0.1
  *
- * @package    Base_Crm
- * @subpackage Base_Crm/admin/partials
+ * @package    BaseCRM
+ * @subpackage BaseCRM/admin/partials
  */
 ?>
 

@@ -7,11 +7,13 @@
  * so that it is ready for translation.
  *
  * @link       https://github.com/kalamalahala
- * @since      1.0.0
+ * @since      0.0.1
  *
- * @package    Base_Crm
- * @subpackage Base_Crm/includes
+ * @package    BaseCRM
+ * @subpackage BaseCRM/includes
  */
+
+// namespace BaseCRM;
 
 /**
  * Define the internationalization functionality.
@@ -19,18 +21,18 @@
  * Loads and defines the internationalization files for this plugin
  * so that it is ready for translation.
  *
- * @since      1.0.0
- * @package    Base_Crm
- * @subpackage Base_Crm/includes
+ * @since      0.0.1
+ * @package    BaseCRM
+ * @subpackage BaseCRM/includes
  * @author     Tyler Karle <tyler.karle@icloud.com>
  */
-class Base_Crm_i18n {
+class BaseCRM_i18n {
 
 
 	/**
 	 * Load the plugin text domain for translation.
 	 *
-	 * @since    1.0.0
+	 * @since    0.0.1
 	 */
 	public function load_plugin_textdomain() {
 

@@ -7,11 +7,16 @@
  * public-facing side of the site and the admin area.
  *
  * @link       https://github.com/kalamalahala
- * @since      1.0.0
+ * @since      0.0.1
  *
- * @package    Base_Crm
- * @subpackage Base_Crm/includes
+ * @package    BaseCRM
+ * @subpackage BaseCRM/includes
  */
+
+ 
+use BaseCRM\ServerSide\Lead;
+use BaseCRM\ServerSide\BaseCRM_Shortcodes;
+use BaseCRM\Ajax\AjaxHandler;
 
 /**
  * The core plugin class.
@@ -22,27 +27,28 @@
  * Also maintains the unique identifier of this plugin as well as the current
  * version of the plugin.
  *
- * @since      1.0.0
- * @package    Base_Crm
- * @subpackage Base_Crm/includes
+ * @since      0.0.1
+ * @package    BaseCRM
+ * @subpackage BaseCRM/includes
  * @author     Tyler Karle <tyler.karle@icloud.com>
  */
-class Base_Crm {
+
+class BaseCRM {
 
 	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
 	 * the plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    0.0.1
 	 * @access   protected
-	 * @var      Base_Crm_Loader    $loader    Maintains and registers all hooks for the plugin.
+	 * @var      BaseCRM_Loader    $loader    Maintains and registers all hooks for the plugin.
 	 */
 	protected $loader;
 
 	/**
 	 * The unique identifier of this plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    0.0.1
 	 * @access   protected
 	 * @var      string    $plugin_name    The string used to uniquely identify this plugin.
 	 */
@@ -51,7 +57,7 @@ class Base_Crm {
 	/**
 	 * The current version of the plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    0.0.1
 	 * @access   protected
 	 * @var      string    $version    The current version of the plugin.
 	 */
@@ -64,15 +70,15 @@ class Base_Crm {
 	 * Load the dependencies, define the locale, and set the hooks for the admin area and
 	 * the public-facing side of the site.
 	 *
-	 * @since    1.0.0
+	 * @since    0.0.1
 	 */
 	public function __construct() {
-		if ( defined( 'BASE_CRM_VERSION' ) ) {
-			$this->version = BASE_CRM_VERSION;
+		if ( defined( 'BaseCRM_VERSION' ) ) {
+			$this->version = BaseCRM_VERSION;
 		} else {
-			$this->version = '1.0.0';
+			$this->version = '0.0.1';
 		}
-		$this->plugin_name = 'base-crm';
+		$this->plugin_name = 'BaseCRM';
 
 		$this->load_dependencies();
 		$this->set_locale();
@@ -86,15 +92,15 @@ class Base_Crm {
 	 *
 	 * Include the following files that make up the plugin:
 	 *
-	 * - Base_Crm_Loader. Orchestrates the hooks of the plugin.
-	 * - Base_Crm_i18n. Defines internationalization functionality.
-	 * - Base_Crm_Admin. Defines all hooks for the admin area.
-	 * - Base_Crm_Public. Defines all hooks for the public side of the site.
+	 * - BaseCRM_Loader. Orchestrates the hooks of the plugin.
+	 * - BaseCRM_i18n. Defines internationalization functionality.
+	 * - BaseCRM_Admin. Defines all hooks for the admin area.
+	 * - BaseCRM_Public. Defines all hooks for the public side of the site.
 	 *
 	 * Create an instance of the loader which will be used to register the hooks
 	 * with WordPress.
 	 *
-	 * @since    1.0.0
+	 * @since    0.0.1
 	 * @access   private
 	 */
 	private function load_dependencies() {
@@ -122,22 +128,24 @@ class Base_Crm {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-base-crm-public.php';
 
-		$this->loader = new Base_Crm_Loader();
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/src/ServerSide.php';
+
+		$this->loader = new BaseCRM_Loader();
 
 	}
 
 	/**
 	 * Define the locale for this plugin for internationalization.
 	 *
-	 * Uses the Base_Crm_i18n class in order to set the domain and to register the hook
+	 * Uses the BaseCRM_i18n class in order to set the domain and to register the hook
 	 * with WordPress.
 	 *
-	 * @since    1.0.0
+	 * @since    0.0.1
 	 * @access   private
 	 */
 	private function set_locale() {
 
-		$plugin_i18n = new Base_Crm_i18n();
+		$plugin_i18n = new BaseCRM_i18n();
 
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
 
@@ -147,38 +155,43 @@ class Base_Crm {
 	 * Register all of the hooks related to the admin area functionality
 	 * of the plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    0.0.1
 	 * @access   private
 	 */
 	private function define_admin_hooks() {
 
-		$plugin_admin = new Base_Crm_Admin( $this->get_plugin_name(), $this->get_version() );
-
+		$plugin_admin = new BaseCRM_Admin( $this->get_plugin_name(), $this->get_version() );
+		
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
-
+		
+		$this->ajax = new AjaxHandler();
 	}
 
 	/**
 	 * Register all of the hooks related to the public-facing functionality
 	 * of the plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    0.0.1
 	 * @access   private
 	 */
 	private function define_public_hooks() {
 
-		$plugin_public = new Base_Crm_Public( $this->get_plugin_name(), $this->get_version() );
-
+		$plugin_public = new BaseCRM_Public( $this->get_plugin_name(), $this->get_version() );
+		$this->shortcodes = new BaseCRM_Shortcodes();
+		
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
-
+		$this->loader->add_action( 'template_include', $plugin_public, 'template_include' );
+		$this->loader->add_filter( 'show_admin_bar', $plugin_public, 'remove_admin_bar' );
+		
+		$this->ajax = new AjaxHandler();
 	}
 
 	/**
 	 * Run the loader to execute all of the hooks with WordPress.
 	 *
-	 * @since    1.0.0
+	 * @since    0.0.1
 	 */
 	public function run() {
 		$this->loader->run();
@@ -188,7 +201,7 @@ class Base_Crm {
 	 * The name of the plugin used to uniquely identify it within the context of
 	 * WordPress and to define internationalization functionality.
 	 *
-	 * @since     1.0.0
+	 * @since     0.0.1
 	 * @return    string    The name of the plugin.
 	 */
 	public function get_plugin_name() {
@@ -198,8 +211,8 @@ class Base_Crm {
 	/**
 	 * The reference to the class that orchestrates the hooks with the plugin.
 	 *
-	 * @since     1.0.0
-	 * @return    Base_Crm_Loader    Orchestrates the hooks of the plugin.
+	 * @since     0.0.1
+	 * @return    BaseCRM_Loader    Orchestrates the hooks of the plugin.
 	 */
 	public function get_loader() {
 		return $this->loader;
@@ -208,11 +221,98 @@ class Base_Crm {
 	/**
 	 * Retrieve the version number of the plugin.
 	 *
-	 * @since     1.0.0
+	 * @since     0.0.1
 	 * @return    string    The version number of the plugin.
 	 */
 	public function get_version() {
 		return $this->version;
+	}
+
+	/**
+	 * Returns a boolean value indicating whether the table exists or not.
+	 *
+	 * @param string $table_name
+	 * @return boolean
+	 */
+	public static function table_exists(string $table_name): bool
+	{
+		global $wpdb;
+		$table_name = $wpdb->prefix . $table_name;
+		return $wpdb->get_var("SHOW TABLES LIKE '$table_name'") === $table_name;
+	}
+
+	/**
+	 * Returns an array of page ids created upon plugin activation.
+	 *
+	 * @return array
+	 */
+	public static function plugin_page_ids(): array
+	{
+		$basecrm_page = get_option('basecrm_page_id');
+		$basecrm_leads_page = get_option('basecrm_leads_page_id');
+		$basecrm_appointments_page = get_option('basecrm_appointments_page_id');
+		$basecrm_logs_page = get_option('basecrm_logs_page_id');
+		$basecrm_settings_page = get_option('basecrm_settings_page_id');
+
+		return [
+			'basecrm' => $basecrm_page,
+			'basecrm_leads' => $basecrm_leads_page,
+			'basecrm_appointments' => $basecrm_appointments_page,
+			'basecrm_logs' => $basecrm_logs_page,
+			'basecrm_settings' => $basecrm_settings_page
+		];
+	}
+
+	/**
+	 * Include the navbar template.
+	 *
+	 * @return string
+	 */
+	public static function include_navbar(): string {
+		ob_start();
+		include_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/templates/navbar.php';
+		return ob_get_clean();
+	}
+
+	/**
+	 * Return the contents of a php file in the snips directory.
+	 *
+	 * @param string $file_name
+	 * @return string
+	 */
+	public static function snip(string $file_name): string {
+		ob_start();
+		include_once BaseCRM_PLUGIN_PATH . 'includes/templates/snips/' . $file_name . '.php';
+		return ob_get_clean();
+	}
+
+	public static function disable_permalink_if_not_admin(int $page_id): string {
+		if (current_user_can('administrator')) {
+			return get_permalink($page_id);
+		} else {
+			return '#';
+		}
+	}
+
+	public static function agent_name(int $agent_id, string $mode = 'full'): string {
+		$agent = get_user_by('ID', $agent_id);
+		// if the agent does not have a first and last name set, use display name and split it
+		if (empty($agent->first_name) && empty($agent->last_name)) {
+			$agent_name = explode(' ', $agent->display_name);
+			$agent_first_name = $agent_name[0];
+			$agent_last_name = $agent_name[1];
+		} else {
+			$agent_first_name = $agent->first_name;
+			$agent_last_name = $agent->last_name;
+		}
+
+		if ($mode === 'full') {
+			return $agent_first_name . ' ' . $agent_last_name;
+		} else if ($mode === 'first') {
+			return $agent_first_name;
+		} else if ($mode === 'last') {
+			return $agent_last_name;
+		}
 	}
 
 }
