@@ -23,7 +23,8 @@ use BaseCRM\ServerSide\Lead;
  * @subpackage BaseCRM/public
  * @author     Tyler Karle <tyler.karle@icloud.com>
  */
-class BaseCRM_Public {
+class BaseCRM_Public
+{
 
 	/**
 	 * The ID of this plugin.
@@ -50,11 +51,11 @@ class BaseCRM_Public {
 	 * @param      string    $plugin_name       The name of the plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
-	public function __construct( $plugin_name, $version ) {
+	public function __construct($plugin_name, $version)
+	{
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
-
 	}
 
 	/**
@@ -62,7 +63,8 @@ class BaseCRM_Public {
 	 *
 	 * @since    0.0.1
 	 */
-	public function enqueue_styles() {
+	public function enqueue_styles()
+	{
 
 		/**
 		 * This function is provided for demonstration purposes only.
@@ -80,8 +82,7 @@ class BaseCRM_Public {
 			return;
 		}
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/base-crm-public.css', array(), $this->version, 'all' );
-
+		wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/base-crm-public.css', array(), $this->version, 'all');
 	}
 
 	/**
@@ -89,7 +90,8 @@ class BaseCRM_Public {
 	 *
 	 * @since    0.0.1
 	 */
-	public function enqueue_scripts() {
+	public function enqueue_scripts()
+	{
 
 		if (!is_page(BaseCRM::plugin_page_ids())) {
 			return;
@@ -98,17 +100,24 @@ class BaseCRM_Public {
 		$scripts = new Lead();
 		$scripts = $scripts->lead_types();
 		$is_admin = current_user_can('administrator');
+		
+		wp_dequeue_script('bootstrap-modal');
+		wp_dequeue_script('bootstrap-tooltip');
+		wp_dequeue_script('bootstrap-transition');
+		wp_dequeue_script('bootstrap-popover');
+		wp_dequeue_script('bootstrap-collapse');
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/base-crm-public.js', array( 'jquery' ), $this->version, false );
-		wp_enqueue_script( 'basecrm-dist', BaseCRM_PLUGIN_URL . 'dist/main.js', array( 'jquery' ), $this->version, true );
+
+		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/base-crm-public.js', array('jquery'), $this->version, false);
+		wp_enqueue_script('basecrm-dist', BaseCRM_PLUGIN_URL . 'dist/main.js', array('jquery'), $this->version, true);
 
 		wp_localize_script(
 			$this->plugin_name,
 			'base_crm',
 			array(
-				'ajax_url' => admin_url( 'admin-ajax.php' ),
+				'ajax_url' => admin_url('admin-ajax.php'),
 				'ajax_action' => 'base_crm_ajax',
-				'ajax_nonce' => wp_create_nonce( 'base_crm_ajax_nonce' ),
+				'ajax_nonce' => wp_create_nonce('base_crm_ajax_nonce'),
 				'current_page' => $_SERVER['REQUEST_URI'],
 				'script_list' => $scripts,
 				'is_admin' => $is_admin,
@@ -116,51 +125,54 @@ class BaseCRM_Public {
 		);
 	}
 
-	public function template_include( $template ) {
+	public function template_include($template)
+	{
 		$page_ids = BaseCRM::plugin_page_ids();
 
-		if ( is_page( $page_ids ) ) {
-			switch ( $template ) {
-				case is_page( $page_ids['basecrm'] ):
+		if (is_page($page_ids)) {
+			switch ($template) {
+				case is_page($page_ids['basecrm']):
 					$template = BaseCRM_PLUGIN_PATH . 'includes/templates/base-crm-template.php';
 					break;
-				case is_page( $page_ids['basecrm_leads'] ):
+				case is_page($page_ids['basecrm_leads']):
 					$template = BaseCRM_PLUGIN_PATH . 'includes/templates/base-crm-leads-template.php';
 					break;
-				case is_page( $page_ids['basecrm_appointments'] ):
+				case is_page($page_ids['basecrm_appointments']):
 					$template = BaseCRM_PLUGIN_PATH . 'includes/templates/base-crm-appointments-template.php';
 					break;
-				case is_page( $page_ids['basecrm_logs'] ):
+				case is_page($page_ids['basecrm_logs']):
 					$template = BaseCRM_PLUGIN_PATH . 'includes/templates/base-crm-logs-template.php';
 					break;
-				case is_page( $page_ids['basecrm_settings'] ):
+				case is_page($page_ids['basecrm_settings']):
 					$template = BaseCRM_PLUGIN_PATH . 'includes/templates/base-crm-settings-template.php';
 					break;
 				default:
 					return $template;
-				}
+			}
 		}
 
 		return $template;
 	}
 
-	public function remove_admin_bar() {
+	public function remove_admin_bar()
+	{
 		$page_ids = BaseCRM::plugin_page_ids();
-		$is_page = is_page( $page_ids );
+		$is_page = is_page($page_ids);
 
-		if ( $is_page ) {
-			show_admin_bar( false );
+		if ($is_page) {
+			show_admin_bar(false);
 		} else {
-			show_admin_bar( true );
+			show_admin_bar(true);
 		}
 	}
 
-	public function dequeue_avada_scripts() {
+	public function dequeue_avada_scripts()
+	{
 		do_action('qm/debug', 'dequeue_avada_scripts');
-// 		/* Fix for Modal Conflict */
-// add_action( 'wp', function() {
-// 	Fusion_Dynamic_JS::deregister_script( 'bootstrap-modal' );
-// }, 99);
+		// 		/* Fix for Modal Conflict */
+		// add_action( 'wp', function() {
+		// 	Fusion_Dynamic_JS::deregister_script( 'bootstrap-modal' );
+		// }, 99);
 
 		// Fusion_Dynamic_JS::deregister_script('avada-comments');
 		// Fusion_Dynamic_JS::deregister_script('avada-general-footer');
@@ -170,7 +182,7 @@ class BaseCRM_Public {
 		// Fusion_Dynamic_JS::deregister_script('avada-select');
 		// Fusion_Dynamic_JS::deregister_script('avada-sidebars');
 		// Fusion_Dynamic_JS::deregister_script('avada-tabs-widget');
-		
+
 		// Fusion_Dynamic_JS::deregister_script('bootstrap-collapse');
 		Fusion_Dynamic_JS::deregister_script('bootstrap-modal');
 		// Fusion_Dynamic_JS::deregister_script('bootstrap-popover');
@@ -178,9 +190,9 @@ class BaseCRM_Public {
 		// Fusion_Dynamic_JS::deregister_script('bootstrap-tab');
 		// Fusion_Dynamic_JS::deregister_script('bootstrap-tooltip');
 		// Fusion_Dynamic_JS::deregister_script('bootstrap-transition');
-		
+
 		// Fusion_Dynamic_JS::deregister_script('cssua');
-		
+
 		// Fusion_Dynamic_JS::deregister_script('fusion-alert');
 		// Fusion_Dynamic_JS::deregister_script('fusion-blog'); // !
 		// Fusion_Dynamic_JS::deregister_script('fusion-button'); // !
@@ -202,10 +214,10 @@ class BaseCRM_Public {
 		// Fusion_Dynamic_JS::deregister_script('fusion-video-bg');
 		// Fusion_Dynamic_JS::deregister_script('fusion-video-general');
 		// Fusion_Dynamic_JS::deregister_script('fusion-waypoints');
-		
+
 		// Fusion_Dynamic_JS::deregister_script('images-loaded'); // !
 		// Fusion_Dynamic_JS::deregister_script('isotope'); // !!
-		
+
 		// Fusion_Dynamic_JS::deregister_script('jquery-appear');
 		// Fusion_Dynamic_JS::deregister_script('jquery-caroufredsel');
 		// Fusion_Dynamic_JS::deregister_script('jquery-count-down');
@@ -226,17 +238,16 @@ class BaseCRM_Public {
 		// Fusion_Dynamic_JS::deregister_script('jquery-to-top');
 		// Fusion_Dynamic_JS::deregister_script('jquery-touch-swipe'); // !
 		// Fusion_Dynamic_JS::deregister_script('jquery-waypoints'); // !
-		
+
 		// Fusion_Dynamic_JS::deregister_script('lazysizes');
 		// Fusion_Dynamic_JS::deregister_script('packery'); // !!
 		// Fusion_Dynamic_JS::deregister_script('vimeo-player');  
-		  
-	
-	//     Fusion_Dynamic_JS::deregister_script('jquery-easing');      
-	//     Fusion_Dynamic_JS::deregister_script('modernizr');
-	//     Fusion_Dynamic_JS::deregister_script('fusion-testimonials');
-	//     Fusion_Dynamic_JS::deregister_script('jquery-cycle'); // !    
-	//     Fusion_Dynamic_JS::deregister_script('jquery-flexslider'); // !
-	}
 
+
+		//     Fusion_Dynamic_JS::deregister_script('jquery-easing');      
+		//     Fusion_Dynamic_JS::deregister_script('modernizr');
+		//     Fusion_Dynamic_JS::deregister_script('fusion-testimonials');
+		//     Fusion_Dynamic_JS::deregister_script('jquery-cycle'); // !    
+		//     Fusion_Dynamic_JS::deregister_script('jquery-flexslider'); // !
+	}
 }
