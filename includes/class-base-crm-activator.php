@@ -74,6 +74,13 @@ class BaseCRM_Activator {
 				bank_account_number varchar(255) DEFAULT '' NOT NULL,
 				spouse_first_name varchar(255) DEFAULT '' NOT NULL,
 				spouse_last_name varchar(255) DEFAULT '' NOT NULL,
+				date_last_contacted datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+				date_last_appointment datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+				date_last_followup datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+				date_last_disposition datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+				number_of_referrals_to_date mediumint(9) DEFAULT 0 NOT NULL,
+				is_policyholder tinyint(1) DEFAULT 0 NOT NULL,
+				is_spouse_policyholder tinyint(1) DEFAULT 0 NOT NULL,
 				PRIMARY KEY (id)
 				) $charset_collate;";
 

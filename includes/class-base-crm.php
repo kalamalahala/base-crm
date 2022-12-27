@@ -286,6 +286,14 @@ class BaseCRM {
 		return ob_get_clean();
 	}
 
+	/**
+	 * Disable permalink.
+	 * 
+	 * If the current user is not an administrator, the permalink is disabled.
+	 *
+	 * @param integer $page_id
+	 * @return string #
+	 */
 	public static function disable_permalink_if_not_admin(int $page_id): string {
 		if (current_user_can('administrator')) {
 			return get_permalink($page_id);
@@ -294,25 +302,47 @@ class BaseCRM {
 		}
 	}
 
+	public static function i18n(string $text): string {
+		return __($text, 'basecrm');
+	}
+
+	/**
+	 * Return a string containing the agent's name.
+	 * 
+	 * If the agent's first and last name are empty, the agent's display name is returned
+	 * with the name prettified.
+	 *
+	 * @param integer $agent_id
+	 * @param string $mode
+	 * @return string
+	 */
 	public static function agent_name(int $agent_id, string $mode = 'full'): string {
-		$agent = get_user_by('ID', $agent_id);
-		// if the agent does not have a first and last name set, use display name and split it
-		if (empty($agent->first_name) && empty($agent->last_name)) {
-			$agent_name = explode(' ', $agent->display_name);
-			$agent_first_name = $agent_name[0];
-			$agent_last_name = $agent_name[1];
-		} else {
+		$agent = get_user_by('ID', $agent_id); // Get the agent's user object
+
+		if (empty($agent->first_name) && empty($agent->last_name)) { 	// If the agent's first and last name are empty
+			$splittable_name = str_contains($agent->display_name, ' '); // Check if the agent's display name is splittable
+
+			if ($splittable_name) {										// If the agent's display name is splittable
+				$agent_name = explode(' ', $agent->display_name);		// Split the agent's display name into an array
+				$agent_first_name = $agent_name[0];						// Set the agent's first name to the first element of the array
+				$agent_last_name = $agent_name[1];						// Set the agent's last name to the second element of the array
+			} else {													// If the agent's display name is not splittable
+				$agent_first_name = $agent->display_name;				// Set the agent's first name to the agent's display name
+				$agent_last_name = '';									// Set the agent's last name to an empty string
+			}
+
+		} else {														// If the agent's first and last name are not empty
 			$agent_first_name = $agent->first_name;
 			$agent_last_name = $agent->last_name;
 		}
 
-		if ($mode === 'full') {
-			return $agent_first_name . ' ' . $agent_last_name;
-		} else if ($mode === 'first') {
-			return $agent_first_name;
-		} else if ($mode === 'last') {
-			return $agent_last_name;
-		}
+		$name = array(
+			'first' => ucwords(rtrim($agent_first_name, ' .,')),
+			'last' => ucwords(rtrim($agent_last_name, ' .,')),
+			'full' => ucwords(rtrim($agent_first_name . ' ' . $agent_last_name, ' .,'))
+		);
+
+		return $name[$mode];
 	}
 
 }

@@ -4,6 +4,7 @@ namespace BaseCRM\ServerSide;
 
 use BaseCRM\ServerSide\Appointment;
 use BaseCRM;
+use WP_User;
 
 class Lead implements LeadInterface
 {
@@ -25,13 +26,29 @@ class Lead implements LeadInterface
     public $email;
     public $phone;
     public $is_married;
+    public $is_employed;
+    public $has_children;
+    public $num_children;
+    public $has_bank_account;
+    public $bank_account_type;
+    public $bank_name;
+    public $bank_account_number;
+    public $bank_routing_number;
     public $spouse_first_name;
     public $spouse_last_name;
+    public $date_last_contacted;
+    public $date_last_appointment;
+    public $date_last_sale;
+    public $date_last_followup;
+    public $date_last_disposition;
+    public $number_of_referrals_to_date;
+    public $is_policyholder;
+    public $is_spouse_policyholder;
 
-    public $table;
-    public $meta_table;
+    private $table;
+    private $meta_table;
 
-    public $errors = [];
+    private $errors = [];
 
     public function __construct($lead_id = null)
     {
@@ -81,8 +98,24 @@ class Lead implements LeadInterface
         $this->email = $data['email'];
         $this->phone = $data['phone'];
         $this->is_married = $data['is_married'];
+        $this->is_employed = $data['is_employed'];
+        $this->has_children = $data['has_children'];
+        $this->num_children = $data['num_children'];
+        $this->has_bank_account = $data['has_bank_account'];
+        $this->bank_account_type = $data['bank_account_type'];
+        $this->bank_name = $data['bank_name'];
+        $this->bank_account_number = $data['bank_account_number'];
+        $this->bank_routing_number = $data['bank_routing_number'];
         $this->spouse_first_name = $data['spouse_first_name'];
         $this->spouse_last_name = $data['spouse_last_name'];
+        $this->date_last_contacted = $data['date_last_contacted'];
+        $this->date_last_appointment = $data['date_last_appointment'];
+        $this->date_last_sale = $data['date_last_sale'];
+        $this->date_last_followup = $data['date_last_followup'];
+        $this->date_last_disposition = $data['date_last_disposition'];
+        $this->number_of_referrals_to_date = $data['number_of_referrals_to_date'];
+        $this->is_policyholder = $data['is_policyholder'];
+        $this->is_spouse_policyholder = $data['is_spouse_policyholder'];
 
         return $this;
     }
@@ -110,8 +143,24 @@ class Lead implements LeadInterface
                 'email' => $this->email,
                 'phone' => $this->phone,
                 'is_married' => $this->is_married,
+                'is_employed' => $this->is_employed,
+                'has_children' => $this->has_children,
+                'num_children' => $this->num_children,
+                'has_bank_account' => $this->has_bank_account,
+                'bank_account_type' => $this->bank_account_type,
+                'bank_name' => $this->bank_name,
+                'bank_account_number' => $this->bank_account_number,
+                'bank_routing_number' => $this->bank_routing_number,
                 'spouse_first_name' => $this->spouse_first_name,
                 'spouse_last_name' => $this->spouse_last_name,
+                'date_last_contacted' => $this->date_last_contacted,
+                'date_last_appointment' => $this->date_last_appointment,
+                'date_last_sale' => $this->date_last_sale,
+                'date_last_followup' => $this->date_last_followup,
+                'date_last_disposition' => $this->date_last_disposition,
+                'number_of_referrals_to_date' => $this->number_of_referrals_to_date,
+                'is_policyholder' => $this->is_policyholder,
+                'is_spouse_policyholder' => $this->is_spouse_policyholder,
             ]
         );
 
@@ -141,16 +190,26 @@ class Lead implements LeadInterface
         $data_array['last_name'] = $post['last_name'] ?? $_POST['last-name-field'] ?? ''; // front end form field name is last-name-field
         $data_array['email'] = $post['email'] ?? $_POST['email-field'] ?? ''; // front end form field name is email-field
         $data_array['phone'] = $post['phone'] ?? $_POST['phone-field'] ?? ''; // front end form field name is phone-field
-
+        $data_array['is_married'] = ($post['is-married'] ?? $_POST['is-married'] ?? 'No') === 'Yes' ? 1 : 0; // front end form field name is is-married
+        $data_array['is_employed'] = ($post['is-employed'] ?? $_POST['is-employed'] ?? 'No') === 'Yes' ? 1 : 0; // front end form field name is is-employed
+        $data_array['has_children'] = ($post['has-children'] ?? $_POST['has-children'] ?? 'No') === 'Yes' ? 1 : 0; // front end form field name is has-children}
+        $data_array['num_children'] = $post['num_children'] ?? $_POST['num-children-field'] ?? 0; // front end form field name is num-children-field
+        $data_array['has_bank_account'] = ($post['has-bank-account'] ?? $_POST['has-bank-account'] ?? 'No') === 'Yes' ? 1 : 0; // front end form field name is has-bank-account
+        $data_array['bank_account_type'] = $post['bank_account_type'] ?? $_POST['bank-account-type-field'] ?? ''; // front end form field name is bank-account-type-field
+        $data_array['bank_name'] = $post['bank_name'] ?? $_POST['bank-name-field'] ?? ''; // front end form field name is bank-name-field
+        $data_array['bank_account_number'] = $post['bank_account_number'] ?? $_POST['bank-account-number-field'] ?? ''; // front end form field name is bank-account-number-field
+        $data_array['bank_routing_number'] = $post['bank_routing_number'] ?? $_POST['bank-routing-number-field'] ?? ''; // front end form field name is bank-routing-number-field
         $data_array['spouse_first_name'] = $post['spouse_first_name'] ?? $_POST['spouse-first-name-field'] ?? ''; // front end form field name is spouse-first-name-field
         $data_array['spouse_last_name'] = $post['spouse_last_name'] ?? $_POST['spouse-last-name-field'] ?? ''; // front end form field name is spouse-last-name-field
-
-        if ($post['is-married'] === 'Yes') { // front end form field name is 'is-married
-            $data_array['is_married'] = 1;
-        } else {
-            $data_array['is_married'] = 0;
-        }
-
+        $data_array['date_last_contacted'] = $post['date_last_contacted'] ?? $this->date_last_contacted ?? '0000-00-00 00:00:00';
+        $data_array['date_last_appointment'] = $post['date_last_appointment'] ?? $this->date_last_appointment ?? '0000-00-00 00:00:00';
+        $data_array['date_last_sale'] = $post['date_last_sale'] ?? $this->date_last_sale ?? '0000-00-00 00:00:00';
+        $data_array['date_last_followup'] = $post['date_last_followup'] ?? $this->date_last_followup ?? '0000-00-00 00:00:00';
+        $data_array['date_last_disposition'] = $post['date_last_disposition'] ?? $this->date_last_disposition ?? '0000-00-00 00:00:00';
+        $data_array['number_of_referrals_to_date'] = $post['number_of_referrals_to_date'] ?? $this->number_of_referrals_to_date ?? 0;
+        $data_array['is_policyholder'] = ($post['is-policyholder'] ?? $_POST['is-policyholder'] ?? 'No') === 'Yes' ? 1 : 0; // front end form field name is is-policyholder
+        $data_array['is_spouse_policyholder'] = ($post['is-spouse-policyholder'] ?? $_POST['is-spouse-policyholder'] ?? 'No') === 'Yes' ? 1 : 0; // front end form field name is is-spouse-policyholder
+        
 
         $this->setLead($data_array);                                    // set lead object properties
 
@@ -165,6 +224,26 @@ class Lead implements LeadInterface
         }
 
         return $this;
+    }
+
+    public function table_columns() {
+        // return array of this Object's public property names
+        $cols = array_keys(get_object_vars($this));
+
+        $unneeded = [
+            'table',
+            'meta_table',
+            'errors',
+        ];
+
+        foreach ($unneeded as $key) {
+            $index = array_search($key, $cols);
+            if ($index !== false) {
+                unset($cols[$index]);
+            }
+        }
+
+        return $cols;
     }
 
     public function getLead($id): Lead
@@ -368,6 +447,74 @@ class Lead implements LeadInterface
         ]);
 
         // return $appointment;
+    }
+
+    public function leads_datatable(int $user_id = null, array $args = [])
+    {
+        if (!$user_id) { // if no user_id is passed, check role
+            $user_id = get_current_user_id();
+            $user = new WP_User($user_id);
+            $role = $user->roles[0];
+            if ($role === 'administrator') {
+                $user_id = null;
+            }
+        }
+
+        $cols_in_table = $this->table_columns();
+        $requested_cols = $args['columns'] ?? $cols_in_table;
+        $cols = array_intersect($cols_in_table, $requested_cols);
+        $cols = array_map(function ($col) {
+            return $this->table . '.' . $col;
+        }, $cols);
+        $cols = implode(', ', $cols);
+
+        $search = $args['search'] ?? null;
+        $order = $args['order'] ?? null;
+        $limit = $args['limit'] ?? null;
+        $offset = $args['offset'] ?? null;
+
+        $query = "SELECT {$cols} FROM {$this->table}";
+
+        if ($user_id) {
+            $query .= " WHERE {$this->table}.assigned_to = {$user_id}";
+        }
+
+        if ($search) {
+            if (count($search) > 1) {
+                $query .= " AND (";
+            }
+            foreach ($search as $key => $value) {
+                $query .= " AND {$this->table}.{$key} LIKE '%{$value}%'";
+            }
+        }
+
+        if ($order) {
+            $query .= " ORDER BY {$this->table}.{$order['column_name']} {$order['direction']}";
+        }
+
+        if ($limit) {
+            $query .= " LIMIT {$limit}";
+        }
+
+        if ($offset) {
+            $query .= " OFFSET {$offset}";
+        }
+
+        global $wpdb;
+        $leads = $wpdb->get_results($query);
+
+        $response = [];
+
+        $response['leads'] = array_map(function ($lead) {
+            return new Lead($lead->id);
+        }, $leads);
+
+        $response['recordsTotal'] = count($leads);
+        $response['recordsFiltered'] = count($leads);
+        $response['draw'] = $_POST['draw'] ?? $_GET['draw'] ?? 1;
+        $response['query'] = $query;
+
+        return $response;
     }
 
 

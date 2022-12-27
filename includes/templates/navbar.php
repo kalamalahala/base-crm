@@ -1,5 +1,5 @@
 <?php
-    // use BaseCRM\BaseCRM;
+
     $plugin_page_ids = BaseCRM::plugin_page_ids();
     extract($plugin_page_ids, EXTR_PREFIX_ALL, 'page');
     
@@ -10,6 +10,8 @@
     $settings_active = $page_basecrm_settings == get_the_ID() ? 'px-2 active' : 'px-0';
 
     $disabled = current_user_can('administrator') ? '' : 'class="disabled"';
+
+    $agent_name = BaseCRM::agent_name(get_current_user_id(), 'full');
     
 ?>
 <?php echo BaseCRM::snip('modal-create-lead-form'); ?>
@@ -50,7 +52,7 @@
         <div class="dropdown pb-4">
             <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                 <img src="<?php echo (get_avatar_url(get_current_user_id())) ? get_avatar_url(get_current_user_id()) : ''; ?>" alt="" width="30" height="30" class="rounded-circle">
-                <span class="d-none d-sm-inline mx-1"><?php echo wp_get_current_user()->display_name; ?></span>
+                <span class="d-none d-sm-inline mx-1"><?php echo $agent_name; ?></span>
             </a>
             <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
                 <li><a href="#" class="dropdown-item link-create-new-lead" data-bs-toggle="modal" data-bs-target="#modal-create-lead"><i class="fa-solid fa-user-plus"></i>&nbsp;&nbsp;Create New Lead</a></li>
