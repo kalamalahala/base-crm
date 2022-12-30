@@ -143,4 +143,11 @@ class AjaxHandler implements AjaxInterface
         }
         $this->json_response($results);
     }
+
+    public function get_lead()
+    {
+        $lead_id = $_POST['lead_id'] ?? $_GET['lead_id'] ?? null;
+        $lead = new Lead($lead_id);
+        $this->json_response($lead);        
+    }
 }

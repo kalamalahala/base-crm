@@ -4,6 +4,7 @@ const ajaxNonce = base_crm.ajax_nonce;
 const ajaxAction = base_crm.ajax_action;
 
 import { populateScriptFields } from "../forms/modalCallLead";
+import { populatePresentationData } from "../forms/presentationForm";
 
 export const dtButtonListeners = () => {
     // View Lead
@@ -94,9 +95,24 @@ export const dtButtonListeners = () => {
     // Begin Presentation from Appointment Table
     $(document).on("click", ".base-crm-begin-presentation", function (e) {
         e.preventDefault();
-        const leadId = $(this).data("id");
-        const presentationModal = $("#presentation-modal");
-        // Launch Presentation Modal
-        $('#presentation-modal').modal("show");
+        const leadId = $(this).data("lead-id");
+
+        // get lead data
+        const ajaxMethod = "get_lead";
+        $.ajax({
+            url: ajaxUrl,
+            type: "POST",
+            data: {
+                action: ajaxAction,
+                method: ajaxMethod,
+                lead_id: leadId,
+                nonce: ajaxNonce,
+            },
+            complete: function (response) {
+                const leadData = JSON.parse(response.responseText);
+                // Launch Presentation Modal
+                populatePresentationData(leadData);
+            },
+        });
     });
 };

@@ -54,10 +54,10 @@ export const appointmentTable = () => {
                             <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
                             <ul class="dropdown-menu">
                                 <li class="dropdown-header">Appointment Actions</li>
-                                <li><a class="dropdown-item base-crm-begin-presentation" href="#" data-id="${row.appointment_id}"><i class="fa-regular fa-paper-plane"></i> Begin Presentation</a></li>
+                                <li><a class="dropdown-item base-crm-begin-presentation" href="#" data-id="${row.appointment_id}" data-lead-id="${row.lead_id}"><i class="fa-regular fa-paper-plane"></i> Begin Presentation</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item disabled base-crm-view-appointment" href="#" data-id="${row.appointment_id}"><i class="fa-regular fa-eye"></i> View</a></li>
-                                <li><a class="dropdown-item disabled base-crm-edit-appointment" href="#" data-id="${row.appointment_id}"><i class="fa-regular fa-pen-to-square"></i> Edit</a></li>` +
+                                <li><a class="dropdown-item disabled base-crm-view-appointment" href="#" data-id="${row.appointment_id}" data-lead-id="${row.lead_id}"><i class="fa-regular fa-eye"></i> View</a></li>
+                                <li><a class="dropdown-item disabled base-crm-edit-appointment" href="#" data-id="${row.appointment_id}" data-lead-id="${row.lead_id}"><i class="fa-regular fa-pen-to-square"></i> Edit</a></li>` +
                         deleteButton +
                         `</ul></div>`
                     );

@@ -101,13 +101,6 @@ class BaseCRM_Public
 		$scripts = $scripts->lead_types();
 		$is_admin = current_user_can('administrator');
 		
-		wp_dequeue_script('bootstrap-modal');
-		wp_dequeue_script('bootstrap-tooltip');
-		wp_dequeue_script('bootstrap-transition');
-		wp_dequeue_script('bootstrap-popover');
-		wp_dequeue_script('bootstrap-collapse');
-
-
 		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/base-crm-public.js', array('jquery'), $this->version, false);
 		wp_enqueue_script('basecrm-dist', BaseCRM_PLUGIN_URL . 'dist/main.js', array('jquery'), $this->version, true);
 
@@ -164,90 +157,5 @@ class BaseCRM_Public
 		} else {
 			show_admin_bar(true);
 		}
-	}
-
-	public function dequeue_avada_scripts()
-	{
-		do_action('qm/debug', 'dequeue_avada_scripts');
-		// 		/* Fix for Modal Conflict */
-		// add_action( 'wp', function() {
-		// 	Fusion_Dynamic_JS::deregister_script( 'bootstrap-modal' );
-		// }, 99);
-
-		// Fusion_Dynamic_JS::deregister_script('avada-comments');
-		// Fusion_Dynamic_JS::deregister_script('avada-general-footer');
-		// Fusion_Dynamic_JS::deregister_script('avada-mobile-image-hover');
-		// Fusion_Dynamic_JS::deregister_script('avada-quantity');
-		// Fusion_Dynamic_JS::deregister_script('avada-scrollspy');
-		// Fusion_Dynamic_JS::deregister_script('avada-select');
-		// Fusion_Dynamic_JS::deregister_script('avada-sidebars');
-		// Fusion_Dynamic_JS::deregister_script('avada-tabs-widget');
-
-		// Fusion_Dynamic_JS::deregister_script('bootstrap-collapse');
-		Fusion_Dynamic_JS::deregister_script('bootstrap-modal');
-		// Fusion_Dynamic_JS::deregister_script('bootstrap-popover');
-		// Fusion_Dynamic_JS::deregister_script('bootstrap-scrollspy');
-		// Fusion_Dynamic_JS::deregister_script('bootstrap-tab');
-		// Fusion_Dynamic_JS::deregister_script('bootstrap-tooltip');
-		// Fusion_Dynamic_JS::deregister_script('bootstrap-transition');
-
-		// Fusion_Dynamic_JS::deregister_script('cssua');
-
-		// Fusion_Dynamic_JS::deregister_script('fusion-alert');
-		// Fusion_Dynamic_JS::deregister_script('fusion-blog'); // !
-		// Fusion_Dynamic_JS::deregister_script('fusion-button'); // !
-		// Fusion_Dynamic_JS::deregister_script('fusion-carousel');
-		// Fusion_Dynamic_JS::deregister_script('fusion-chartjs');
-		// Fusion_Dynamic_JS::deregister_script('fusion-column-bg-image');
-		// Fusion_Dynamic_JS::deregister_script('fusion-count-down');
-		// Fusion_Dynamic_JS::deregister_script('fusion-equal-heights');
-		// Fusion_Dynamic_JS::deregister_script('fusion-flexslider');
-		// Fusion_Dynamic_JS::deregister_script('fusion-image-before-after');
-		// Fusion_Dynamic_JS::deregister_script('fusion-lightbox');
-		// Fusion_Dynamic_JS::deregister_script('fusion-parallax'); // !
-		// Fusion_Dynamic_JS::deregister_script('fusion-popover');
-		// Fusion_Dynamic_JS::deregister_script('fusion-recent-posts');
-		// Fusion_Dynamic_JS::deregister_script('fusion-sharing-box');
-		// Fusion_Dynamic_JS::deregister_script('fusion-syntax-highlighter');
-		// Fusion_Dynamic_JS::deregister_script('fusion-title');
-		// Fusion_Dynamic_JS::deregister_script('fusion-tooltip');
-		// Fusion_Dynamic_JS::deregister_script('fusion-video-bg');
-		// Fusion_Dynamic_JS::deregister_script('fusion-video-general');
-		// Fusion_Dynamic_JS::deregister_script('fusion-waypoints');
-
-		// Fusion_Dynamic_JS::deregister_script('images-loaded'); // !
-		// Fusion_Dynamic_JS::deregister_script('isotope'); // !!
-
-		// Fusion_Dynamic_JS::deregister_script('jquery-appear');
-		// Fusion_Dynamic_JS::deregister_script('jquery-caroufredsel');
-		// Fusion_Dynamic_JS::deregister_script('jquery-count-down');
-		// Fusion_Dynamic_JS::deregister_script('jquery-count-to');
-		// Fusion_Dynamic_JS::deregister_script('jquery-easy-pie-chart');
-		// Fusion_Dynamic_JS::deregister_script('jquery-event-move');
-		// Fusion_Dynamic_JS::deregister_script('jquery-fade'); // !!
-		// Fusion_Dynamic_JS::deregister_script('jquery-fitvids');
-		// Fusion_Dynamic_JS::deregister_script('jquery-fusion-maps');
-		// Fusion_Dynamic_JS::deregister_script('jquery-hover-flow');
-		// Fusion_Dynamic_JS::deregister_script('jquery-hover-intent');
-		// Fusion_Dynamic_JS::deregister_script('jquery-infinite-scroll'); // !
-		// Fusion_Dynamic_JS::deregister_script('jquery-lightbox');
-		// Fusion_Dynamic_JS::deregister_script('jquery-mousewheel'); // !
-		// Fusion_Dynamic_JS::deregister_script('jquery-placeholder');
-		// Fusion_Dynamic_JS::deregister_script('jquery-request-animation-frame');
-		// Fusion_Dynamic_JS::deregister_script('jquery-sticky-kit');
-		// Fusion_Dynamic_JS::deregister_script('jquery-to-top');
-		// Fusion_Dynamic_JS::deregister_script('jquery-touch-swipe'); // !
-		// Fusion_Dynamic_JS::deregister_script('jquery-waypoints'); // !
-
-		// Fusion_Dynamic_JS::deregister_script('lazysizes');
-		// Fusion_Dynamic_JS::deregister_script('packery'); // !!
-		// Fusion_Dynamic_JS::deregister_script('vimeo-player');  
-
-
-		//     Fusion_Dynamic_JS::deregister_script('jquery-easing');      
-		//     Fusion_Dynamic_JS::deregister_script('modernizr');
-		//     Fusion_Dynamic_JS::deregister_script('fusion-testimonials');
-		//     Fusion_Dynamic_JS::deregister_script('jquery-cycle'); // !    
-		//     Fusion_Dynamic_JS::deregister_script('jquery-flexslider'); // !
 	}
 }

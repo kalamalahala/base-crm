@@ -283,7 +283,7 @@ class BaseCRM {
 	public static function snip(string $file_name): string {
 		ob_start();
 		include_once BaseCRM_PLUGIN_PATH . 'includes/templates/snips/' . $file_name . '.php';
-		return ob_get_clean();
+		return ob_get_clean();		
 	}
 
 	/**

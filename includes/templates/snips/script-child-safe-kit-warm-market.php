@@ -10,7 +10,7 @@ $agent_name = BaseCRM::agent_name(get_current_user_id(), 'first');
 
 ?>
 
-<div class="row d-none" id="cskw-script-container">
+<div class="row" id="cskw-script-container">
     <div class="col">
         <p class="h4">Child Safe Kit - Warm Market Script</p>
         <p class="lead">Hi <span class="lead-first-name">[client name]</span> <span class="script-reminder">(pause and wait for affirmation)</span></p>
