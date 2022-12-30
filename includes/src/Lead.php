@@ -453,6 +453,9 @@ class Lead implements LeadInterface
     {
         if (!$user_id) { // if no user_id is passed, check role
             $user_id = get_current_user_id();
+            if (!$user_id) {
+                return false;
+            }
             $user = new WP_User($user_id);
             $role = $user->roles[0];
             if ($role === 'administrator') {

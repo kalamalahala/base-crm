@@ -7,6 +7,7 @@ import { appointmentTable } from "./tables/appointmentTable";
 import { modalCreateLeadForm } from "./forms/modalCreateLeadForm";
 import { dtButtonListeners } from "./tables/dtButtonListeners";
 import { callLeadModalHandler } from "./forms/modalCallLead";
+import { PresentationForm } from "./forms/presentationForm";
 const $ = jQuery;
 const currentPage = base_crm.current_page;
 
@@ -25,10 +26,12 @@ $(document).ready(function () {
     const loadAppointmentTable = () => {
         if (currentPage === "/base/appointments/") {
             appointmentTable();
+            dtButtonListeners();
         }
     };
 
     loadLeadTable();
     loadAppointmentTable();
     modalCreateLeadForm();
+    new PresentationForm();
 });

@@ -90,4 +90,13 @@ export const dtButtonListeners = () => {
             }
         });
     });
+
+    // Begin Presentation from Appointment Table
+    $(document).on("click", ".base-crm-begin-presentation", function (e) {
+        e.preventDefault();
+        const leadId = $(this).data("id");
+        const presentationModal = $("#presentation-modal");
+        // Launch Presentation Modal
+        $('#presentation-modal').modal("show");
+    });
 };

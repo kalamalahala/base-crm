@@ -318,6 +318,7 @@ class BaseCRM {
 	 */
 	public static function agent_name(int $agent_id, string $mode = 'full'): string {
 		$agent = get_user_by('ID', $agent_id); // Get the agent's user object
+		if (!$agent) return 'Guest'; // If the agent's user object is empty, return 'Guest'
 
 		if (empty($agent->first_name) && empty($agent->last_name)) { 	// If the agent's first and last name are empty
 			$splittable_name = str_contains($agent->display_name, ' '); // Check if the agent's display name is splittable

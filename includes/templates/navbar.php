@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Navbar
+ **/
+
+    use BaseCRM\ServerSide\Lead;
+    $current_user = wp_get_current_user();
+
     $plugin_page_ids = BaseCRM::plugin_page_ids();
     extract($plugin_page_ids, EXTR_PREFIX_ALL, 'page');
     
@@ -11,11 +18,17 @@
 
     $disabled = current_user_can('administrator') ? '' : 'class="disabled"';
 
-    $agent_name = BaseCRM::agent_name(get_current_user_id(), 'full');
+    if ($current_user->ID !== 0) {
+        $agent_name = BaseCRM::agent_name($current_user->ID, 'full');
+    } else {
+        $agent_name = 'Guest';
+    }
+
     
 ?>
 <?php echo BaseCRM::snip('modal-create-lead-form'); ?>
 <?php echo BaseCRM::snip('modal-call-lead'); ?>
+<?php echo BaseCRM::snip('modal-presentation'); ?>
 <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark" id="plugin-navbar">
     <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
         <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
