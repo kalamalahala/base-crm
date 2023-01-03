@@ -1,9 +1,29 @@
 import { Tab } from "bootstrap";
+import "jquery.repeater/jquery.repeater.min.js";
 const $ = jQuery;
 
 export const presentationForm = () => {
     const presentationFormElement = $("#presentation-form");
+    $(document).on("submit", "#presentation-form", function (e) {
+        e.preventDefault();
+        return false;
+    });
     const beginPresentationButton = $("#presentation-script-select-button");
+
+    $(".repeater").repeater({
+        isFirstItemUndeletable: true,
+        show: function () {
+            $(this).slideDown();
+        },
+        hide: function (deleteElement) {
+            $(this).slideUp(deleteElement);
+        },
+        ready: function (setIndexes) {},
+    });
+
+    // hidden variable fields
+    const isMarriedField = $("#presentation-form input[name='is-married']");
+    const leadIdField = $("input[name='lead-id']");
 
     const beginPill = $("#begin-pill");
     const stepOnePill = $("#step-one-pill");
@@ -28,15 +48,6 @@ export const presentationForm = () => {
     const nextButton = $("#next-button");
     const previousButton = $("#previous-button");
 
-    const beginTab = $("#begin");
-    const stepOneTab = $("#step-one");
-    const stepTwoTab = $("#step-two");
-    const stepThreeTab = $("#step-three");
-    const stepFourTab = $("#step-four");
-    const stepFiveTab = $("#step-five");
-    const stepSixTab = $("#step-six");
-    const stepSevenTab = $("#step-seven");
-
     const scriptSelect = $("#presentation-script-select");
     const scriptSelectOptions = $("#presentation-script-select option");
     const scriptSelectOptionArray = Array.from(scriptSelectOptions).map(
@@ -46,27 +57,343 @@ export const presentationForm = () => {
     );
     const scriptSelectHelper = $("#scriptSelectHelper");
 
+    // Plan Type Radio Buttons and Plan Groups Toggle
+    const planTypeRadio = $("input[name='plan-type']");
+    const planTypes = Array.from(planTypeRadio).map((radio) => {
+        return radio.value;
+    });
+    planTypeRadio.on("change", (e) => {
+        let selectedOption = e.target.value;
+        let selectedPlanType = planTypes.find((planType) => {
+            return planType === selectedOption;
+        });
+        let headStart = false;
+
+        if (selectedPlanType === "alx-head-start-plan") {
+            selectedPlanType = "alx-plan";
+            headStart = true;
+        }
+
+        console.log(`SHOW: ${selectedPlanType}`);
+
+        $(`#presentation-form .plan-group.${selectedPlanType}`).removeClass(
+            "d-none",
+        );
+        $(`#presentation-form .plan-group.${selectedPlanType} input`).attr(
+            "disabled",
+            false,
+        );
+
+        if (headStart) {
+            $("#presentation-form .head-start-repeater").removeClass("d-none");
+            $("#presentation-form .head-start-repeater input").attr(
+                "disabled",
+                false,
+            );
+        }
+
+        let otherPlanTypes = planTypes.filter((planType) => {
+            return planType !== selectedOption;
+        });
+
+        otherPlanTypes.forEach((planType) => {
+            console.log(`hiding ${planType}`);
+            if (
+                selectedPlanType === "alx-plan" &&
+                headStart &&
+                planType === "alx-head-start-plan"
+            ) {
+                console.log(
+                    `skipping ${planType}, headstart is true, and selected plan type is alx-plan`,
+                );
+                return;
+            }
+
+            $(`#presentation-form .plan-group.${planType}`).addClass("d-none");
+            $(`#presentation-form .plan-group.${planType} input`).attr(
+                "disabled",
+                true,
+            );
+        });
+    });
+
     // Sales Plans Radio Buttons
     const finalExpenseRadio = $("input[name='final-expense']");
-    const finalExpenseExistingCoverageRadio = $(
-        "input[name='final-expense-existing-coverage']",
-    );
-    const finalExpenseAmountNeededRadio = $(
-        "input[name='final-expense-amount-needed']",
-    );
-    const finalExpenseQualifiedAmountRadio = $(
-        "input[name='final-expense-qualified-amount']",
-    );
-    const finalExpenseChildRow = $("final-expense-child-row");
-    const finalExpenseChildRiderAmountRadio = $(
-        "input[name='final-expense-child-rider-amount']",
+    const finalExpenseSpouseCoverageRadio = $(
+        '#presentation-form input[name="spouse-final-expense"]',
     );
 
-    const planTypeRadio = $("input[name='plan-type']");
+    const incomeProtectionRadio = $("input[name='income-protection']");
+    const incomeProtectionSpouseCoverageRadio = $(
+        '#presentation-form input[name="spouse-income-protection"]',
+    );
 
-    // hidden variable fields
-    const isMarriedField = $("input[name='is-married']");
-    const leadIdField = $("input[name='lead-id']");
+    const mortgageProtectionRadio = $("input[name='mortgage-protection']");
+    const mortgageProtectionSpouseCoverageRadio = $(
+        '#presentation-form input[name="spouse-mortgage-protection"]',
+    );
+
+    const childrensEducationRadio = $("input[name='ce-protection']");
+    const childrensEducationSpouseCoverageRadio = $(
+        '#presentation-form input[name="spouse-ce-protection"]',
+    );
+
+    const alxFinalExpenseRadio = $("input[name='alx-final-expense']");
+    const alxFinalExpenseSpouseCoverageRadio = $(
+        '#presentation-form input[name="spouse-alx-final-expense"]',
+    );
+
+    // Final Expense
+    finalExpenseRadio.on("change", (e) => {
+        let selectedOption = e.target.value;
+        switch (selectedOption) {
+            case "Yes":
+                fieldsGroupToggle("final-expense", "enabled");
+                $("#final-expense-child-row").addClass("d-none");
+                $("#final-expense-child-rider-amount").attr("disabled", true);
+                break;
+            case "No":
+                fieldsGroupToggle("final-expense", "disabled");
+                $("#final-expense-child-row").addClass("d-none");
+                $("#final-expense-child-rider-amount").attr("disabled", true);
+                break;
+            case "Yes w/ Child Rider":
+                fieldsGroupToggle("final-expense", "enabled");
+                $("#final-expense-child-row").removeClass("d-none");
+                $("#final-expense-child-rider-amount").attr("disabled", false);
+                break;
+        }
+    });
+
+    finalExpenseSpouseCoverageRadio.on("change", (e) => {
+        let selectedOption = e.target.value;
+        switch (selectedOption) {
+            case "Yes":
+                $("#presentation-form .spouse-final-expense-field").removeClass(
+                    "d-none",
+                );
+                $("#presentation-form .spouse-final-expense-field input").attr(
+                    "disabled",
+                    false,
+                );
+                break;
+            case "No":
+                $("#presentation-form .spouse-final-expense-field").addClass(
+                    "d-none",
+                );
+                $("#presentation-form .spouse-final-expense-field input").attr(
+                    "disabled",
+                    true,
+                );
+                break;
+        }
+    });
+
+    // Income Protection
+    incomeProtectionRadio.on("change", (e) => {
+        let selectedOption = e.target.value;
+        switch (selectedOption) {
+            case "Yes":
+                fieldsGroupToggle("income-protection", "enabled");
+                $("#income-protection-child-row").addClass("d-none");
+                $("#income-protection-child-rider-amount").attr(
+                    "disabled",
+                    true,
+                );
+                break;
+            case "No":
+                fieldsGroupToggle("income-protection", "disabled");
+                $("#income-protection-child-row").addClass("d-none");
+                $("#income-protection-child-rider-amount").attr(
+                    "disabled",
+                    true,
+                );
+                break;
+            case "Yes w/ Child Rider":
+                fieldsGroupToggle("income-protection", "enabled");
+                $("#income-protection-child-row").removeClass("d-none");
+                $("#income-protection-child-rider-amount").attr(
+                    "disabled",
+                    false,
+                );
+                break;
+        }
+    });
+
+    incomeProtectionSpouseCoverageRadio.on("change", (e) => {
+        let selectedOption = e.target.value;
+        switch (selectedOption) {
+            case "Yes":
+                $(
+                    "#presentation-form .spouse-income-protection-field",
+                ).removeClass("d-none");
+                $(
+                    "#presentation-form .spouse-income-protection-field input",
+                ).attr("disabled", false);
+                break;
+            case "No":
+                $(
+                    "#presentation-form .spouse-income-protection-field",
+                ).addClass("d-none");
+                $(
+                    "#presentation-form .spouse-income-protection-field input",
+                ).attr("disabled", true);
+                break;
+        }
+    });
+
+    // Mortgage Protection
+    mortgageProtectionRadio.on("change", (e) => {
+        let selectedOption = e.target.value;
+        switch (selectedOption) {
+            case "Yes":
+                fieldsGroupToggle("mortgage-protection", "enabled");
+                $("#mortgage-protection-child-row").addClass("d-none");
+                $("#mortgage-protection-child-rider-amount").attr(
+                    "disabled",
+                    true,
+                );
+                break;
+            case "No":
+                fieldsGroupToggle("mortgage-protection", "disabled");
+                $("#mortgage-protection-child-row").addClass("d-none");
+                $("#mortgage-protection-child-rider-amount").attr(
+                    "disabled",
+                    true,
+                );
+                break;
+            case "Yes w/ Child Rider":
+                fieldsGroupToggle("mortgage-protection", "enabled");
+                $("#mortgage-protection-child-row").removeClass("d-none");
+                $("#mortgage-protection-child-rider-amount").attr(
+                    "disabled",
+                    false,
+                );
+                break;
+        }
+    });
+
+    mortgageProtectionSpouseCoverageRadio.on("change", (e) => {
+        let selectedOption = e.target.value;
+        switch (selectedOption) {
+            case "Yes":
+                $(
+                    "#presentation-form .spouse-mortgage-protection-field",
+                ).removeClass("d-none");
+                $(
+                    "#presentation-form .spouse-mortgage-protection-field input",
+                ).attr("disabled", false);
+                break;
+            case "No":
+                $(
+                    "#presentation-form .spouse-mortgage-protection-field",
+                ).addClass("d-none");
+                $(
+                    "#presentation-form .spouse-mortgage-protection-field input",
+                ).attr("disabled", true);
+                break;
+        }
+    });
+
+    // Children's Education Protection
+    childrensEducationRadio.on("change", (e) => {
+        let selectedOption = e.target.value;
+        switch (selectedOption) {
+            case "Yes":
+                fieldsGroupToggle("ce-protection", "enabled");
+                $("#ce-protection-child-row").addClass("d-none");
+                $("#ce-protection-child-rider-amount").attr("disabled", true);
+                break;
+            case "No":
+                fieldsGroupToggle("ce-protection", "disabled");
+                $("#ce-protection-child-row").addClass("d-none");
+                $("#ce-protection-child-rider-amount").attr("disabled", true);
+                break;
+            case "Yes w/ Child Rider":
+                fieldsGroupToggle("ce-protection", "enabled");
+                $("#ce-protection-child-row").removeClass("d-none");
+                $("#ce-protection-child-rider-amount").attr("disabled", false);
+                break;
+        }
+    });
+
+    childrensEducationSpouseCoverageRadio.on("change", (e) => {
+        let selectedOption = e.target.value;
+        switch (selectedOption) {
+            case "Yes":
+                $("#presentation-form .spouse-ce-protection-field").removeClass(
+                    "d-none",
+                );
+                $("#presentation-form .spouse-ce-protection-field input").attr(
+                    "disabled",
+                    false,
+                );
+                break;
+            case "No":
+                $("#presentation-form .spouse-ce-protection-field").addClass(
+                    "d-none",
+                );
+                $("#presentation-form .spouse-ce-protection-field input").attr(
+                    "disabled",
+                    true,
+                );
+                break;
+        }
+    });
+
+    alxFinalExpenseRadio.on("change", (e) => {
+        let selectedOption = e.target.value;
+        switch (selectedOption) {
+            case "Yes":
+                fieldsGroupToggle("alx-final-expense", "enabled");
+                $("#alx-final-expense-child-row").addClass("d-none");
+                $("#alx-final-expense-child-rider-amount").attr(
+                    "disabled",
+                    true,
+                );
+                break;
+            case "No":
+                console.log("No");
+                fieldsGroupToggle("alx-final-expense", "disabled");
+                $("#alx-final-expense-child-row").addClass("d-none");
+                $("#alx-final-expense-child-rider-amount").attr(
+                    "disabled",
+                    true,
+                );
+                break;
+            case "Yes w/ Child Rider":
+                fieldsGroupToggle("alx-final-expense", "enabled");
+                $("#alx-final-expense-child-row").removeClass("d-none");
+                $("#alx-final-expense-child-rider-amount").attr(
+                    "disabled",
+                    false,
+                );
+                break;
+        }
+    });
+
+    alxFinalExpenseSpouseCoverageRadio.on("change", (e) => {
+        let selectedOption = e.target.value;
+        switch (selectedOption) {
+            case "Yes":
+                $(
+                    "#presentation-form .spouse-alx-final-expense-field",
+                ).removeClass("d-none");
+                $(
+                    "#presentation-form .spouse-alx-final-expense-field input",
+                ).attr("disabled", false);
+                break;
+
+            case "No":
+                $(
+                    "#presentation-form .spouse-alx-final-expense-field",
+                ).addClass("d-none");
+                $(
+                    "#presentation-form .spouse-alx-final-expense-field input",
+                ).attr("disabled", true);
+                break;
+        }
+    });
 
     // Begin Tab Events
     beginPresentationButton.on("click", (e) => {
@@ -99,15 +426,6 @@ export const presentationForm = () => {
         }
     });
 
-    // planTypeRadio.on("change", (e) => {
-    //     let selectedOption = e.target.value;
-    //     if (selectedOption === "Standard") {
-    //         if (isMarriedField.val() === "1") {
-    //             fieldsGroupToggle("standard-married", "enabled");
-    //             fieldsGroupToggle("standard-single", "disabled");
-    //         }
-    //     }
-
     // Next Button clicked
     nextButton.on("click", (e) => {
         e.preventDefault();
@@ -135,37 +453,6 @@ export const presentationForm = () => {
             if (previousTabId === "begin") {
                 previousButton.attr("disabled", true);
             }
-        }
-    });
-
-    // Final Expense
-    finalExpenseRadio.on("change", (e) => {
-        let selectedOption = e.target.value;
-        switch (selectedOption) {
-            case "Yes":
-                fieldsGroupToggle("final-expense", "enabled");
-                $("#final-expense-child-row").addClass("d-none");
-                $("#final-expense-child-rider-amount").attr("disabled", true);
-                if (isMarriedField.val() === "1") {
-                    spouseFieldsGroupToggle("final-expense", "enabled");
-                }
-                break;
-            case "No":
-                fieldsGroupToggle("final-expense", "disabled");
-                $("#final-expense-child-row").addClass("d-none");
-                $("#final-expense-child-rider-amount").attr("disabled", true);
-                if (isMarriedField.val() === "1") {
-                    spouseFieldsGroupToggle("final-expense", "disabled");
-                }
-                break;
-            case "Yes w/ Child Rider":
-                fieldsGroupToggle("final-expense", "enabled");
-                $("#final-expense-child-row").removeClass("d-none");
-                $("#final-expense-child-rider-amount").attr("disabled", false);
-                if (isMarriedField.val() === "1") {
-                    spouseFieldsGroupToggle("final-expense", "enabled");
-                }
-                break;
         }
     });
 };
@@ -252,21 +539,24 @@ const fieldsGroupToggle = (prefix, mode) => {
     if (mode === "enabled") {
         $(`.${prefix}-field`).removeClass("d-none");
         $(`.${prefix}-field input`).attr("disabled", false);
+        toggleSpouseFields(prefix, mode);
     } else {
         $(`.${prefix}-field`).addClass("d-none");
         $(`.${prefix}-field input`).attr("disabled", true);
+        toggleSpouseFields(prefix, mode);
     }
 };
 
-const spouseFieldsGroupToggle = (prefix, mode) => {
+const toggleSpouseFields = (prefix, mode) => {
+    const isMarriedField = $("#presentation-form input[name='is-married']");
+    // console.log(
+    //     `attempting to toggle spouse fields for ${prefix}, isMarriedField: ${isMarriedField.val()}`,
+    // );
+    if (isMarriedField.val() != 1) return;
     if (mode === "enabled") {
-        $(`#${prefix}-spouse-row`).removeClass("d-none");
-        $(`spouse-${prefix}-field`).removeClass("d-none");
-        $(`spouse-${prefix}-field input`).attr("disabled", false);
+        $(`#spouse-${prefix}-row`).removeClass("d-none");
     } else {
-        $(`#${prefix}-spouse-row`).addClass("d-none");
-        $(`spouse-${prefix}-field`).addClass("d-none");
-        $(`spouse-${prefix}-field input`).attr("disabled", true);
+        $(`#spouse-${prefix}-row`).addClass("d-none");
     }
 };
 
@@ -279,7 +569,7 @@ export const populatePresentationData = (data) => {
     $("#presentation-script-select").val(data.lead_type);
     $(".lead-first-name").text(firstName);
     $("input[name=lead-id]").val(data.id);
-    $("input[name=client-is-married").val(data.is_married);
+    $("input[name=is-married").val(data.is_married);
 
     modal.modal("show");
 };

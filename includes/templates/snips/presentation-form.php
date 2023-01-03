@@ -73,10 +73,10 @@ $scripts = $scripts->lead_types();
     <div class="row">
         <div class="col-12">
             <!-- Tab panes -->
-            <form id="presentation-form" class="presentation-form" action="">
-            <!-- hidden variables -->
-            <input type="hidden" name="lead-id" value="0">
-            <input type="hidden" name="is-married" value="0">
+            <form id="presentation-form" class="presentation-form repeater" action="">
+                <!-- hidden variables -->
+                <input type="hidden" name="lead-id" value="0">
+                <input type="hidden" name="is-married" value="0">
 
 
                 <div class="tab-content">
@@ -359,25 +359,25 @@ $scripts = $scripts->lead_types();
                         <p class="lead">Select Sales Type</p>
                         <div class="sales-type-container">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="plan-type" id="standard-plan" value="Standard">
+                                <input class="form-check-input" type="radio" name="plan-type" id="standard-plan" value="standard-plan">
                                 <label class="form-check-label" for="standard-plan">
                                     Standard
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="plan-type" id="alx-plan" value="ALX">
+                                <input class="form-check-input" type="radio" name="plan-type" id="alx-plan" value="alx-plan">
                                 <label class="form-check-label" for="alx-plan">
                                     ALX
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="plan-type" id="alx-head-start-plan" value="ALX w/ Children (Head Start)">
+                                <input class="form-check-input" type="radio" name="plan-type" id="alx-head-start-plan" value="alx-head-start-plan">
                                 <label class="form-check-label" for="alx-head-start-plan">
                                     ALX w/ Children (Head Start)
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="plan-type" id="supplementals-only-plan" value="Supplementals Only">
+                                <input class="form-check-input" type="radio" name="plan-type" id="supplementals-only-plan" value="supplementals-only-plan">
                                 <label class="form-check-label" for="supplementals-only-plan">
                                     Supplementals Only
                                 </label>
@@ -390,7 +390,8 @@ $scripts = $scripts->lead_types();
                         </div>
                         <hr>
                         <!-- Begin Plan Form Fields -->
-                        <div class="standard-plan">
+                        <div class="plan-group standard-plan">
+                            <p class="h5">Standard Plan</p>
                             <div class="final-expense">
                                 <div class="row">
                                     <div class="col-3">
@@ -449,7 +450,7 @@ $scripts = $scripts->lead_types();
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row d-none" id="final-expense-spouse-row">
+                                <div class="row d-none" id="spouse-final-expense-row">
                                     <div class="col-3">
                                         <p class="lead">Spouse's Final Expense Coverage</p>
                                         <div class="form-check">
@@ -465,21 +466,21 @@ $scripts = $scripts->lead_types();
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col-3 spouse-final-expense-field">
+                                    <div class="col-3 spouse-final-expense-field d-none">
                                         <p class="lead">Existing Coverage</p>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text">$</span>
                                             <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="spouse-final-expense-existing-coverage" id="spouse-final-expense-existing-coverage" disabled>
                                         </div>
                                     </div>
-                                    <div class="col-3 spouse-final-expense-field">
+                                    <div class="col-3 spouse-final-expense-field d-none">
                                         <p class="lead">Amount Needed</p>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text">$</span>
                                             <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="spouse-final-expense-amount-needed" id="spouse-final-expense-amount-needed" disabled>
                                         </div>
                                     </div>
-                                    <div class="col-3 spouse-final-expense-field">
+                                    <div class="col-3 spouse-final-expense-field d-none">
                                         <p class="lead">Qualified Amount</p>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text">$</span>
@@ -488,9 +489,429 @@ $scripts = $scripts->lead_types();
                                     </div>
                                 </div>
                             </div> <!-- end final expense -->
-                            .
-                        </div>
-                    </div>
+                            <div class="income-protection">
+                                <!-- income protection -->
+                                <div class="row">
+                                    <div class="col-3">
+                                        <p class="lead">Income Protection</p>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="income-protection" id="income-protection-yes" value="Yes">
+                                            <label class="form-check-label" for="income-protection-yes">
+                                                Yes
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="income-protection" id="income-protection-yes-w-child" value="Yes w/ Child Rider">
+                                            <label class="form-check-label" for="income-protection-yes-w-child">
+                                                Yes w/ Child Rider
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="income-protection" id="income-protection-no" value="No" checked>
+                                            <label class="form-check-label" for="income-protection-no">
+                                                No
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 income-protection-field d-none">
+                                        <p class="lead">Existing Coverage</p>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">$</span>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="income-protection-existing-coverage" id="income-protection-existing-coverage" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 income-protection-field d-none">
+                                        <p class="lead">Amount Needed</p>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">$</span>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="income-protection-amount-needed" id="income-protection-amount-needed" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 income-protection-field d-none">
+                                        <p class="lead">Qualified Amount</p>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">$</span>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="income-protection-qualified-amount" id="income-protection-qualified-amount" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row d-none" id="income-protection-child-row">
+                                    <div class="col-3">
+                                        <!-- empty column -->
+                                        &nbsp;
+                                    </div>
+                                    <div class="col-3">
+                                        <p class="lead">Child Rider Amount</p>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">$</span>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="income-protection-child-rider-amount" id="income-protection-child-rider-amount" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row d-none" id="spouse-income-protection-row">
+                                    <div class="col-3">
+                                        <p class="lead">Spouse's Income Protection Coverage</p>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="spouse-income-protection" id="spouse-income-protection-yes" value="Yes">
+                                            <label class="form-check-label" for="spouse-income-protection-yes">
+                                                Yes
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="spouse-income-protection" id="spouse-income-protection-no" value="No" checked>
+                                            <label class="form-check-label" for="spouse-income-protection-no">
+                                                No
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 spouse-income-protection-field d-none">
+                                        <p class="lead">Existing Coverage</p>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">$</span>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="spouse-income-protection-existing-coverage" id="spouse-income-protection-existing-coverage" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 spouse-income-protection-field d-none">
+                                        <p class="lead">Amount Needed</p>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">$</span>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="spouse-income-protection-amount-needed" id="spouse-income-protection-amount-needed" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 spouse-income-protection-field d-none">
+                                        <p class="lead">Qualified Amount</p>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">$</span>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="spouse-income-protection-qualified-amount" id="spouse-income-protection-qualified-amount" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> <!-- end of income protection -->
+                            <div class="mortgage-protection">
+                                <!-- mortgage protection -->
+                                <div class="row">
+                                    <div class="col-3">
+                                        <p class="lead">Mortgage Protection</p>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="mortgage-protection" id="mortgage-protection-yes" value="Yes">
+                                            <label class="form-check-label" for="mortgage-protection-yes">
+                                                Yes
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="mortgage-protection" id="mortgage-protection-yes-w-child" value="Yes w/ Child Rider">
+                                            <label class="form-check-label" for="mortgage-protection-yes-w-child">
+                                                Yes w/ Child Rider
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="mortgage-protection" id="mortgage-protection-no" value="No" checked>
+                                            <label class="form-check-label" for="mortgage-protection-no">
+                                                No
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 mortgage-protection-field d-none">
+                                        <p class="lead">Existing Coverage</p>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">$</span>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="mortgage-protection-existing-coverage" id="mortgage-protection-existing-coverage" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 mortgage-protection-field d-none">
+                                        <p class="lead">Amount Needed</p>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">$</span>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="mortgage-protection-amount-needed" id="mortgage-protection-amount-needed" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 mortgage-protection-field d-none">
+                                        <p class="lead">Qualified Amount</p>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">$</span>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="mortgage-protection-qualified-amount" id="mortgage-protection-qualified-amount" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row d-none" id="mortgage-protection-child-row">
+                                    <div class="col-3">
+                                        <!-- empty column -->
+                                        &nbsp;
+                                    </div>
+                                    <div class="col-3">
+                                        <p class="lead">Child Rider Amount</p>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">$</span>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="mortgage-protection-child-rider-amount" id="mortgage-protection-child-rider-amount" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row d-none" id="spouse-mortgage-protection-row">
+                                    <div class="col-3">
+                                        <p class="lead">Spouse's Mortgage Protection Coverage</p>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="spouse-mortgage-protection" id="spouse-mortgage-protection-yes" value="Yes">
+                                            <label class="form-check-label" for="spouse-mortgage-protection-yes">
+                                                Yes
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="spouse-mortgage-protection" id="spouse-mortgage-protection-no" value="No" checked>
+                                            <label class="form-check-label" for="spouse-mortgage-protection-no">
+                                                No
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 spouse-mortgage-protection-field d-none">
+                                        <p class="lead">Existing Coverage</p>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">$</span>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="spouse-mortgage-protection-existing-coverage" id="spouse-mortgage-protection-existing-coverage" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 spouse-mortgage-protection-field d-none">
+                                        <p class="lead">Amount Needed</p>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">$</span>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="spouse-mortgage-protection-amount-needed" id="spouse-mortgage-protection-amount-needed" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 spouse-mortgage-protection-field d-none">
+                                        <p class="lead">Qualified Amount</p>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">$</span>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="spouse-mortgage-protection-qualified-amount" id="spouse-mortgage-protection-qualified-amount" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> <!-- end of mortgage protection -->
+                            <div class="ce-protection">
+                                <!-- ce protection -->
+                                <div class="row">
+                                    <div class="col-3">
+                                        <p class="lead">Children's Education Protection</p>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="ce-protection" id="ce-protection-yes" value="Yes">
+                                            <label class="form-check-label" for="ce-protection-yes">
+                                                Yes
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="ce-protection" id="ce-protection-yes-w-child" value="Yes w/ Child Rider">
+                                            <label class="form-check-label" for="ce-protection-yes-w-child">
+                                                Yes w/ Child Rider
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="ce-protection" id="ce-protection-no" value="No" checked>
+                                            <label class="form-check-label" for="ce-protection-no">
+                                                No
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 ce-protection-field d-none">
+                                        <p class="lead">Existing Coverage</p>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">$</span>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="ce-protection-existing-coverage" id="ce-protection-existing-coverage" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 ce-protection-field d-none">
+                                        <p class="lead">Amount Needed</p>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">$</span>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="ce-protection-amount-needed" id="ce-protection-amount-needed" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 ce-protection-field d-none">
+                                        <p class="lead">Qualified Amount</p>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">$</span>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="ce-protection-qualified-amount" id="ce-protection-qualified-amount" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row d-none" id="ce-protection-child-row">
+                                    <div class="col-3">
+                                        <!-- empty column -->
+                                        &nbsp;
+                                    </div>
+                                    <div class="col-3">
+                                        <p class="lead">Child Rider Amount</p>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">$</span>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="ce-protection-child-rider-amount" id="ce-protection-child-rider-amount" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row d-none" id="spouse-ce-protection-row">
+                                    <div class="col-3">
+                                        <p class="lead">Spouse's Children's Education Protection Coverage</p>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="spouse-ce-protection" id="spouse-ce-protection-yes" value="Yes">
+                                            <label class="form-check-label" for="spouse-ce-protection-yes">
+                                                Yes
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="spouse-ce-protection" id="spouse-ce-protection-no" value="No" checked>
+                                            <label class="form-check-label" for="spouse-ce-protection-no">
+                                                No
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 spouse-ce-protection-field d-none">
+                                        <p class="lead">Existing Coverage</p>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">$</span>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="spouse-ce-protection-existing-coverage" id="spouse-ce-protection-existing-coverage" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 spouse-ce-protection-field d-none">
+                                        <p class="lead">Amount Needed</p>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">$</span>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="spouse-ce-protection-amount-needed" id="spouse-ce-protection-amount-needed" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 spouse-ce-protection-field d-none">
+                                        <p class="lead">Qualified Amount</p>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">$</span>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="spouse-ce-protection-qualified-amount" id="spouse-ce-protection-qualified-amount" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> <!-- end of children's education protection -->
+                        </div> <!-- end of standard-plan -->
+                        <div class="plan-group alx-plan">
+                            <p class="h5">ALX Plan</p>
+                            <div class="alx-final-expense">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <p class="lead">Final Expense</p>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="alx-final-expense" id="alx-final-expense-yes" value="Yes">
+                                            <label class="form-check-label" for="alx-final-expense-yes">
+                                                Yes
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="alx-final-expense" id="alx-final-expense-yes-w-child" value="Yes w/ Child Rider">
+                                            <label class="form-check-label" for="alx-final-expense-yes-w-child">
+                                                Yes w/ Child Rider
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="alx-final-expense" id="alx-final-expense-no" value="No" checked>
+                                            <label class="form-check-label" for="alx-final-expense-no">
+                                                No
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 alx-final-expense-field d-none">
+                                        <p class="lead">Existing Coverage</p>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">$</span>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="alx-final-expense-existing-coverage" id="alx-final-expense-existing-coverage" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 alx-final-expense-field d-none">
+                                        <p class="lead">Amount Needed</p>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">$</span>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="alx-final-expense-amount-needed" id="alx-final-expense-amount-needed" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 alx-final-expense-field d-none">
+                                        <p class="lead">Qualified Amount</p>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">$</span>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="alx-final-expense-qualified-amount" id="alx-final-expense-qualified-amount" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row d-none" id="alx-final-expense-child-row">
+                                    <div class="col-3">
+                                        <!-- empty column -->
+                                        &nbsp;
+                                    </div>
+                                    <div class="col-3">
+                                        <p class="lead">Child Rider Amount</p>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">$</span>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="alx-final-expense-child-rider-amount" id="alx-final-expense-child-rider-amount" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row d-none" id="spouse-alx-final-expense-row">
+                                    <div class="col-3">
+                                        <p class="lead">Spouse's Final Expense Coverage</p>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="spouse-alx-final-expense" id="spouse-alx-final-expense-yes" value="Yes">
+                                            <label class="form-check-label" for="spouse-alx-final-expense-yes">
+                                                Yes
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="spouse-alx-final-expense" id="spouse-alx-final-expense-no" value="No" checked>
+                                            <label class="form-check-label" for="spouse-alx-final-expense-no">
+                                                No
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 spouse-alx-final-expense-field d-none">
+                                        <p class="lead">Existing Coverage</p>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">$</span>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="spouse-alx-final-expense-existing-coverage" id="spouse-alx-final-expense-existing-coverage" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 spouse-alx-final-expense-field d-none">
+                                        <p class="lead">Amount Needed</p>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">$</span>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="spouse-alx-final-expense-amount-needed" id="spouse-alx-final-expense-amount-needed" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 spouse-alx-final-expense-field d-none">
+                                        <p class="lead">Qualified Amount</p>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">$</span>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="spouse-alx-final-expense-qualified-amount" id="spouse-alx-final-expense-qualified-amount" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> <!-- end ALX final expense -->
+
+                            <div class="alx-head-start-plan plan-group head-start-repeater d-none">
+                                <div class="row mb-1">
+                                    <div class="col-12">
+                                        <div class="d-flex flex-row">
+                                            <p class="h4 mr-3">Head Start&nbsp;</p>
+                                            <input type="button" value="Add" data-repeater-create class="btn btn-primary btn-sm" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div data-repeater-list="head-start-child">
+                                    <div data-repeater-item>
+                                        <div class="row mb-3">
+                                            <div class="col-5">
+                                                <input class="form-control" type="text" placeholder="Child Name" name="child-name" />
+                                            </div>
+                                            <div class="col-5">
+                                                <input class="form-control" type="text" placeholder="$5,000.00" name="policy-amount" />
+                                            </div>
+                                            <div class="col-2">
+                                                <input type="button" value="Delete" data-repeater-delete class="btn btn-secondary btn-sm" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div> <!-- end of alx-plan -->
+                    </div> <!-- end of tab-pane -->
                     <div class="tab-pane" id="step-six" role="tabpanel" aria-labelledby="step-six-tab">
                         <div class="progress">
                             <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="84" aria-valuemin="0" aria-valuemax="100" style="width: 84%">6/7</div>
