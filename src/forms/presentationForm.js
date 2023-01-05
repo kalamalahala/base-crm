@@ -67,12 +67,6 @@ export const presentationForm = () => {
         let selectedPlanType = planTypes.find((planType) => {
             return planType === selectedOption;
         });
-        let headStart = false;
-
-        if (selectedPlanType === "alx-head-start-plan") {
-            selectedPlanType = "alx-plan";
-            headStart = true;
-        }
 
         console.log(`SHOW: ${selectedPlanType}`);
 
@@ -84,31 +78,12 @@ export const presentationForm = () => {
             false,
         );
 
-        if (headStart) {
-            $("#presentation-form .head-start-repeater").removeClass("d-none");
-            $("#presentation-form .head-start-repeater input").attr(
-                "disabled",
-                false,
-            );
-        }
-
         let otherPlanTypes = planTypes.filter((planType) => {
             return planType !== selectedOption;
         });
 
         otherPlanTypes.forEach((planType) => {
             console.log(`hiding ${planType}`);
-            if (
-                selectedPlanType === "alx-plan" &&
-                headStart &&
-                planType === "alx-head-start-plan"
-            ) {
-                console.log(
-                    `skipping ${planType}, headstart is true, and selected plan type is alx-plan`,
-                );
-                return;
-            }
-
             $(`#presentation-form .plan-group.${planType}`).addClass("d-none");
             $(`#presentation-form .plan-group.${planType} input`).attr(
                 "disabled",
@@ -141,6 +116,11 @@ export const presentationForm = () => {
     const alxFinalExpenseRadio = $("input[name='alx-final-expense']");
     const alxFinalExpenseSpouseCoverageRadio = $(
         '#presentation-form input[name="spouse-alx-final-expense"]',
+    );
+
+    const alxHeadStartFinalExpenseRadio = $("input[name='alx-head-start-final-expense']");
+    const alxHeadStartFinalExpenseSpouseCoverageRadio = $(
+        '#presentation-form input[name="spouse-alx-head-start-final-expense"]',
     );
 
     // Final Expense
@@ -391,6 +371,41 @@ export const presentationForm = () => {
                 $(
                     "#presentation-form .spouse-alx-final-expense-field input",
                 ).attr("disabled", true);
+                break;
+        }
+    });
+
+    alxHeadStartFinalExpenseRadio.on("change", (e) => {
+        let selectedOption = e.target.value;
+        switch (selectedOption) {
+            case "Yes":
+                fieldsGroupToggle("alx-head-start-final-expense", "enabled");
+                $("#alx-head-start-final-expense-child-row").addClass( "d-none");
+                $("#alx-head-start-final-expense-child-rider-amount").attr( "disabled", true);
+                break;
+            case "Yes w/ Child Rider":
+                fieldsGroupToggle("alx-head-start-final-expense", "enabled");
+                $("#alx-head-start-final-expense-child-row").removeClass( "d-none");
+                $("#alx-head-start-final-expense-child-rider-amount").attr( "disabled", false);
+                break;
+            case "No":
+                fieldsGroupToggle("alx-head-start-final-expense", "disabled");
+                $("#alx-head-start-final-expense-child-row").addClass( "d-none");
+                $("#alx-head-start-final-expense-child-rider-amount").attr( "disabled", true);
+                break;
+        }
+    });
+
+    alxHeadStartFinalExpenseSpouseCoverageRadio.on("change", (e) => {
+        let selectedOption = e.target.value;
+        switch (selectedOption) {
+            case "Yes":
+                $("#presentation-form .spouse-alx-head-start-final-expense-field").removeClass("d-none");
+                $("#presentation-form .spouse-alx-head-start-final-expense-field input").attr("disabled", false);
+                break;
+            case "No":
+                $("#presentation-form .spouse-alx-head-start-final-expense-field").addClass("d-none");
+                $("#presentation-form .spouse-alx-head-start-final-expense-field input").attr("disabled", true);
                 break;
         }
     });
