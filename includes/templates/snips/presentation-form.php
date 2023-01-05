@@ -1015,42 +1015,45 @@ $scripts = $scripts->lead_types();
                         <p class="h5">Supplemental Coverage Options</p>
                         <div class="row">
                             <div class="col-4">
+                                <p class="lead">Accident Protector Max</p>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="accident-protector-max-radio" id="accident-protector-max-yes" value="Yes">
+                                    <input class="form-check-input" type="radio" name="accident-protector-max-radio" id="accident-protector-max-yes" value="Yes" data-vis-target="coverage-item-accident-protector-max">
                                     <label class="form-check-label" for="accident-protector-max-yes">
                                         Yes
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="accident-protector-max-radio" id="accident-protector-max-no" value="No" checked>
+                                    <input class="form-check-input" type="radio" name="accident-protector-max-radio" id="accident-protector-max-no" value="No" data-vis-target="coverage-item-accident-protector-max" checked>
                                     <label class="form-check-label" for="accident-protector-max-no">
                                         No
                                     </label>
                                 </div>
                             </div>
                             <div class="col-4">
+                                <p class="lead">ACB Accident</p>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="acb-accident-radio" id="acb-accident-yes" value="Yes">
+                                    <input class="form-check-input" type="radio" name="acb-accident-radio" id="acb-accident-yes" value="Yes" data-vis-target="coverage-item-acb-accident">
                                     <label class="form-check-label" for="acb-accident-yes">
                                         Yes
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="acb-accident-radio" id="acb-accident-no" value="No" checked>
+                                    <input class="form-check-input" type="radio" name="acb-accident-radio" id="acb-accident-no" value="No" checked data-vis-target="coverage-item-acb-accident">
                                     <label class="form-check-label" for="acb-accident-no">
                                         No
                                     </label>
                                 </div>
                             </div>
                             <div class="col-4">
+                                <p class="lead">Critical Illness</p>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="critical-illness-protection" id="critical-illness-protection-yes" value="Yes">
+                                    <input class="form-check-input" type="radio" name="critical-illness-protection" id="critical-illness-protection-yes" value="Yes" data-vis-target="coverage-item-critical-illness-protection">
                                     <label class="form-check-label" for="critical-illness-protection-yes">
                                         Yes
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="critical-illness-protection" id="critical-illness-protection-no" value="No" checked>
+                                    <input class="form-check-input" type="radio" name="critical-illness-protection" id="critical-illness-protection-no" value="No" checked data-vis-target="coverage-item-critical-illness-protection">
                                     <label class="form-check-label" for="critical-illness-protection-no">
                                         No
                                     </label>
@@ -1059,43 +1062,46 @@ $scripts = $scripts->lead_types();
                         </div>
                         <div class="row">
                             <div class="col-4">
+                                <p class="lead">Cash Cancer</p>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="cash-cancer" id="cash-cancer-yes" value="Yes">
+                                    <input class="form-check-input" type="radio" name="cash-cancer" id="cash-cancer-yes" value="Yes" data-vis-target="coverage-item-cash-cancer">
                                     <label class="form-check-label" for="cash-cancer-yes">
                                         Yes
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="cash-cancer" id="cash-cancer-no" value="No" checked>
+                                    <input class="form-check-input" type="radio" name="cash-cancer" id="cash-cancer-no" value="No" checked data-vis-target="coverage-item-cash-cancer">
                                     <label class="form-check-label" for="cash-cancer-no">
                                         No
                                     </label>
                                 </div>
                             </div>
                             <div class="col-4">
+                                <p class="lead">Cancer Endurance</p>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="cancer-endurance" id="cancer-endurance-yes" value="Yes">
+                                    <input class="form-check-input" type="radio" name="cancer-endurance" id="cancer-endurance-yes" value="Yes" data-vis-target="coverage-item-cancer-endurance">
                                     <label class="form-check-label" for="cancer-endurance-yes">
                                         Yes
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="cancer-endurance" id="cancer-endurance-no" value="No" checked>
+                                    <input class="form-check-input" type="radio" name="cancer-endurance" id="cancer-endurance-no" value="No" checked data-vis-target="coverage-item-cancer-endurance">
                                     <label class="form-check-label" for="cancer-endurance-no">
                                         No
                                     </label>
                                 </div>
                             </div>
                             <div class="col-4">
+                                <p class="lead">Intensive Care Protection</p>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="cancer-protection" id="cancer-protection-yes" value="Yes">
-                                    <label class="form-check-label" for="cancer-protection-yes">
+                                    <input class="form-check-input" type="radio" name="intensive-care" id="intensive-care-yes" value="Yes" data-vis-target="coverage-item-intensive-care">
+                                    <label class="form-check-label" for="intensive-care-yes">
                                         Yes
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="cancer-protection" id="cancer-protection-no" value="No" checked>
-                                    <label class="form-check-label" for="cancer-protection-no">
+                                    <input class="form-check-input" type="radio" name="intensive-care" id="intensive-care-no" value="No" checked data-vis-target="coverage-item-intensive-care">
+                                    <label class="form-check-label" for="intensive-care-no">
                                         No
                                     </label>
                                 </div>
@@ -1187,7 +1193,7 @@ $scripts = $scripts->lead_types();
                                     part is the LIVING BENEFIT and the second part is Life Insurance. What we're going to cover now is the first part:
                                 </p>
                                 <ul>
-                                    <li class="supplemental-health-irt-accident-protector-max">
+                                    <li class="supplemental-health-irt-accident-protector-max coverage-item-accident-protector-max d-none">
                                         <p class="h5">Accident Protector Max</p>
                                         <p class="lead">
                                             <span class="lead-first-name">[client name]</span>, this first/next benefit is designed to put money
@@ -1226,7 +1232,7 @@ $scripts = $scripts->lead_types();
                                             <span class="spouse-inclusion d-none">To the right of your spouse's name, write down "Pays Me"</span>
                                         </p>
                                     </li>
-                                    <li class="supplemental-health-irt-acb-accident-policy">
+                                    <li class="supplemental-health-irt-acb-accident coverage-item-acb-accident d-none">
                                         <p class="h5">ACB Accident</p>
                                         <p class="lead">
                                             Ok <span class="lead-first-name">[client name]</span>, in addition to your coverage you are also going to be
@@ -1245,7 +1251,7 @@ $scripts = $scripts->lead_types();
                                             <span class="spouse-inclusion d-none">To the right of your spouse's name, write down "$100,000 - $300,000"</span>
                                         </p>
                                     </li>
-                                    <li class="supplemental-health-irt-critical-illness-protection">
+                                    <li class="supplemental-health-irt-critical-illness-protection coverage-item-critical-illness-protection d-none">
                                         <p class="h5">Critical Illness</p>
                                         <p class="lead">
                                             <span class="lead-first-name">[client name]</span>, because critical illness runs in your family, the
@@ -1265,7 +1271,7 @@ $scripts = $scripts->lead_types();
                                             <span class="spouse-inclusion d-none">To the right of your spouse's name, write down "$________"</span>
                                         </p>
                                     </li>
-                                    <li class="supplemental-health-irt-cancer-endurance">
+                                    <li class="supplemental-health-irt-cancer-endurance coverage-item-cancer-endurance d-none">
                                         <p class="h5">Cancer Endurance</p>
                                         <p class="lead">
                                             <span class="lead-first-name">[client name]</span>, because cancer runs in your family, the first/next living benefit
@@ -1303,7 +1309,7 @@ $scripts = $scripts->lead_types();
                                                 write your spouse's name,</span> <span class="script-reminder">Give them time to write, don't rush.</span>
                                             <span class="spouse-inclusion d-none">To the right of your spouse's name, write down "Pays Me"</span>
                                     </li>
-                                    <li class="supplemental-health-irt-cash-cancer">
+                                    <li class="supplemental-health-irt-cash-cancer coverage-item-cash-cancer d-none">
                                         <p class="h5">Cash Cancer</p>
                                         <p class="lead">
                                             <span class="lead-first-name">[client name]</span>, in addition to the base cancer policy, the cash cancer policy
@@ -1324,7 +1330,7 @@ $scripts = $scripts->lead_types();
                                                 your spouse's name,</span> <span class="script-reminder">Give them time to write, don't rush.</span>
                                             <span class="spouse-inclusion d-none">To the right of your spouse's name, write down "$10,000"</span>
                                     </li>
-                                    <li class="supplemental-health-irt-intensive-care-protection d-none">Intensive Care Protection</li>
+                                    <li class="supplemental-health-irt-intensive-care coverage-item-intensive-care d-none">Intensive Care Protection</li>
                                 </ul>
                             </div>
                             <div class="standard-plan-irt standard-irt-final-expense">
@@ -1474,19 +1480,19 @@ $scripts = $scripts->lead_types();
                             <p class="lead">
                                 We have your
                             <ul class="coverage-items-selected">
-                                <li class="coverage-item-accident-protector-max">
+                                <li class="coverage-item-accident-protector-max d-none">
                                     <strong>Accident Pro Max</strong> plan that pays YOU if you go to the
                                     hospital or doctor for accidental injuries
                                 </li>
-                                <li class="coverage-item-cash-cancer"><strong>Cash Cancer</strong></li>
-                                <li class="coverage-item-cancer-endurance"><strong>Cancer Endurance</strong></li>
-                                <li class="coverage-item-intensive-care"><strong>Intensive Care</strong></li>
-                                <li class="coverage-item-critical-illness"><strong>Critical Illness</strong></li>
-                                <li class="coverage-item-acb-accident">Accident Plus Plan</li>
-                                <li class="coverage-item-final-expense">Final Expenses covered,</li>
-                                <li class="coverage-item-income-protection">Income protected,</li>
-                                <li class="coverage-item-mortgage-proection">Mortgage protected,</li>
-                                <li class="coverage-item-ce-protection">(and) the ability for your kids to go to college covered as well.</li>
+                                <li class="coverage-item-cash-cancer d-none"><strong>Cash Cancer</strong></li>
+                                <li class="coverage-item-cancer-endurance d-none"><strong>Cancer Endurance</strong></li>
+                                <li class="coverage-item-intensive-care d-none"><strong>Intensive Care</strong></li>
+                                <li class="coverage-item-critical-illness-protection d-none"><strong>Critical Illness</strong></li>
+                                <li class="coverage-item-acb-accident d-none">Accident Plus Plan</li>
+                                <li class="coverage-item-final-expense d-none">Final Expenses covered,</li>
+                                <li class="coverage-item-income-protection d-none">Income protected,</li>
+                                <li class="coverage-item-mortgage-proection d-none">Mortgage protected,</li>
+                                <li class="coverage-item-ce-protection d-none">(and) the ability for your kids to go to college covered as well.</li>
                             </ul>
                             If it all makes sense, then starting today you've taken an important step to being properly protected.
                             This plan is intended to meet your needs. My system shows that you have two options, and both options cover everything we just discussed.
@@ -1500,13 +1506,13 @@ $scripts = $scripts->lead_types();
                         <hr>
                         <div class="rebuttals-radio">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="has-rebuttals" id="rebutalls-yes" value="Yes">
+                                <input class="form-check-input" type="radio" name="has-rebuttals" id="rebutalls-yes" value="Yes" data-vis-target="rebuttals-script-container">
                                 <label class="form-check-label" for="rebutalls-yes">
                                     Yes
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="has-rebuttals" id="rebuttals-no" value="No" checked>
+                                <input class="form-check-input" type="radio" name="has-rebuttals" id="rebuttals-no" value="No" data-vis-target="rebuttals-script-container" checked>
                                 <label class="form-check-label" for="rebuttals-no">
                                     No
                                 </label>
@@ -1528,13 +1534,13 @@ $scripts = $scripts->lead_types();
                         <hr>
                         <div class="down-closing-radio">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="down-closing-radio" id="down-closing-yes" value="Yes">
+                                <input class="form-check-input" type="radio" name="down-closing-radio" id="down-closing-yes" value="Yes" data-vis-target="down-closing-script-container">
                                 <label class="form-check-label" for="down-closing-yes">
                                     Yes
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="down-closing-radio" id="down-closing-no" value="No" checked>
+                                <input class="form-check-input" type="radio" name="down-closing-radio" id="down-closing-no" value="No" data-vis-target="down-closing-script-container" checked>
                                 <label class="form-check-label" for="down-closing-no">
                                     No
                                 </label>

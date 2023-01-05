@@ -1,4 +1,8 @@
 import { Tab } from "bootstrap";
+import { toggleVis } from "../utils/toggleVis";
+import { setVis } from "../utils/setVis";
+import { toggleFormElements } from "../utils/toggleFormElements";
+import { yesNoFieldToBoolean } from "../utils/booleanYesNo";
 import "jquery.repeater/jquery.repeater.min.js";
 const $ = jQuery;
 
@@ -122,6 +126,12 @@ export const presentationForm = () => {
     const alxHeadStartFinalExpenseSpouseCoverageRadio = $(
         '#presentation-form input[name="spouse-alx-head-start-final-expense"]',
     );
+
+    // Rebuttals radio inputs
+    const rebuttalsRadio = $("input[name='has-rebuttals']");
+    
+    // Down Closing Radio
+    const downClosingRadio = $("input[name='down-closing-radio']");
 
     // Final Expense
     finalExpenseRadio.on("change", (e) => {
@@ -409,6 +419,66 @@ export const presentationForm = () => {
                 break;
         }
     });
+
+    // Region: Supplemental Health Radio Inputs
+    const accidentProtectorMaxRadio = $("input[name='accident-protector-max-radio']");
+    const acbAccidentRadio = $("input[name='acb-accident-radio']");
+    const criticalIllnessProtectionRadio = $("input[name='critical-illness-protection']");
+    const cashCancerRadio = $("input[name='cash-cancer']");
+    const cancerEnduranceRadio = $("input[name='cancer-endurance']");
+    const intensiveCareRadio = $("input[name='intensive-care']");
+
+    // Region: Supplemental Health Radio Events
+    accidentProtectorMaxRadio.on("change", (e) => {
+        let state = yesNoFieldToBoolean(e.target.value);
+        let target = $(e.target).data("visTarget");
+        setVis(target, state);
+    });
+
+    acbAccidentRadio.on("change", (e) => {
+        let state = yesNoFieldToBoolean(e.target.value);
+        let target = $(e.target).data("visTarget");
+        setVis(target, state);
+    });
+
+    criticalIllnessProtectionRadio.on("change", (e) => {
+        let state = yesNoFieldToBoolean(e.target.value);
+        let target = $(e.target).data("visTarget");
+        setVis(target, state);
+    });
+
+    cashCancerRadio.on("change", (e) => {
+        let state = yesNoFieldToBoolean(e.target.value);
+        let target = $(e.target).data("visTarget");
+        setVis(target, state);
+    });
+
+    cancerEnduranceRadio.on("change", (e) => {
+        let state = yesNoFieldToBoolean(e.target.value);
+        let target = $(e.target).data("visTarget");
+        setVis(target, state);
+    });
+
+    intensiveCareRadio.on("change", (e) => {
+        let state = yesNoFieldToBoolean(e.target.value);
+        let target = $(e.target).data("visTarget");
+        setVis(target, state);
+    });
+
+    // Toggle rebuttals visbility
+    rebuttalsRadio.on("change", (e) => {
+        let state = yesNoFieldToBoolean(e.target.value);
+        let target = $(e.target).data("visTarget");
+        setVis(target, state);
+    });
+
+    // Toggle down-closing visbility
+    downClosingRadio.on("change", (e) => {
+        let state = yesNoFieldToBoolean(e.target.value);
+        let target = $(e.target).data("visTarget");
+        setVis(target, state);
+    });
+
 
     // Begin Tab Events
     beginPresentationButton.on("click", (e) => {

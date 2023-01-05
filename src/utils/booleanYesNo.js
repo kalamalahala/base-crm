@@ -5,3 +5,11 @@ export const booleanYesNo = (bool) => {
         return "No";
     }
 };
+
+export const yesNoFieldToBoolean = (value) => {
+    if (value === "Yes") {
+        return true;
+    } else {
+        return false;
+    }
+};
