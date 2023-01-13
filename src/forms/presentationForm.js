@@ -4,6 +4,7 @@ import { setVis } from "../utils/setVis";
 import { toggleFormElements } from "../utils/toggleFormElements";
 import { yesNoFieldToBoolean } from "../utils/booleanYesNo";
 import "jquery.repeater/jquery.repeater.min.js";
+import { visHandle } from "../utils/visHandler";
 const $ = jQuery;
 
 export const presentationForm = () => {
@@ -136,6 +137,8 @@ export const presentationForm = () => {
     // Final Expense
     finalExpenseRadio.on("change", (e) => {
         let selectedOption = e.target.value;
+        let selectedInput = e.target;
+        visHandle(selectedInput);
         switch (selectedOption) {
             case "Yes":
                 fieldsGroupToggle("final-expense", "enabled");
@@ -539,6 +542,17 @@ export const presentationForm = () => {
                 previousButton.attr("disabled", true);
             }
         }
+    });
+
+    // Final Tab Shown events
+    stepSevenPill.on("shown.bs.tab", (e) => {
+        console.log("Final tab shown");
+        let formSnapshot = $("#presentation-form").serializeArray();
+        let formObject = {};
+        formSnapshot.forEach((field) => {
+            formObject[field.name] = field.value;
+        });
+        console.log(formObject);
     });
 };
 

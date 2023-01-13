@@ -242,13 +242,13 @@ $scripts = $scripts->lead_types();
                                         Have you or your spouse consumed tobacco or marijuana in any way in the past 12 months? (hookah, cigar, vape pen, snuff, edibles, etc)
                                     </p>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="tobacco-question" id="tobacco-yes">
+                                        <input class="form-check-input" type="radio" name="tobacco-question" id="tobacco-yes" value="Yes">
                                         <label class="form-check-label" for="tobacco-yes">
                                             Yes
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="tobacco-question" id="tobacco-no" checked>
+                                        <input class="form-check-input" type="radio" name="tobacco-question" id="tobacco-no" value="No" checked>
                                         <label class="form-check-label" for="tobacco-no">
                                             No
                                         </label>
@@ -369,7 +369,7 @@ $scripts = $scripts->lead_types();
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="plan-type" id="supplementals-only-plan" value="supplementals-only-plan">
+                                <input class="form-check-input" type="radio" name="plan-type" id="supplementals-only-plan" value="supplementals-only-plan" data-vis-target="supplementals-yes">
                                 <label class="form-check-label" for="supplementals-only-plan">
                                     Supplementals Only
                                 </label>
@@ -389,19 +389,19 @@ $scripts = $scripts->lead_types();
                                     <div class="col-3">
                                         <p class="lead">Final Expense</p>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="final-expense" id="final-expense-yes" value="Yes">
+                                            <input class="form-check-input" type="radio" name="final-expense" id="final-expense-yes" value="Yes" data-vis-show="coverage-item-final-expense">
                                             <label class="form-check-label" for="final-expense-yes">
                                                 Yes
                                             </label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="final-expense" id="final-expense-yes-w-child" value="Yes w/ Child Rider">
+                                            <input class="form-check-input" type="radio" name="final-expense" id="final-expense-yes-w-child" value="Yes w/ Child Rider" data-vis-show="coverage-item-final-expense">
                                             <label class="form-check-label" for="final-expense-yes-w-child">
                                                 Yes w/ Child Rider
                                             </label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="final-expense" id="final-expense-no" value="No" checked>
+                                            <input class="form-check-input" type="radio" name="final-expense" id="final-expense-no" value="No" checked data-vis-hide="coverage-item-final-expense">
                                             <label class="form-check-label" for="final-expense-no">
                                                 No
                                             </label>
@@ -487,19 +487,19 @@ $scripts = $scripts->lead_types();
                                     <div class="col-3">
                                         <p class="lead">Income Protection</p>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="income-protection" id="income-protection-yes" value="Yes">
+                                            <input class="form-check-input" type="radio" name="income-protection" id="income-protection-yes" value="Yes" data-vis-show="coverage-item-income-protection">
                                             <label class="form-check-label" for="income-protection-yes">
                                                 Yes
                                             </label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="income-protection" id="income-protection-yes-w-child" value="Yes w/ Child Rider">
+                                            <input class="form-check-input" type="radio" name="income-protection" id="income-protection-yes-w-child" value="Yes w/ Child Rider" data-vis-show="coverage-item-income-protection">
                                             <label class="form-check-label" for="income-protection-yes-w-child">
                                                 Yes w/ Child Rider
                                             </label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="income-protection" id="income-protection-no" value="No" checked>
+                                            <input class="form-check-input" type="radio" name="income-protection" id="income-protection-no" value="No" checked data-vis-hide="coverage-item-income-protection">
                                             <label class="form-check-label" for="income-protection-no">
                                                 No
                                             </label>
@@ -585,19 +585,19 @@ $scripts = $scripts->lead_types();
                                     <div class="col-3">
                                         <p class="lead">Mortgage Protection</p>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="mortgage-protection" id="mortgage-protection-yes" value="Yes">
+                                            <input class="form-check-input" type="radio" name="mortgage-protection" id="mortgage-protection-yes" value="Yes" data-vis-show="coverage-item-mortgage-protection">
                                             <label class="form-check-label" for="mortgage-protection-yes">
                                                 Yes
                                             </label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="mortgage-protection" id="mortgage-protection-yes-w-child" value="Yes w/ Child Rider">
+                                            <input class="form-check-input" type="radio" name="mortgage-protection" id="mortgage-protection-yes-w-child" value="Yes w/ Child Rider" data-vis-show="coverage-item-mortgage-protection">
                                             <label class="form-check-label" for="mortgage-protection-yes-w-child">
                                                 Yes w/ Child Rider
                                             </label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="mortgage-protection" id="mortgage-protection-no" value="No" checked>
+                                            <input class="form-check-input" type="radio" name="mortgage-protection" id="mortgage-protection-no" value="No" checked data-vis-hide="coverage-item-mortgage-protection">
                                             <label class="form-check-label" for="mortgage-protection-no">
                                                 No
                                             </label>
@@ -683,19 +683,19 @@ $scripts = $scripts->lead_types();
                                     <div class="col-3">
                                         <p class="lead">Children's Education Protection</p>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="ce-protection" id="ce-protection-yes" value="Yes">
+                                            <input class="form-check-input" type="radio" name="ce-protection" id="ce-protection-yes" value="Yes" data-vis-show="coverage-item-ce-protection">
                                             <label class="form-check-label" for="ce-protection-yes">
                                                 Yes
                                             </label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="ce-protection" id="ce-protection-yes-w-child" value="Yes w/ Child Rider">
+                                            <input class="form-check-input" type="radio" name="ce-protection" id="ce-protection-yes-w-child" value="Yes w/ Child Rider" data-vis-show="coverage-item-ce-protection">
                                             <label class="form-check-label" for="ce-protection-yes-w-child">
                                                 Yes w/ Child Rider
                                             </label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="ce-protection" id="ce-protection-no" value="No" checked>
+                                            <input class="form-check-input" type="radio" name="ce-protection" id="ce-protection-no" value="No" checked data-vis-hide="coverage-item-ce-protection">
                                             <label class="form-check-label" for="ce-protection-no">
                                                 No
                                             </label>
@@ -783,19 +783,19 @@ $scripts = $scripts->lead_types();
                                     <div class="col-3">
                                         <p class="lead">Final Expense</p>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="alx-final-expense" id="alx-final-expense-yes" value="Yes">
+                                            <input class="form-check-input" type="radio" name="alx-final-expense" id="alx-final-expense-yes" value="Yes" data-vis-show="coverage-item-alx-final-expense">
                                             <label class="form-check-label" for="alx-final-expense-yes">
                                                 Yes
                                             </label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="alx-final-expense" id="alx-final-expense-yes-w-child" value="Yes w/ Child Rider">
+                                            <input class="form-check-input" type="radio" name="alx-final-expense" id="alx-final-expense-yes-w-child" value="Yes w/ Child Rider" data-vis-show="coverage-item-alx-final-expense">
                                             <label class="form-check-label" for="alx-final-expense-yes-w-child">
                                                 Yes w/ Child Rider
                                             </label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="alx-final-expense" id="alx-final-expense-no" value="No" checked>
+                                            <input class="form-check-input" type="radio" name="alx-final-expense" id="alx-final-expense-no" value="No" checked data-vis-hide="coverage-item-alx-final-expense">
                                             <label class="form-check-label" for="alx-final-expense-no">
                                                 No
                                             </label>
@@ -882,19 +882,19 @@ $scripts = $scripts->lead_types();
                                     <div class="col-3">
                                         <p class="lead">Final Expense</p>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="alx-head-start-final-expense" id="alx-head-start-final-expense-yes" value="Yes">
+                                            <input class="form-check-input" type="radio" name="alx-head-start-final-expense" id="alx-head-start-final-expense-yes" value="Yes" data-vis-show="coverage-item-alx-head-start-final-expense">
                                             <label class="form-check-label" for="alx-head-start-final-expense-yes">
                                                 Yes
                                             </label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="alx-head-start-final-expense" id="alx-head-start-final-expense-yes-w-child" value="Yes w/ Child Rider">
+                                            <input class="form-check-input" type="radio" name="alx-head-start-final-expense" id="alx-head-start-final-expense-yes-w-child" value="Yes w/ Child Rider" data-vis-show="coverage-item-alx-head-start-final-expense">
                                             <label class="form-check-label" for="alx-head-start-final-expense-yes-w-child">
                                                 Yes w/ Child Rider
                                             </label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="alx-head-start-final-expense" id="alx-head-start-final-expense-no" value="No" checked>
+                                            <input class="form-check-input" type="radio" name="alx-head-start-final-expense" id="alx-head-start-final-expense-no" value="No" checked data-vis-hide="coverage-item-alx-head-start-final-expense">
                                             <label class="form-check-label" for="alx-head-start-final-expense-no">
                                                 No
                                             </label>
@@ -1146,7 +1146,7 @@ $scripts = $scripts->lead_types();
                                     you will be different than what works for someone else, so because of that fact I'm going to briefly
                                     explain the need for these benefits.
                                 </p>
-                                <p class="lead supplementals-yes"> <!-- include if supplemental is yes -->
+                                <p class="lead supplementals-yes d-none"> <!-- include if supplemental is yes -->
                                     The health supplements are self-explanatory. If you get hurt or sick, you want to have an income source
                                     to provide you with a financial cushion.</p>
                                 <p class="lead">
@@ -1174,7 +1174,7 @@ $scripts = $scripts->lead_types();
                                     </strong>
                                 </p>
                             </div>
-                            <div class="irt-group supplemental-irt-only">
+                            <div class="irt-group supplemental-irt-only supplementals-yes d-none">
                                 <p class="h5">Introduce, Recap, Tie Down</p>
                                 <p class="lead">
                                     Ok <span class="lead-first-name">[client name]</span>, because medical conditions run in your family, my system
@@ -1186,7 +1186,7 @@ $scripts = $scripts->lead_types();
                                         what we're about to discuss:</strong>
                                 </p>
                             </div>
-                            <div class="supplemental-health-irt supplementals-yes">
+                            <div class="supplemental-health-irt supplementals-yes d-none">
                                 <p class="h5">Supplemental Health IRTs</p>
                                 <p class="lead">
                                     Okay <span class="lead-first-name">[client name]</span>, there are two parts to what you qualify for, the first
@@ -1333,7 +1333,7 @@ $scripts = $scripts->lead_types();
                                     <li class="supplemental-health-irt-intensive-care coverage-item-intensive-care d-none">Intensive Care Protection</li>
                                 </ul>
                             </div>
-                            <div class="standard-plan-irt standard-irt-final-expense">
+                            <div class="standard-plan-irt standard-irt-final-expense coverage-item-final-expense d-none">
                                 <p class="h5">Final Expense</p>
                                 <p class="lead">
                                     Ok <span class="lead-first-name">[client name]</span>, based on what you've shared with me, the first/next thing that
@@ -1354,7 +1354,7 @@ $scripts = $scripts->lead_types();
                                         name write down <span class="spouse-final-expense-coverage-amount">$$$$</span></span>.
                                 </p>
                             </div>
-                            <div class="standard-plan-irt standard-irt-income-protection">
+                            <div class="standard-plan-irt standard-irt-income-protection coverage-item-income-protection d-none">
                                 <p class="h5">Income Protection</p>
                                 <p class="lead">
                                     Ok <span class="lead-first-name">[client name]</span>, based on what you've shared with me, the first/next need that you
@@ -1379,7 +1379,7 @@ $scripts = $scripts->lead_types();
                                         name write down <span class="spouse-income-protection-coverage-amount">$$$$</span></span>.
                                 </p>
                             </div>
-                            <div class="standard-plan-irt standard-irt-mortgage-protection">
+                            <div class="standard-plan-irt standard-irt-mortgage-protection coverage-item-mortgage-protection d-none">
                                 <p class="h5">Mortgage Protection</p>
                                 <p class="lead">
                                     Ok <span class="lead-first-name">[client name]</span>, the first/next major need you have to protect is your mortgage.
@@ -1400,7 +1400,7 @@ $scripts = $scripts->lead_types();
                                         name write down <span class="spouse-mortgage-protection-coverage-amount">$$$$</span></span>.
                                 </p>
                             </div>
-                            <div class="standard-plan-irt standard-irt-ce-protection">
+                            <div class="standard-plan-irt standard-irt-ce-protection coverage-item-ce-protection d-none">
                                 <p class="h5">Children's Education</p>
                                 <p class="lead">
                                     <span class="lead-first-name">[client name]</span>, the next major need you have to protect is your children's ability
@@ -1421,7 +1421,7 @@ $scripts = $scripts->lead_types();
                                         name write down <span class="spouse-ce-protection-coverage-amount">$$$$</span></span>.
                                 </p>
                             </div>
-                            <div class="alx-plan-irt alx-irt-final-expense">
+                            <div class="alx-plan-irt alx-irt-final-expense coverage-item-alx-final-expense d-none">
                                 <p class="h5">Final Expense</p>
                                 <p class="lead">
                                     Ok <span class="lead-first-name">[client name]</span>, when it comes to life insurance, based on the answers you gave
@@ -1456,7 +1456,7 @@ $scripts = $scripts->lead_types();
                                     <span class="final-expense-coverage-amount">$$$$</span>, <span class="spouse-inclusion d-none">and to the right of your spouse's
                                         name write down <span class="spouse-final-expense-coverage-amount">$$$$</span></span>.
                                 </p>
-                                <div class="lead head-start-irt">
+                                <div class="lead head-start-irt coverage-item-alx-head-start d-none">
                                     <p class="lead">
 
                                         In addition to covering your final expenses, my system also shows that your children qualify for the Head Start
