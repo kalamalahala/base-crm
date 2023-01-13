@@ -5,6 +5,7 @@ import { toggleFormElements } from "../utils/toggleFormElements";
 import { yesNoFieldToBoolean } from "../utils/booleanYesNo";
 import "jquery.repeater/jquery.repeater.min.js";
 import { visHandle } from "../utils/visHandler";
+import { scriptDollarAmount } from "../utils/scriptDollarAmount";
 const $ = jQuery;
 
 export const presentationForm = () => {
@@ -128,6 +129,20 @@ export const presentationForm = () => {
         '#presentation-form input[name="spouse-alx-head-start-final-expense"]',
     );
 
+    // Any input field with a name containing "amount"
+    const amountFields = $('#presentation-form input[name*="amount"]');
+    console.log(amountFields);
+    amountFields.on("change", (e) => {
+        let selectedInput = e.target;
+        let selectedValue = selectedInput.value;
+        let targetedScript = $(selectedInput).data("script");
+        if (targetedScript === undefined) { return; }
+        let targetedScriptElement = $(`.${targetedScript}`);
+        
+        targetedScriptElement.text(scriptDollarAmount(selectedValue));
+    });
+    
+
     // Rebuttals radio inputs
     const rebuttalsRadio = $("input[name='has-rebuttals']");
     
@@ -185,6 +200,8 @@ export const presentationForm = () => {
     // Income Protection
     incomeProtectionRadio.on("change", (e) => {
         let selectedOption = e.target.value;
+        let selectedInput = e.target;
+        visHandle(selectedInput);
         switch (selectedOption) {
             case "Yes":
                 fieldsGroupToggle("income-protection", "enabled");
@@ -215,6 +232,7 @@ export const presentationForm = () => {
 
     incomeProtectionSpouseCoverageRadio.on("change", (e) => {
         let selectedOption = e.target.value;
+
         switch (selectedOption) {
             case "Yes":
                 $(
@@ -238,6 +256,8 @@ export const presentationForm = () => {
     // Mortgage Protection
     mortgageProtectionRadio.on("change", (e) => {
         let selectedOption = e.target.value;
+        let selectedInput = e.target;
+        visHandle(selectedInput);
         switch (selectedOption) {
             case "Yes":
                 fieldsGroupToggle("mortgage-protection", "enabled");
@@ -291,6 +311,8 @@ export const presentationForm = () => {
     // Children's Education Protection
     childrensEducationRadio.on("change", (e) => {
         let selectedOption = e.target.value;
+        let selectedInput = e.target;
+        visHandle(selectedInput);
         switch (selectedOption) {
             case "Yes":
                 fieldsGroupToggle("ce-protection", "enabled");
@@ -336,6 +358,8 @@ export const presentationForm = () => {
 
     alxFinalExpenseRadio.on("change", (e) => {
         let selectedOption = e.target.value;
+        let selectedInput = e.target;
+        visHandle(selectedInput);
         switch (selectedOption) {
             case "Yes":
                 fieldsGroupToggle("alx-final-expense", "enabled");
@@ -390,6 +414,8 @@ export const presentationForm = () => {
 
     alxHeadStartFinalExpenseRadio.on("change", (e) => {
         let selectedOption = e.target.value;
+        let selectedInput = e.target;
+        visHandle(selectedInput);
         switch (selectedOption) {
             case "Yes":
                 fieldsGroupToggle("alx-head-start-final-expense", "enabled");

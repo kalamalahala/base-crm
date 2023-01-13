@@ -411,21 +411,21 @@ $scripts = $scripts->lead_types();
                                         <p class="lead">Existing Coverage</p>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text">$</span>
-                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="final-expense-existing-coverage" id="final-expense-existing-coverage" disabled>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="final-expense-existing-coverage-amount" id="final-expense-existing-coverage-amount" disabled data-script="final-expense-existing-coverage-amount">
                                         </div>
                                     </div>
                                     <div class="col-3 final-expense-field d-none">
                                         <p class="lead">Amount Needed</p>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text">$</span>
-                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="final-expense-amount-needed" id="final-expense-amount-needed" disabled>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="final-expense-amount-needed" id="final-expense-amount-needed" disabled data-script="final-expense-coverage-needed">
                                         </div>
                                     </div>
                                     <div class="col-3 final-expense-field d-none">
                                         <p class="lead">Qualified Amount</p>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text">$</span>
-                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="final-expense-qualified-amount" id="final-expense-qualified-amount" disabled>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="final-expense-qualified-amount" id="final-expense-qualified-amount" disabled data-script="final-expense-coverage-amount">
                                         </div>
                                     </div>
                                 </div>
@@ -462,7 +462,7 @@ $scripts = $scripts->lead_types();
                                         <p class="lead">Existing Coverage</p>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text">$</span>
-                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="spouse-final-expense-existing-coverage" id="spouse-final-expense-existing-coverage" disabled>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="spouse-final-expense-existing-coverage-amount" id="spouse-final-expense-existing-coverage-amount" disabled>
                                         </div>
                                     </div>
                                     <div class="col-3 spouse-final-expense-field d-none">
@@ -476,7 +476,7 @@ $scripts = $scripts->lead_types();
                                         <p class="lead">Qualified Amount</p>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text">$</span>
-                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="spouse-final-expense-qualified-amount" id="spouse-final-expense-qualified-amount" disabled>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="spouse-final-expense-qualified-amount" id="spouse-final-expense-qualified-amount" disabled data-script="spouse-final-expense-coverage-amount">
                                         </div>
                                     </div>
                                 </div>
@@ -509,21 +509,21 @@ $scripts = $scripts->lead_types();
                                         <p class="lead">Existing Coverage</p>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text">$</span>
-                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="income-protection-existing-coverage" id="income-protection-existing-coverage" disabled>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="income-protection-existing-coverage-amount" id="income-protection-existing-coverage-amount" disabled data-script="income-protection-existing-coverage-amount">
                                         </div>
                                     </div>
                                     <div class="col-3 income-protection-field d-none">
                                         <p class="lead">Amount Needed</p>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text">$</span>
-                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="income-protection-amount-needed" id="income-protection-amount-needed" disabled>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="income-protection-amount-needed" id="income-protection-amount-needed" disabled data-script="income-protection-coverage-needed">
                                         </div>
                                     </div>
                                     <div class="col-3 income-protection-field d-none">
                                         <p class="lead">Qualified Amount</p>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text">$</span>
-                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="income-protection-qualified-amount" id="income-protection-qualified-amount" disabled>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="income-protection-qualified-amount" id="income-protection-qualified-amount" disabled data-script="income-protection-coverage-amount">
                                         </div>
                                     </div>
                                 </div>
@@ -560,7 +560,7 @@ $scripts = $scripts->lead_types();
                                         <p class="lead">Existing Coverage</p>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text">$</span>
-                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="spouse-income-protection-existing-coverage" id="spouse-income-protection-existing-coverage" disabled>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="spouse-income-protection-existing-coverage-amount" id="spouse-income-protection-existing-coverage-amount" disabled>
                                         </div>
                                     </div>
                                     <div class="col-3 spouse-income-protection-field d-none">
@@ -574,7 +574,7 @@ $scripts = $scripts->lead_types();
                                         <p class="lead">Qualified Amount</p>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text">$</span>
-                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="spouse-income-protection-qualified-amount" id="spouse-income-protection-qualified-amount" disabled>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="spouse-income-protection-qualified-amount" id="spouse-income-protection-qualified-amount" disabled data-script="spouse-income-protection-coverage-amount">
                                         </div>
                                     </div>
                                 </div>
@@ -607,21 +607,21 @@ $scripts = $scripts->lead_types();
                                         <p class="lead">Existing Coverage</p>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text">$</span>
-                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="mortgage-protection-existing-coverage" id="mortgage-protection-existing-coverage" disabled>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="mortgage-protection-existing-coverage-amount" id="mortgage-protection-existing-coverage-amount" disabled data-script="mortgage-protection-existing-coverage-amount">
                                         </div>
                                     </div>
                                     <div class="col-3 mortgage-protection-field d-none">
                                         <p class="lead">Amount Needed</p>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text">$</span>
-                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="mortgage-protection-amount-needed" id="mortgage-protection-amount-needed" disabled>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="mortgage-protection-amount-needed" id="mortgage-protection-amount-needed" disabled data-script="mortgage-protection-coverage-needed">
                                         </div>
                                     </div>
                                     <div class="col-3 mortgage-protection-field d-none">
                                         <p class="lead">Qualified Amount</p>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text">$</span>
-                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="mortgage-protection-qualified-amount" id="mortgage-protection-qualified-amount" disabled>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="mortgage-protection-qualified-amount" id="mortgage-protection-qualified-amount" disabled data-script="mortgage-protection-coverage-amount">
                                         </div>
                                     </div>
                                 </div>
@@ -658,7 +658,7 @@ $scripts = $scripts->lead_types();
                                         <p class="lead">Existing Coverage</p>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text">$</span>
-                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="spouse-mortgage-protection-existing-coverage" id="spouse-mortgage-protection-existing-coverage" disabled>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="spouse-mortgage-protection-existing-coverage-amount" id="spouse-mortgage-protection-existing-coverage-amount" disabled>
                                         </div>
                                     </div>
                                     <div class="col-3 spouse-mortgage-protection-field d-none">
@@ -672,7 +672,7 @@ $scripts = $scripts->lead_types();
                                         <p class="lead">Qualified Amount</p>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text">$</span>
-                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="spouse-mortgage-protection-qualified-amount" id="spouse-mortgage-protection-qualified-amount" disabled>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="spouse-mortgage-protection-qualified-amount" id="spouse-mortgage-protection-qualified-amount" disabled data-script="spouse-mortgage-protection-coverage-amount">
                                         </div>
                                     </div>
                                 </div>
@@ -705,21 +705,21 @@ $scripts = $scripts->lead_types();
                                         <p class="lead">Existing Coverage</p>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text">$</span>
-                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="ce-protection-existing-coverage" id="ce-protection-existing-coverage" disabled>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="ce-protection-existing-coverage-amount" id="ce-protection-existing-coverage-amount" disabled data-script="ce-protection-existing-coverage-amount">
                                         </div>
                                     </div>
                                     <div class="col-3 ce-protection-field d-none">
                                         <p class="lead">Amount Needed</p>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text">$</span>
-                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="ce-protection-amount-needed" id="ce-protection-amount-needed" disabled>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="ce-protection-amount-needed" id="ce-protection-amount-needed" disabled data-script="ce-protection-coverage-needed">
                                         </div>
                                     </div>
                                     <div class="col-3 ce-protection-field d-none">
                                         <p class="lead">Qualified Amount</p>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text">$</span>
-                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="ce-protection-qualified-amount" id="ce-protection-qualified-amount" disabled>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="ce-protection-qualified-amount" id="ce-protection-qualified-amount" disabled data-script="ce-protection-coverage-amount">
                                         </div>
                                     </div>
                                 </div>
@@ -756,7 +756,7 @@ $scripts = $scripts->lead_types();
                                         <p class="lead">Existing Coverage</p>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text">$</span>
-                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="spouse-ce-protection-existing-coverage" id="spouse-ce-protection-existing-coverage" disabled>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="spouse-ce-protection-existing-coverage-amount" id="spouse-ce-protection-existing-coverage-amount" disabled>
                                         </div>
                                     </div>
                                     <div class="col-3 spouse-ce-protection-field d-none">
@@ -770,7 +770,7 @@ $scripts = $scripts->lead_types();
                                         <p class="lead">Qualified Amount</p>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text">$</span>
-                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="spouse-ce-protection-qualified-amount" id="spouse-ce-protection-qualified-amount" disabled>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="spouse-ce-protection-qualified-amount" id="spouse-ce-protection-qualified-amount" disabled data-script="spouse-ce-protection-coverage-amount">
                                         </div>
                                     </div>
                                 </div>
@@ -805,21 +805,21 @@ $scripts = $scripts->lead_types();
                                         <p class="lead">Existing Coverage</p>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text">$</span>
-                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="alx-final-expense-existing-coverage" id="alx-final-expense-existing-coverage" disabled>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="alx-final-expense-existing-coverage-amount" id="alx-final-expense-existing-coverage-amount" disabled data-script="final-expense-existing-coverage-amount">
                                         </div>
                                     </div>
                                     <div class="col-3 alx-final-expense-field d-none">
                                         <p class="lead">Amount Needed</p>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text">$</span>
-                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="alx-final-expense-amount-needed" id="alx-final-expense-amount-needed" disabled>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="alx-final-expense-amount-needed" id="alx-final-expense-amount-needed" disabled data-script="final-expense-coverage-needed">
                                         </div>
                                     </div>
                                     <div class="col-3 alx-final-expense-field d-none">
                                         <p class="lead">Qualified Amount</p>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text">$</span>
-                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="alx-final-expense-qualified-amount" id="alx-final-expense-qualified-amount" disabled>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="alx-final-expense-qualified-amount" id="alx-final-expense-qualified-amount" disabled data-script="final-expense-coverage-amount">
                                         </div>
                                     </div>
                                 </div>
@@ -856,7 +856,7 @@ $scripts = $scripts->lead_types();
                                         <p class="lead">Existing Coverage</p>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text">$</span>
-                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="spouse-alx-final-expense-existing-coverage" id="spouse-alx-final-expense-existing-coverage" disabled>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="spouse-alx-final-expense-existing-coverage-amount" id="spouse-alx-final-expense-existing-coverage-amount" disabled>
                                         </div>
                                     </div>
                                     <div class="col-3 spouse-alx-final-expense-field d-none">
@@ -870,7 +870,7 @@ $scripts = $scripts->lead_types();
                                         <p class="lead">Qualified Amount</p>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text">$</span>
-                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="spouse-alx-final-expense-qualified-amount" id="spouse-alx-final-expense-qualified-amount" disabled>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="spouse-alx-final-expense-qualified-amount" id="spouse-alx-final-expense-qualified-amount" disabled data-script="spouse-final-expense-coverage-amount">
                                         </div>
                                     </div>
                                 </div>
@@ -904,21 +904,21 @@ $scripts = $scripts->lead_types();
                                         <p class="lead">Existing Coverage</p>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text">$</span>
-                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="alx-head-start-final-expense-existing-coverage" id="alx-head-start-final-expense-existing-coverage" disabled>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="alx-head-start-final-expense-existing-coverage-amount" id="alx-head-start-final-expense-existing-coverage-amount" disabled data-script="final-expense-existing-coverage-amount">
                                         </div>
                                     </div>
                                     <div class="col-3 alx-head-start-final-expense-field d-none">
                                         <p class="lead">Amount Needed</p>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text">$</span>
-                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="alx-head-start-final-expense-amount-needed" id="alx-head-start-final-expense-amount-needed" disabled>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="alx-head-start-final-expense-amount-needed" id="alx-head-start-final-expense-amount-needed" disabled data-script="final-expense-coverage-needed">
                                         </div>
                                     </div>
                                     <div class="col-3 alx-head-start-final-expense-field d-none">
                                         <p class="lead">Qualified Amount</p>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text">$</span>
-                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="alx-head-start-final-expense-qualified-amount" id="alx-head-start-final-expense-qualified-amount" disabled>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="alx-head-start-final-expense-qualified-amount" id="alx-head-start-final-expense-qualified-amount" disabled data-script="final-expense-coverage-amount">
                                         </div>
                                     </div>
                                 </div>
@@ -955,7 +955,7 @@ $scripts = $scripts->lead_types();
                                         <p class="lead">Existing Coverage</p>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text">$</span>
-                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="spouse-alx-head-start-final-expense-existing-coverage" id="spouse-alx-head-start-final-expense-existing-coverage" disabled>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="spouse-alx-head-start-final-expense-existing-coverage-amount" id="spouse-alx-head-start-final-expense-existing-coverage-amount" disabled>
                                         </div>
                                     </div>
                                     <div class="col-3 spouse-alx-head-start-final-expense-field d-none">
@@ -969,7 +969,7 @@ $scripts = $scripts->lead_types();
                                         <p class="lead">Qualified Amount</p>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text">$</span>
-                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="spouse-alx-head-start-final-expense-qualified-amount" id="spouse-alx-head-start-final-expense-qualified-amount" disabled>
+                                            <input type="text" class="form-control" placeholder="5000.00" aria-label="Amount (to the nearest dollar)" name="spouse-alx-head-start-final-expense-qualified-amount" id="spouse-alx-head-start-final-expense-qualified-amount" disabled data-script="spouse-final-expense-coverage-amount">
                                         </div>
                                     </div>
                                 </div>
@@ -1115,7 +1115,7 @@ $scripts = $scripts->lead_types();
                                     <label for="option-1" class="form-label">Option 1</label>
                                     <div class="input-group">
                                         <span class="input-group-text">$</span>
-                                        <input type="text" class="form-control" name="option-1" id="option-1" aria-describedby="optionOneHelp" placeholder="$50.00">
+                                        <input type="text" class="form-control" name="option-1-amount" id="option-1-amount" aria-describedby="optionOneHelp" placeholder="$50.00" data-script="option-1-amount">
                                     </div>
                                     <small id="optionOneHelp" class="form-text text-muted">Dollar amount from CE3</small>
                                 </div>
@@ -1125,7 +1125,7 @@ $scripts = $scripts->lead_types();
                                     <div class="form-label" for="option-2">Option 2</div>
                                     <div class="input-group">
                                         <span class="input-group-text">$</span>
-                                        <input type="text" class="form-control" name="option-2" id="option-2" aria-describedby="optionTwoHelp" placeholder="$50.00">
+                                        <input type="text" class="form-control" name="option-2-amount" id="option-2-amount" aria-describedby="optionTwoHelp" placeholder="$50.00" data-script="option-2-amount">
                                     </div>
                                     <small id="optionTwoHelp" class="form-text text-muted">Dollar amount from CE3</small>
                                 </div>
