@@ -5,6 +5,7 @@ const ajaxAction = base_crm.ajax_action;
 
 import { populateScriptFields } from "../forms/modalCallLead";
 import { populatePresentationData } from "../forms/presentationForm";
+import { setLoadingOverlay } from "../utils/setLoadingOverlay";
 
 export const dtButtonListeners = () => {
     // View Lead
@@ -72,8 +73,7 @@ export const dtButtonListeners = () => {
         const leadDisposition = $(this).data("disposition");
         const ajaxMethod = "disposition_lead";
         const table = $(this).closest("table").DataTable();
-        $('.loading-text').text('Dispositioning Lead...');
-        $('.lead-table-loading-overlay').removeClass('d-none');
+        setLoadingOverlay("Dispositioning Lead...", true);
 
         $.ajax({
             url: ajaxUrl,
@@ -96,6 +96,8 @@ export const dtButtonListeners = () => {
     $(document).on("click", ".base-crm-begin-presentation", function (e) {
         e.preventDefault();
         const leadId = $(this).data("lead-id");
+        const appointmentId = $(this).data("id");
+        setLoadingOverlay("Loading Lead Data...", true);
 
         // get lead data
         const ajaxMethod = "get_lead";
@@ -106,10 +108,12 @@ export const dtButtonListeners = () => {
                 action: ajaxAction,
                 method: ajaxMethod,
                 lead_id: leadId,
+                appointment_id: appointmentId,
                 nonce: ajaxNonce,
             },
             complete: function (response) {
                 const leadData = JSON.parse(response.responseText);
+                setLoadingOverlay("", false);
                 // Launch Presentation Modal
                 populatePresentationData(leadData);
             },

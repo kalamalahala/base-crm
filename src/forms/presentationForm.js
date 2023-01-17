@@ -1,18 +1,77 @@
 import { Tab } from "bootstrap";
-import { toggleVis } from "../utils/toggleVis";
 import { setVis } from "../utils/setVis";
-import { toggleFormElements } from "../utils/toggleFormElements";
 import { yesNoFieldToBoolean } from "../utils/booleanYesNo";
 import "jquery.repeater/jquery.repeater.min.js";
 import { visHandle } from "../utils/visHandler";
 import { scriptDollarAmount } from "../utils/scriptDollarAmount";
+import { presentationFormHandler } from "../utils/presentationFormHandler";
 const $ = jQuery;
 
 export const presentationForm = () => {
     const presentationFormElement = $("#presentation-form");
     $(document).on("submit", "#presentation-form", function (e) {
         e.preventDefault();
-        return false;
+        let doSubmit = confirm("Submit presentation form?");
+        if (doSubmit) {
+            // get First Name, Last Name, Phone, Email from form
+            const fn = $("input[name='first-name']").val();
+            const ln = $("input[name='last-name']").val();
+            const ph = $("input[name='phone']").val();
+            const em = $("input[name='email']").val();
+
+            const params = {
+                fn: fn,
+                ln: ln,
+                ph: ph,
+                em: em,
+            };
+
+            // redirect to: https://thejohnson.group/agent-portal/agent/reports/agent-wcn/?mode=create&cuid=null&agent_id=42215&redir=wcn with query string
+            const baseUrl = new URL(
+                "https://thejohnson.group/agent-portal/agent/reports/agent-wcn/"
+            );
+            const extraParams = {
+                mode: "create",
+                cuid: "null",
+                redir: "wcn",
+            };
+
+            Object.keys(params).forEach((key) => {
+                baseUrl.searchParams.append(key, params[key]);
+            });
+
+            Object.keys(extraParams).forEach((key) => {
+                baseUrl.searchParams.append(key, extraParams[key]);
+            });
+
+            window.open(baseUrl, "_blank");
+
+
+            // serialize form data into query string
+            const formDataObject = $(this).serializeArray();
+            presentationFormHandler(formDataObject);
+            return;
+            const formDataQueryString = $.param(formDataObject);
+
+            console.log('formDataObject', formDataObject);
+            console.log('formDataQueryString', formDataQueryString);
+
+
+            
+            // add all params and query string to url
+            Object.keys(extraParams).forEach((key) => {
+                baseUrl.searchParams.append(key, extraParams[key]);
+            });
+            baseUrl.searchParams.append('data', formDataQueryString);
+
+            window.open(baseUrl, "_blank");
+
+        }
+
+
+            
+
+        return doSubmit;
     });
     const beginPresentationButton = $("#presentation-script-select-button");
 
@@ -74,8 +133,6 @@ export const presentationForm = () => {
             return planType === selectedOption;
         });
 
-        console.log(`SHOW: ${selectedPlanType}`);
-
         $(`#presentation-form .plan-group.${selectedPlanType}`).removeClass(
             "d-none",
         );
@@ -89,7 +146,6 @@ export const presentationForm = () => {
         });
 
         otherPlanTypes.forEach((planType) => {
-            console.log(`hiding ${planType}`);
             $(`#presentation-form .plan-group.${planType}`).addClass("d-none");
             $(`#presentation-form .plan-group.${planType} input`).attr(
                 "disabled",
@@ -124,28 +180,30 @@ export const presentationForm = () => {
         '#presentation-form input[name="spouse-alx-final-expense"]',
     );
 
-    const alxHeadStartFinalExpenseRadio = $("input[name='alx-head-start-final-expense']");
+    const alxHeadStartFinalExpenseRadio = $(
+        "input[name='alx-head-start-final-expense']",
+    );
     const alxHeadStartFinalExpenseSpouseCoverageRadio = $(
         '#presentation-form input[name="spouse-alx-head-start-final-expense"]',
     );
 
     // Any input field with a name containing "amount"
     const amountFields = $('#presentation-form input[name*="amount"]');
-    console.log(amountFields);
     amountFields.on("change", (e) => {
         let selectedInput = e.target;
         let selectedValue = selectedInput.value;
         let targetedScript = $(selectedInput).data("script");
-        if (targetedScript === undefined) { return; }
+        if (targetedScript === undefined) {
+            return;
+        }
         let targetedScriptElement = $(`.${targetedScript}`);
-        
+
         targetedScriptElement.text(scriptDollarAmount(selectedValue));
     });
-    
 
     // Rebuttals radio inputs
     const rebuttalsRadio = $("input[name='has-rebuttals']");
-    
+
     // Down Closing Radio
     const downClosingRadio = $("input[name='down-closing-radio']");
 
@@ -370,7 +428,6 @@ export const presentationForm = () => {
                 );
                 break;
             case "No":
-                console.log("No");
                 fieldsGroupToggle("alx-final-expense", "disabled");
                 $("#alx-final-expense-child-row").addClass("d-none");
                 $("#alx-final-expense-child-rider-amount").attr(
@@ -419,18 +476,29 @@ export const presentationForm = () => {
         switch (selectedOption) {
             case "Yes":
                 fieldsGroupToggle("alx-head-start-final-expense", "enabled");
-                $("#alx-head-start-final-expense-child-row").addClass( "d-none");
-                $("#alx-head-start-final-expense-child-rider-amount").attr( "disabled", true);
+                $("#alx-head-start-final-expense-child-row").addClass("d-none");
+                $("#alx-head-start-final-expense-child-rider-amount").attr(
+                    "disabled",
+                    true,
+                );
                 break;
             case "Yes w/ Child Rider":
                 fieldsGroupToggle("alx-head-start-final-expense", "enabled");
-                $("#alx-head-start-final-expense-child-row").removeClass( "d-none");
-                $("#alx-head-start-final-expense-child-rider-amount").attr( "disabled", false);
+                $("#alx-head-start-final-expense-child-row").removeClass(
+                    "d-none",
+                );
+                $("#alx-head-start-final-expense-child-rider-amount").attr(
+                    "disabled",
+                    false,
+                );
                 break;
             case "No":
                 fieldsGroupToggle("alx-head-start-final-expense", "disabled");
-                $("#alx-head-start-final-expense-child-row").addClass( "d-none");
-                $("#alx-head-start-final-expense-child-rider-amount").attr( "disabled", true);
+                $("#alx-head-start-final-expense-child-row").addClass("d-none");
+                $("#alx-head-start-final-expense-child-rider-amount").attr(
+                    "disabled",
+                    true,
+                );
                 break;
         }
     });
@@ -439,20 +507,32 @@ export const presentationForm = () => {
         let selectedOption = e.target.value;
         switch (selectedOption) {
             case "Yes":
-                $("#presentation-form .spouse-alx-head-start-final-expense-field").removeClass("d-none");
-                $("#presentation-form .spouse-alx-head-start-final-expense-field input").attr("disabled", false);
+                $(
+                    "#presentation-form .spouse-alx-head-start-final-expense-field",
+                ).removeClass("d-none");
+                $(
+                    "#presentation-form .spouse-alx-head-start-final-expense-field input",
+                ).attr("disabled", false);
                 break;
             case "No":
-                $("#presentation-form .spouse-alx-head-start-final-expense-field").addClass("d-none");
-                $("#presentation-form .spouse-alx-head-start-final-expense-field input").attr("disabled", true);
+                $(
+                    "#presentation-form .spouse-alx-head-start-final-expense-field",
+                ).addClass("d-none");
+                $(
+                    "#presentation-form .spouse-alx-head-start-final-expense-field input",
+                ).attr("disabled", true);
                 break;
         }
     });
 
     // Region: Supplemental Health Radio Inputs
-    const accidentProtectorMaxRadio = $("input[name='accident-protector-max-radio']");
+    const accidentProtectorMaxRadio = $(
+        "input[name='accident-protector-max-radio']",
+    );
     const acbAccidentRadio = $("input[name='acb-accident-radio']");
-    const criticalIllnessProtectionRadio = $("input[name='critical-illness-protection']");
+    const criticalIllnessProtectionRadio = $(
+        "input[name='critical-illness-protection']",
+    );
     const cashCancerRadio = $("input[name='cash-cancer']");
     const cancerEnduranceRadio = $("input[name='cancer-endurance']");
     const intensiveCareRadio = $("input[name='intensive-care']");
@@ -507,7 +587,6 @@ export const presentationForm = () => {
         let target = $(e.target).data("visTarget");
         setVis(target, state);
     });
-
 
     // Begin Tab Events
     beginPresentationButton.on("click", (e) => {
@@ -572,13 +651,61 @@ export const presentationForm = () => {
 
     // Final Tab Shown events
     stepSevenPill.on("shown.bs.tab", (e) => {
-        console.log("Final tab shown");
         let formSnapshot = $("#presentation-form").serializeArray();
         let formObject = {};
         formSnapshot.forEach((field) => {
             formObject[field.name] = field.value;
         });
         console.log(formObject);
+        const supplementalFields = [
+            "accident-protector-max-radio",
+            "acb-accident-radio",
+            "critical-illness-protection",
+            "cash-cancer",
+            "cancer-endurance",
+            "intensive-care",
+        ];
+        let supplementalsBool = false;
+        
+        supplementalFields.forEach((field) => {
+            console.log(formObject[field]);
+            if (formObject[field] === "Yes") {
+                supplementalsBool = true;
+            }
+        });
+
+        if (supplementalsBool) {
+            $(".supplementals-yes").removeClass("d-none");
+        } else {
+            $(".supplementals-yes").addClass("d-none");
+        }
+
+        // If any Spouse coverage items are Yes, show spouse section
+        const spousalFields = [
+            "spouse-final-expense",
+            "spouse-income-protection",
+            "spouse-mortgage-protection",
+            "spouse-ce-protection",
+            "spouse-alx-final-expense",
+            "spouse-alx-head-start-final-expense",
+        ]
+        let spouseBool = false;
+
+        spousalFields.forEach((field) => {
+            console.log(formObject[field]);
+            if (formObject[field] === "Yes") {
+                spouseBool = true;
+            }
+        });
+
+        if (spouseBool) {
+            $(".spouse-inclusion").removeClass("d-none");
+        } else {
+            $(".spouse-inclusion").addClass("d-none");
+        }
+
+
+
     });
 };
 
@@ -674,9 +801,6 @@ const fieldsGroupToggle = (prefix, mode) => {
 
 const toggleSpouseFields = (prefix, mode) => {
     const isMarriedField = $("#presentation-form input[name='is-married']");
-    // console.log(
-    //     `attempting to toggle spouse fields for ${prefix}, isMarriedField: ${isMarriedField.val()}`,
-    // );
     if (isMarriedField.val() != 1) return;
     if (mode === "enabled") {
         $(`#spouse-${prefix}-row`).removeClass("d-none");
@@ -694,7 +818,12 @@ export const populatePresentationData = (data) => {
     $("#presentation-script-select").val(data.lead_type);
     $(".lead-first-name").text(firstName);
     $("input[name=lead-id]").val(data.id);
+    $("input[name=appointment-id]").val(data.appointment_id);
     $("input[name=is-married").val(data.is_married);
+    $("input[name=first-name]").val(firstName);
+    $("input[name=last-name]").val(lastName);
+    $("input[name=email]").val(data.email);
+    $("input[name=phone]").val(data.phone);
 
     modal.modal("show");
 };

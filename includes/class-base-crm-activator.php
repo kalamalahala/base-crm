@@ -44,6 +44,7 @@ class BaseCRM_Activator {
 		$leads_meta_table = BaseCRM_LEADS_META_TABLE;
 		$logs_table = BaseCRM_LOGS_TABLE;
 		$appointments_table = BaseCRM_APPOINTMENTS_TABLE;
+		$presentations_table = BaseCRM_PRESENTATIONS_TABLE;
 
 		if (!BaseCRM::table_exists($leads_table)) {
 			$leads_table_sql = "CREATE TABLE $leads_table (
@@ -78,6 +79,7 @@ class BaseCRM_Activator {
 				date_last_appointment datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
 				date_last_followup datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
 				date_last_disposition datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+				date_last_sale datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
 				number_of_referrals_to_date mediumint(9) DEFAULT 0 NOT NULL,
 				is_policyholder tinyint(1) DEFAULT 0 NOT NULL,
 				is_spouse_policyholder tinyint(1) DEFAULT 0 NOT NULL,
@@ -134,6 +136,20 @@ class BaseCRM_Activator {
 				) $charset_collate;";
 
 			dbDelta($appointments_table_sql);
+		}
+
+		if (!BaseCRM::table_exists($presentations_table)) {
+			$presentations_table_sql = "CREATE TABLE $presentations_table (
+				id mediumint(9) NOT NULL AUTO_INCREMENT,
+				created_at datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+				updated_at datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+				lead_id mediumint(9) DEFAULT NULL,
+				agent_id mediumint(9) DEFAULT NULL,
+				form_submission longtext DEFAULT '' NOT NULL,
+				PRIMARY KEY (id)
+				) $charset_collate;";
+
+			dbDelta($presentations_table_sql);
 		}
 
 		/**

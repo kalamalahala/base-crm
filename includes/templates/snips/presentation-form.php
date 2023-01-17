@@ -76,13 +76,18 @@ $scripts = $scripts->lead_types();
             <form id="presentation-form" class="presentation-form repeater" action="">
                 <!-- hidden variables -->
                 <input type="hidden" name="lead-id" value="0">
+                <input type="hidden" name="appointment-id" value="0">
                 <input type="hidden" name="is-married" value="0">
+                <input type="hidden" name="first-name" value="">
+                <input type="hidden" name="last-name" value="">
+                <input type="hidden" name="email" value="">
+                <input type="hidden" name="phone" value="">
                 <div class="tab-content">
                     <!-- Beginning Tab -->
                     <div class="tab-pane active" id="begin" role="tabpanel" aria-labelledby="begin-tab">
 
                         <div class="row">
-                            <div class="col">
+                            <div class="col script-text">
                                 <p>
                                     Build rapport!
                                 </p>
@@ -105,7 +110,12 @@ $scripts = $scripts->lead_types();
                                         <option selected value="0"><?php echo BaseCRM::i18n('Choose a script'); ?></option>
                                         <?php
                                         foreach ($scripts as $id => $name) {
-                                            echo '<option value="' . $id . '">' . $name . '</option>';
+                                            $allowed_script_ids = [
+                                                'cskr',
+                                                'cskw',
+                                            ];
+                                            $disabled = in_array($id, $allowed_script_ids) ? '' : 'disabled';
+                                            echo '<option value="' . $id . '" ' . $disabled . '>' . $name . '</option>';
                                         }
                                         ?>
                                     </select>
@@ -257,7 +267,7 @@ $scripts = $scripts->lead_types();
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col">
+                            <div class="col script-text">
                                 <p class="h5">Section Two (What are they working with?)</p>
                                 <p class="lead">
                                     The first question asks "Where are you currently employed?" In addition to that question it is good practice to ask:
@@ -1152,7 +1162,7 @@ $scripts = $scripts->lead_types();
                                 <p class="lead">
                                     As far as life insurance, there are four major reasons why families purchase coverage:
                                 </p>
-                                <ul>
+                                <ul class="script-text">
                                     <li>To cover their final expenses</li>
                                     <li>To protect their income</li>
                                     <li>To pay off their mortgage in the event of death</li>
@@ -1192,7 +1202,7 @@ $scripts = $scripts->lead_types();
                                     Okay <span class="lead-first-name">[client name]</span>, there are two parts to what you qualify for, the first
                                     part is the LIVING BENEFIT and the second part is Life Insurance. What we're going to cover now is the first part:
                                 </p>
-                                <ul>
+                                <ul class="supplemental-health-items">
                                     <li class="supplemental-health-irt-accident-protector-max coverage-item-accident-protector-max d-none">
                                         <p class="h5">Accident Protector Max</p>
                                         <p class="lead">
@@ -1201,7 +1211,7 @@ $scripts = $scripts->lead_types();
                                             the hospital or doctor. It pays you:
                                         </p>
                                         <p class="lead">
-                                        <ol>
+                                        <ol class="script-text">
                                             <li>$500 for an ER visit</li>
                                             <li>$1,000 if you end up hospitalized</li>
                                             <li>Up to $500 per day for up to 26 weeks for any one injury</li>
@@ -1279,7 +1289,7 @@ $scripts = $scripts->lead_types();
                                             if you get cancer. For example,
                                         </p>
                                         <p class="lead">
-                                        <ul>
+                                        <ul class="script-text">
                                             <li>Just for being diagnosed with cancer, the policy will pay you $10,000</li>
                                             <li>In addition to that, every time you have a chemo treatment you'll receive $500</li>
                                             <li>If you're confined to the hospital, the policy will pay you $750 per day for the first 90 days,
@@ -1479,7 +1489,8 @@ $scripts = $scripts->lead_types();
                             <p class="h5">Final Recap</p>
                             <p class="lead">
                                 We have your
-                            <ul class="coverage-items-selected">
+                            </p>
+                            <ul class="coverage-items-selected script-text">
                                 <li class="coverage-item-accident-protector-max d-none">
                                     <strong>Accident Pro Max</strong> plan that pays YOU if you go to the
                                     hospital or doctor for accidental injuries
@@ -1494,17 +1505,19 @@ $scripts = $scripts->lead_types();
                                 <li class="coverage-item-mortgage-proection d-none">Mortgage protected,</li>
                                 <li class="coverage-item-ce-protection d-none">(and) the ability for your kids to go to college covered as well.</li>
                             </ul>
-                            If it all makes sense, then starting today you've taken an important step to being properly protected.
-                            This plan is intended to meet your needs. My system shows that you have two options, and both options cover everything we just discussed.
-                            The difference between the two is that the first option includes inflation for Final Expense, and the second does not.
-                            <span class="lead-first-name">[client name]</span>, this will be the last thing I ask you to write down today,
-                            Option 1 is <span class="option-1-amount">$$$$</span>, and Option 2 is <span class="option-2-amount">$$$$</span>. <span class="script-reminder">
-                                Give them time to write, don't rush.
-                            </span> <strong>Which option works best for you?</strong>
+                            <p class="lead">
+                                If it all makes sense, then starting today you've taken an important step to being properly protected.
+                                This plan is intended to meet your needs. My system shows that you have two options, and both options cover everything we just discussed.
+                                The difference between the two is that the first option includes inflation for Final Expense, and the second does not.
+                                <span class="lead-first-name">[client name]</span>, this will be the last thing I ask you to write down today,
+                                Option 1 is <span class="option-1-amount">$$$$</span>, and Option 2 is <span class="option-2-amount">$$$$</span>. <span class="script-reminder">
+                                    Give them time to write, don't rush.
+                                </span> <strong>Which option works best for you?</strong>
                             </p>
                         </div>
                         <hr>
                         <div class="rebuttals-radio">
+                            <p class="h5">Rebuttals?</p>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="has-rebuttals" id="rebutalls-yes" value="Yes" data-vis-target="rebuttals-script-container">
                                 <label class="form-check-label" for="rebutalls-yes">
@@ -1533,6 +1546,7 @@ $scripts = $scripts->lead_types();
                         </div>
                         <hr>
                         <div class="down-closing-radio">
+                            <p class="h5">Down Closing</p>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="down-closing-radio" id="down-closing-yes" value="Yes" data-vis-target="down-closing-script-container">
                                 <label class="form-check-label" for="down-closing-yes">
@@ -1562,6 +1576,11 @@ $scripts = $scripts->lead_types();
                             <p class="lead"><span style="background-color:#FBF719;"><em><strong>(Determine what is realistic for the client and proceed to close)</strong></em></span></p>
                         </div>
                         <hr>
+                        <!-- Presentation Submit -->
+                        <div class="presentation-submit">
+                            <p class="h5">Presentation Submit</p>
+                            <button type="submit" class="btn btn-primary">Submit Presentation</button>
+                        </div>
                     </div>
                 </div>
             </form>

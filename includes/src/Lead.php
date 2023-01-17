@@ -48,7 +48,7 @@ class Lead implements LeadInterface
     private $table;
     private $meta_table;
 
-    private $errors = [];
+    public $errors = [];
 
     public function __construct($lead_id = null)
     {

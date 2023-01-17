@@ -63,6 +63,15 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
 
 @import 'flatpickr/dist/flatpickr.min.css';
 
+.lead {
+  font-size: 22px;
+  font-weight: 400;
+}
+
+.script-text {
+  font-size: 22px;
+  font-weight: 400;
+}
     
 main {
     display: flex;
@@ -124,4 +133,8 @@ main {
     font-style: italic;
     font-weight: bold;
     color: #3366FF;
+  }
+
+  .supplemental-health-items {
+    list-style: none;
   }

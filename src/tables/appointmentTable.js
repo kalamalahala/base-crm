@@ -1,4 +1,5 @@
 import _default from "@popperjs/core/lib/modifiers/popperOffsets";
+import { setLoadingOverlay } from "../utils/setLoadingOverlay";
 
 const $ = jQuery;
 
@@ -16,7 +17,6 @@ const dtUrlString =
     ajaxNonce;
 
 export const appointmentTable = () => {
-    console.log("appointmentTable");
     $("#appointment-table").DataTable({
         processing: true,
         serverSide: false,
@@ -54,7 +54,7 @@ export const appointmentTable = () => {
                             <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
                             <ul class="dropdown-menu">
                                 <li class="dropdown-header">Appointment Actions</li>
-                                <li><a class="dropdown-item base-crm-begin-presentation" href="#" data-id="${row.appointment_id}" data-lead-id="${row.lead_id}"><i class="fa-regular fa-paper-plane"></i> Begin Presentation</a></li>
+                                <li><a class="dropdown-item base-crm-begin-presentation" href="#" data-id="${row.appointment_id}" data-lead-id="${row.lead_id}" data-fn="${row.first_name}" data-ln="${row.last_name}" data-e="${row.email}" data-p="${row.phone}"><i class="fa-regular fa-paper-plane"></i> Begin Presentation</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item disabled base-crm-view-appointment" href="#" data-id="${row.appointment_id}" data-lead-id="${row.lead_id}"><i class="fa-regular fa-eye"></i> View</a></li>
                                 <li><a class="dropdown-item disabled base-crm-edit-appointment" href="#" data-id="${row.appointment_id}" data-lead-id="${row.lead_id}"><i class="fa-regular fa-pen-to-square"></i> Edit</a></li>` +
@@ -81,11 +81,11 @@ export const appointmentTable = () => {
 
     // remove loading overlay on dt.init
     $("#appointment-table").on("init.dt", function () {
-        $(".appointment-table-loading-overlay").addClass("d-none");
+        setLoadingOverlay("", false);
     });
 
     $("#appointment-table").on("draw.dt", function () {
-        $(".appointment-table-loading-overlay").addClass("d-none");
+        setLoadingOverlay("", false);
     });
 
     $("#dt-filter-toggle").on("change", function () {

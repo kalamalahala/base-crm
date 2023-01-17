@@ -72,35 +72,6 @@
                                                 </table>
                                             </div>
                                         </div>
-                                        <div class="row mt-3">
-                                            <div class="col">
-                                                <h3>Debug</h3>
-                                                <pre id="debug">
-                                                    <?php
-                                                     $lead = new Lead();
-                                                     $args = [
-                                                        'columns' => [
-                                                            'id',
-                                                            'updated_at',
-                                                            'first_name',
-                                                            'phone',
-                                                            'lead_disposition',
-                                                            'date_last_contacted',
-                                                        ],
-                                                        'order' => [
-                                                            'column_name' => 'updated_at',
-                                                            'direction' => 'desc'
-                                                        ],
-                                                        'search' => [
-                                                            'first_name' => 'Tyler'
-                                                        ]
-                                                        ];
-                                                     $debug = $lead->leads_datatable(null, $args);
-                                                     echo print_r($debug, true);
-                                                    ?>
-                                                </pre>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                                 <div class="tab-pane" id="create-lead" role="tabpanel" aria-labelledby="create-lead-tab">

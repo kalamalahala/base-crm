@@ -23,7 +23,12 @@ $lead_types = $lead->lead_types();
                                     <option selected>Select a Script</option>
                                     <?php
                                     foreach ($lead_types as $short => $long) {
-                                        echo "<option value='$short'>$long</option>";
+                                        $allowed_types = array(
+                                            'cskw',
+                                            'cskr'
+                                        );
+                                        $disabled = in_array($short, $allowed_types) ? '' : 'disabled';
+                                        echo "<option value='$short' $disabled>$long</option>";
                                     }
                                     ?>
                                 </select>

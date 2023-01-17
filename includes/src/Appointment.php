@@ -19,13 +19,18 @@ class Appointment implements AppointmentInterface
     public $appointment_status;
     public $appointment_notes;
 
+    public $appointments_table;
+    public $presentations_table;
+
     public function __construct($id = null)
     {
-        if (defined('BaseCRM_APPOINTMENTS_TABLE')) {
+        if (defined('BaseCRM_APPOINTMENTS_TABLE') && defined('BaseCRM_PRESENTATIONS_TABLE')) {
             $this->appointments_table = BaseCRM_APPOINTMENTS_TABLE;
+            $this->presentations_table = BaseCRM_PRESENTATIONS_TABLE;
         } else {
             global $wpdb;
             $this->appointments_table = $wpdb->prefix . 'base_crm_appointments';
+            $this->presentations_table = $wpdb->prefix . 'base_crm_presentations';
         }
 
         if ($id) {
@@ -201,13 +206,33 @@ class Appointment implements AppointmentInterface
             'created_at' => $this->datetime_now('Y-m-d H:i:s'),
             'updated_at' => $this->datetime_now('Y-m-d H:i:s'),
             'lead_id' => $lead_id,
-            'agent_id' => $lead->agent_id,
+            'agent_id' => $lead->assigned_to,
             'appointment_date' => date('Y-m-d'),
             'appointment_time' => date('H:i:s'),
             'appointment_type' => 'Call',
             'appointment_status' => 'Scheduled',
             'appointment_notes' => 'Call Lead',
         ));
+    }
+
+    public function submit_presentation($form_data) {
+        global $wpdb;
+        $appointments_table = $this->appointments_table;
+        $presentations_table = $this->presentations_table;
+
+        // Format the $_POST parameter into a JSON string
+        $form_submission = json_encode($form_data);
+        $insert = $wpdb->insert(
+            $presentations_table,
+            array(
+                'created_at' => $this->datetime_now('Y-m-d H:i:s'),
+                'updated_at' => $this->datetime_now('Y-m-d H:i:s'),
+                'lead_id' => $form_data['lead-id'],
+                'agent_id' => $form_data['agent_id'],
+                'appointment_id' => $form_data['appointment-id'],
+                'form_submission' => $form_submission,
+            )
+        );
     }
 
     /**

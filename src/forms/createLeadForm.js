@@ -167,6 +167,7 @@ const handleSubmit = (form) => {
         contentType: false,
         success: function (response) {
             console.log(response);
+            resetForm(form);
             successAlert.removeClass("d-none");
             successAlertText.text(response.message);
         },
@@ -238,4 +239,7 @@ const resetForm = (form) => {
     // reset containers
     hideAndDisable(spouseNameContainer);
     hideAndDisable(leadNotesContainer);
+
+    // focus first name field
+    $('#first-name-field').focus();
 };

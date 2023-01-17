@@ -55,6 +55,14 @@
             </div>
 
         </div>
+
+        <!-- Loading Overlay for #lead-table -->
+        <div class="lead-table-loading-overlay">
+            <div class="spinner-border text-primary" role="status">
+            </div>
+            &nbsp;
+            <span class="loading-text"><?php echo BaseCRM::i18n('Initializing...'); ?></span>
+        </div>
     </main>
 
 

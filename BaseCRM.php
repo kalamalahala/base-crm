@@ -45,6 +45,7 @@ define( 'BaseCRM_LEADS_TABLE', $prefix . 'base_crm_leads' );
 define( 'BaseCRM_LEADS_META_TABLE', $prefix . 'base_crm_leads_meta' );
 define( 'BaseCRM_LOGS_TABLE', $prefix . 'base_crm_logs' );
 define( 'BaseCRM_APPOINTMENTS_TABLE', $prefix . 'base_crm_appointments' );
+define( 'BaseCRM_PRESENTATIONS_TABLE', $prefix . 'base_crm_presentations' );
 
 
 /**

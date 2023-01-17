@@ -11,8 +11,6 @@ import { presentationForm } from "./forms/presentationForm";
 const $ = jQuery;
 const currentPage = base_crm.current_page;
 
-console.log(currentPage);
-
 $(document).ready(function () {
     const loadLeadTable = () => {
         if (currentPage === "/base/leads/") {
