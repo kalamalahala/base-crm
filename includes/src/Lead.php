@@ -174,16 +174,20 @@ class Lead implements LeadInterface
 
     public function processPost($post)
     {
+        $validation = $this->validatePost($post);
+        if ($validation !== true) {
+            wp_send_json(['success' => false, 'errors' => $validation]);
+        }
         $data_array['id'] = $post['id'] ?? 0;
         $data_array['created_at'] = $post['created_at'] ?? $this->datetime_now('Y-m-d H:i:s');
         $data_array['updated_at'] = $post['updated_at'] ?? $this->datetime_now('Y-m-d H:i:s');
         $data_array['assigned_to'] = $post['assigned_to'] ?? get_current_user_id();
         $data_array['assigned_by'] = $post['assigned_by'] ?? 0;
         $data_array['assigned_at'] = $post['assigned_at'] ?? $this->datetime_now('Y-m-d H:i:s');
-        $data_array['lead_status'] = $post['lead_status'] ?? 'new';
-        $data_array['lead_disposition'] = $post['lead_disposition'] ?? 'new';
-        $data_array['lead_type'] = $post['lead_type'] ?? $_POST['lead-type'] ?? 'new'; // front end form field name is lead-type
-        $data_array['lead_source'] = $post['lead_source'] ?? 'new';
+        $data_array['lead_status'] = $post['lead_status'] ?? 'New';
+        $data_array['lead_disposition'] = $post['lead_disposition'] ?? 'New';
+        $data_array['lead_type'] = $post['lead_type'] ?? $_POST['lead-type'] ?? 'New'; // front end form field name is lead-type
+        $data_array['lead_source'] = $post['lead_source'] ?? 'New';
         $data_array['lead_relationship'] = $post['lead_relationship'] ?? $_POST['lead-relationship'] ?? 'new'; // front end form field name is lead-relationship
         $data_array['lead_referred_by'] = $post['lead_referred_by'] ?? $_POST['lead-referred-by'] ?? 'new'; // front end form field name is lead-referred-by
         $data_array['first_name'] = $post['first_name'] ?? $_POST['first-name-field'] ?? ''; // front end form field name is first-name-field
@@ -218,7 +222,7 @@ class Lead implements LeadInterface
         } else {
             $this->id = $this->insertLead();                            // create new lead
             if ($data_array['lead_type'] === 'other') {                 // if lead type is other, create lead meta entry
-                $notes = $post['lead-notes'];                           // front end form field name is lead-notes
+                $notes = $post['lead-notes'] ?? $_POST['lead_notes'] ?? '';   // front end form field name is lead-notes
                 $this->addLeadMeta($this->id, 'lead_notes', $notes);    // add lead notes to lead meta table
             }
         }
@@ -518,6 +522,98 @@ class Lead implements LeadInterface
         $response['query'] = $query;
 
         return $response;
+    }
+
+    public function isValid($data) {
+        $errors = [];
+
+        if (empty($data['first_name'])) {
+            $errors['first_name'] = 'First Name is required';
+        }
+
+        if (empty($data['last_name'])) {
+            $errors['last_name'] = 'Last Name is required';
+        }
+
+        if (empty($data['phone'])) {
+            $errors['phone'] = 'Phone is required';
+        }
+
+        if (empty($data['email'])) {
+            $errors['email'] = 'Email is required';
+        }
+
+        if (empty($data['lead_type'])) {
+            $errors['lead_type'] = 'Lead Type is required';
+        }
+
+        if (empty($data['lead_status'])) {
+            $errors['lead_status'] = 'Lead Status is required';
+        }
+
+        if (empty($data['lead_disposition'])) {
+            $errors['lead_disposition'] = 'Lead Disposition is required';
+        }
+
+        if (empty($data['lead_source'])) {
+            $errors['lead_source'] = 'Lead Source is required';
+        }
+
+        if (empty($data['lead_notes'])) {
+            $errors['lead_notes'] = 'Lead Notes is required';
+        }
+
+        if (empty($data['assigned_to'])) {
+            $errors['assigned_to'] = 'Assigned To is required';
+        }
+
+        return $errors;
+    }
+
+    public function validatePost($data) {
+        $errors = [];
+
+        $first_name = $data['first_name'] ?? null;
+        $last_name = $data['last_name'] ?? null;
+        $phone = $data['phone'] ?? null;
+        $email = $data['email'] ?? null;
+        $lead_type = $data['lead_type'] ?? null;
+        $lead_status = $data['lead_status'] ?? null;
+        $lead_disposition = $data['lead_disposition'] ?? null;
+        $lead_source = $data['lead_source'] ?? null;
+        $lead_notes = $data['lead_notes'] ?? null;
+        $assigned_to = $data['assigned_to'] ?? null;
+
+        if (empty($phone) && empty($email)) {
+            $errors['phone'] = ($phone) ? '' : 'Phone is required if Email is empty';
+            $errors['email'] = ($email) ? '' : 'Email is required if Phone is empty';
+        }
+
+        if (!empty($email)) {
+            if (!$this->emailExists($email)) {
+                $errors['email'] = 'Email already exists';
+            }
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $errors['email'] = 'Email is not valid';
+            }
+        }
+
+        if (empty($errors)) {
+            return true;
+        }
+        
+        return $errors;
+    }
+
+    public function emailExists(string $email): bool {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL) || empty($email)) {
+            return false;
+        }
+
+        global $wpdb;
+        $query = "SELECT * FROM {$this->table} WHERE email = '{$email}'";
+        $result = $wpdb->get_results($query);
+        return (count($result) > 0) ? false : true;
     }
 
 

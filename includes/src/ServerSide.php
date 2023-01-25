@@ -33,12 +33,22 @@ interface AjaxInterface
     public function json_response($data, $status = 200);
 }
 
+/**
+ * WP REST API
+ * 
+ * @see https://developer.wordpress.org/rest-api/extending-the-rest-api/adding-custom-endpoints/
+ * @see https://developer.wordpress.org/rest-api/extending-the-rest-api/adding-custom-endpoints/#arguments
+ * @see https://developer.wordpress.org/rest-api/extending-the-rest-api/adding-custom-endpoints/#methods
+ * @see https://developer.wordpress.org/rest-api/extending-the-rest-api/adding-custom-endpoints/#routes
+ * @see https://developer.wordpress.org/rest-api/extending-the-rest-api/adding-custom-endpoints/#permissions-callback
+ * @see https://developer.wordpress.org/rest-api/extending-the-rest-api/adding-custom-endpoints/#schema
+ */
 interface RestInterface
 {
     public function __construct();
     public function get($endpoint, $params = []);
     public function post($endpoint, $params = []);
+    public function patch($endpoint, $params = []);
     public function put($endpoint, $params = []);
     public function delete($endpoint, $params = []);
-    public function request($method, $endpoint, $params = []);
 }
