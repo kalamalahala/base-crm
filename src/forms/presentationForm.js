@@ -5,7 +5,13 @@ import "jquery.repeater/jquery.repeater.min.js";
 import { visHandle } from "../utils/visHandler";
 import { scriptDollarAmount } from "../utils/scriptDollarAmount";
 import { presentationFormHandler } from "../utils/presentationFormHandler";
+import { parsePhoneNumberWithError, ParseError } from "libphonenumber-js";
+import { validatePhoneField } from "./createLeadForm";
+import * as EmailValidator from "email-validator";
 const $ = jQuery;
+const ajaxUrl = base_crm.ajax_url;
+const ajaxNonce = base_crm.ajax_nonce;
+const ajaxAction = base_crm.ajax_action;
 
 export const presentationForm = () => {
     const presentationFormElement = $("#presentation-form");
@@ -18,17 +24,22 @@ export const presentationForm = () => {
             const ln = $("input[name='last-name']").val();
             const ph = $("input[name='phone']").val();
             const em = $("input[name='email']").val();
+            const rc = $('.referral-count-num').text();
+
+            let ref = (rc > 0) ? 'y' : 'n';
 
             const params = {
                 fn: fn,
                 ln: ln,
                 ph: ph,
                 em: em,
+                ref: ref,
+                rc: (rc > 0) ? rc : null,
             };
 
             // redirect to: https://thejohnson.group/agent-portal/agent/reports/agent-wcn/?mode=create&cuid=null&agent_id=42215&redir=wcn with query string
             const baseUrl = new URL(
-                "https://thejohnson.group/agent-portal/agent/reports/agent-wcn/"
+                "https://thejohnson.group/agent-portal/agent/reports/agent-wcn/",
             );
             const extraParams = {
                 mode: "create",
@@ -46,30 +57,23 @@ export const presentationForm = () => {
 
             window.open(baseUrl, "_blank");
 
-
             // serialize form data into query string
             const formDataObject = $(this).serializeArray();
             presentationFormHandler(formDataObject);
             return;
-            const formDataQueryString = $.param(formDataObject);
+            // const formDataQueryString = $.param(formDataObject);
 
-            console.log('formDataObject', formDataObject);
-            console.log('formDataQueryString', formDataQueryString);
+            // console.log("formDataObject", formDataObject);
+            // console.log("formDataQueryString", formDataQueryString);
 
+            // // add all params and query string to url
+            // Object.keys(extraParams).forEach((key) => {
+            //     baseUrl.searchParams.append(key, extraParams[key]);
+            // });
+            // baseUrl.searchParams.append("data", formDataQueryString);
 
-            
-            // add all params and query string to url
-            Object.keys(extraParams).forEach((key) => {
-                baseUrl.searchParams.append(key, extraParams[key]);
-            });
-            baseUrl.searchParams.append('data', formDataQueryString);
-
-            window.open(baseUrl, "_blank");
-
+            // window.open(baseUrl, "_blank");
         }
-
-
-            
 
         return doSubmit;
     });
@@ -609,6 +613,166 @@ export const presentationForm = () => {
         Tab.getOrCreateInstance(stepTwoPill).show();
     });
 
+    $("#begin-needs-analysis-button").on("click", (e) => {
+        e.preventDefault();
+        Tab.getOrCreateInstance(stepThreePill).show();
+    });
+
+    // referral validation
+    // validate phone field
+    const phoneField = $('.referrals-form-container input[name="referral-phone"]');
+    const emailField = $('.referrals-form-container input[name="referral-email"]');
+    phoneField.on("change", function () {
+        let phone = phoneField.val();
+        let validate = validatePhoneField(phone);
+
+        if (validate instanceof ParseError) {
+            phoneField.addClass("is-invalid");
+            phoneField.removeClass("is-valid");
+
+            switch (validate.message) {
+                case "TOO_SHORT":
+                    phoneField
+                        .parent()
+                        .siblings(".invalid-feedback")
+                        .text("Phone number must be at least 10 digits.").show();
+                    break;
+                case "TOO_LONG":
+                    phoneField
+                        .parent()
+                        .siblings(".invalid-feedback")
+                        .text("Phone number must be no more than 15 digits.").show();
+                    break;
+                default:
+                    phoneField
+                        .parent()
+                        .siblings(".invalid-feedback")
+                        .text("Phone number is invalid.").show();
+                    break;
+            }
+        } else {
+            phoneField.removeClass("is-invalid");
+            phoneField.addClass("is-valid");
+            phoneField.parent().siblings(".invalid-feedback").text("").hide();
+
+            phoneField.val(validate);
+        }
+    });
+
+    // validate email field
+    emailField.on("change", function () {
+        let email = emailField.val();
+        let validate = EmailValidator.validate(email);
+
+        if (validate) {
+            emailField.removeClass("is-invalid");
+            emailField.addClass("is-valid");
+            emailField.parent().siblings(".invalid-feedback").text("").hide();
+        } else {
+            emailField.addClass("is-invalid");
+            emailField.removeClass("is-valid");
+            emailField.parent().siblings(".invalid-feedback").text("Entered email is invalid.").show();
+        }
+    });
+
+    $('.referrals-form-container button[type="button"]').on("click", (e) => {
+        e.preventDefault();
+
+        let phoneValid = phoneField.hasClass("is-valid");
+        let emailValid = emailField.hasClass("is-valid");
+
+        if (!phoneValid || !emailValid) {
+            return;
+        }
+
+        let referralsForm = $("#referrals-form");
+        let referralsFormContainer = $(".referrals-form-container");
+        let referralsFormButton = $(
+            '.referrals-form-container button[type="button"].btn-whos-next',
+        );
+        let referralsFormButtonText = referralsFormButton.text();
+
+        referralsFormContainer.find(".alert").addClass("d-none");
+
+        let referralFormData = referralsForm.serializeArray();
+        console.log(referralFormData);
+
+        let userId = referralFormData[0].value;
+        let leadId = referralFormData[1].value;
+        let appointmentId = referralFormData[2].value;
+        let referralFirstName = referralFormData[3].value;
+        let referralLastName = referralFormData[4].value;
+        let referralEmail = referralFormData[5].value;
+        let referralPhone = referralFormData[6].value;
+        let referralRelationship = referralFormData[7].value;
+
+        let currentReferralCount = $(".referral-count-num").text();
+
+        referralsFormButton.attr("disabled", true);
+        referralsFormButton.text("Adding Referral...");
+
+        // let successChance = ((Math.floor(Math.random() * 100) + 1) > 50) ? true : false;
+        // let alertId = (successChance) ? "referral-success" : "referral-error";
+
+        // let increment = (successChance) ? 1 : 0;
+
+        // setTimeout(() => {
+        //     referralsForm.trigger("reset");
+        //     $('.referral-count-num').text(parseInt(currentReferralCount) + increment);
+        //     referralsFormButton.text(referralsFormButtonText);
+        //     referralsFormButton.attr("disabled", false);
+        //     $('input[name="referral-first-name"]').focus();
+        //     $('.alert-first-name').text(referralFirstName);
+        //     $(`#${alertId}`).removeClass("d-none");
+        // }, 1000);
+
+        // okay now build the actual form submission ajax request
+        let submissionData = new FormData();
+        submissionData.append("user_id", userId);
+        submissionData.append("lead_id", leadId);
+        submissionData.append("appointment_id", appointmentId);
+        submissionData.append("referral_first_name", referralFirstName);
+        submissionData.append("referral_last_name", referralLastName);
+        submissionData.append("referral_email", referralEmail);
+        submissionData.append("referral_phone", referralPhone);
+        submissionData.append("referral_relationship", referralRelationship);
+        submissionData.append("action", ajaxAction);
+        submissionData.append("nonce", ajaxNonce);
+        submissionData.append("method", "add_referral");
+
+        $.ajax({
+            url: ajaxUrl,
+            type: "POST",
+            data: submissionData,
+            processData: false,
+            contentType: false,
+            success: (response) => {
+                console.log(response);
+                if (response.success) {
+                    referralsForm.trigger("reset");
+                    $(".referral-count-num").text(
+                        parseInt(currentReferralCount) + 1,
+                    );
+                    referralsFormButton.text(referralsFormButtonText);
+                    referralsFormButton.attr("disabled", false);
+                    $('input[name="referral-first-name"]').focus();
+                    $(".alert-first-name").text(referralFirstName);
+                    $("#referral-success").removeClass("d-none");
+                } else {
+                    referralsFormButton.text(referralsFormButtonText);
+                    referralsFormButton.attr("disabled", false);
+                    $("#referral-error").removeClass("d-none");
+                }
+            },
+            error: (error) => {
+                console.log(error);
+                referralsFormButton.text(referralsFormButtonText);
+                referralsFormButton.attr("disabled", false);
+                $("#referral-error").removeClass("d-none");
+            },
+        });
+    });
+
     // Clear danger class if a valid script is selected
     scriptSelect.on("change", (e) => {
         let selectedScript = scriptSelect.val();
@@ -666,7 +830,7 @@ export const presentationForm = () => {
             "intensive-care",
         ];
         let supplementalsBool = false;
-        
+
         supplementalFields.forEach((field) => {
             console.log(formObject[field]);
             if (formObject[field] === "Yes") {
@@ -688,7 +852,7 @@ export const presentationForm = () => {
             "spouse-ce-protection",
             "spouse-alx-final-expense",
             "spouse-alx-head-start-final-expense",
-        ]
+        ];
         let spouseBool = false;
 
         spousalFields.forEach((field) => {
@@ -703,9 +867,6 @@ export const presentationForm = () => {
         } else {
             $(".spouse-inclusion").addClass("d-none");
         }
-
-
-
     });
 };
 

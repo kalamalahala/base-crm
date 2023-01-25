@@ -64,13 +64,25 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
 @import 'flatpickr/dist/flatpickr.min.css';
 
 .lead {
-  font-size: 22px;
+  font-size: 32px;
   font-weight: 400;
 }
 
 .script-text {
-  font-size: 22px;
+  font-size: 32px;
   font-weight: 400;
+  color: #59667d;
+}
+
+.script-text h4 {
+  font-size: 40px;
+  font-weight: 600;
+}
+
+.script-text div.form-check {
+  font-size: 30px !important;
+  font-weight: 400;
+  color: #59667d;
 }
     
 main {
@@ -137,4 +149,11 @@ main {
 
   .supplemental-health-items {
     list-style: none;
+  }
+
+  .referrals-form-container {
+    padding: 20px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    border: 1px solid #dadada;
   }

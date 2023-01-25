@@ -19,7 +19,7 @@ $scripts = $scripts->lead_types();
 
 <!-- Modal -->
 <div class="modal fade" id="presentation-modal" tabindex="-1" role="dialog" aria-labelledby="presentation-modal-header" aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-fullscreen-xl-down modal-scrollable" role="document">
+    <div class="modal-dialog modal-fullscreen modal-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="presentation-modal-header">Presentation</h5>

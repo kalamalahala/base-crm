@@ -46,9 +46,9 @@ class AjaxHandler implements AjaxInterface
     /**
      * Inserts a lead via ajax request from the Create Lead Form
      *
-     * @return WP_JSON_Response die()
+     * @return void die()
      */
-    public function base_crm_create_lead()
+    public function base_crm_create_lead(): void
     {
         $lead = new Lead();
         $lead->processPost($_POST);
@@ -139,7 +139,7 @@ class AjaxHandler implements AjaxInterface
             $results['success'] = true;
             $results['message'] = "Appointment created successfully!";
         } else {
-            return $this->json_response($results);
+            $this->json_response($results);
         }
         $this->json_response($results);
     }
@@ -149,5 +149,60 @@ class AjaxHandler implements AjaxInterface
         $lead_id = $_POST['lead_id'] ?? $_GET['lead_id'] ?? null;
         $lead = new Lead($lead_id);
         $this->json_response($lead);        
+    }
+
+
+    public function add_referral()
+    {
+        /**
+         * POST data
+         * @var $user_id int
+         * @var $lead_id int
+         * @var $appointment_id int
+         * @var $string string
+         * @var $referral_last_name string
+         * @var $referral_phone string
+         * @var $referral_email string
+         * @var $referral_relationship string
+         */
+
+        // collect appointment type
+        // $appointment = new Appointment();
+        // $appointment_type = $appointment->getAppointmentByLeadId($_POST['lead_id'])->appointment_type;
+
+        // collect lead first name
+        $lead = new Lead($_POST['lead_id']);
+        $lead_first_name = $lead->first_name;
+        $appointment_type = $lead->lead_type;
+
+        $referral = new Lead();
+        $post_data = [
+            'assigned_to' => $_POST['user_id'],
+            'lead_type' => $appointment_type,
+            'lead_source' => 'Referral',
+            'first_name' => $_POST['referral_first_name'],
+            'last_name' => $_POST['referral_last_name'],
+            'phone' => $_POST['referral_phone'],
+            'email' => $_POST['referral_email'],
+            'lead_relationship' => $_POST['referral_relationship'],
+            'lead_referred_by' => $lead_first_name,
+        ];
+
+        $referral->processPost($post_data);
+
+        $response = [];
+
+        if ($referral->id) {
+            $response['success'] = true;
+            $response['message'] = "$referral->first_name $referral->last_name created successfully!";
+        } else {
+            $response['success'] = false;
+            $response['message'] = "There was a problem creating this entry, check the form details and try again.";
+            $response['errors'] = $referral->errors;
+        }
+
+        $status = $response['success'] ? 200 : 400;
+
+        $this->json_response($response, $status);
     }
 }

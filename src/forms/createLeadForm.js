@@ -184,7 +184,7 @@ const handleSubmit = (form) => {
     });
 };
 
-const validatePhoneField = (phone) => {
+export const validatePhoneField = (phone) => {
     try {
         let formParsedNumber = parsePhoneNumberWithError(phone, {
             defaultCountry: "US",

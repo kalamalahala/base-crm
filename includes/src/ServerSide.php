@@ -2,12 +2,14 @@
 
 namespace BaseCRM\ServerSide;
 
-require_once(plugin_dir_path( dirname( __FILE__ ) ) . 'src/Lead.php');
-require_once(plugin_dir_path( dirname( __FILE__ ) ) . 'src/Shortcodes.php');
-require_once(plugin_dir_path( dirname( __FILE__ ) ) . 'src/AjaxHandler.php');
-require_once(plugin_dir_path( dirname( __FILE__ ) ) . 'src/Appointment.php');
+require_once(plugin_dir_path(dirname(__FILE__)) . 'src/Lead.php');
+require_once(plugin_dir_path(dirname(__FILE__)) . 'src/Shortcodes.php');
+require_once(plugin_dir_path(dirname(__FILE__)) . 'src/AjaxHandler.php');
+require_once(plugin_dir_path(dirname(__FILE__)) . 'src/Appointment.php');
+require_once(plugin_dir_path(dirname(__FILE__)) . 'src/RestHandler.php');
 
-interface LeadInterface {
+interface LeadInterface
+{
     public function getLead($id): Lead;
     public function getLeads();
     public function createLead($data);
@@ -15,7 +17,8 @@ interface LeadInterface {
     public function deleteLead($id);
 }
 
-interface AppointmentInterface {
+interface AppointmentInterface
+{
     public function getAppointment($id): Appointment;
     public function getAppointments();
     public function createAppointment($data);
@@ -23,10 +26,19 @@ interface AppointmentInterface {
     public function deleteAppointment($id);
 }
 
-interface AjaxInterface {
+interface AjaxInterface
+{
     public function __construct();
     public function ajaxHandler();
     public function json_response($data, $status = 200);
 }
 
-?>
+interface RestInterface
+{
+    public function __construct();
+    public function get($endpoint, $params = []);
+    public function post($endpoint, $params = []);
+    public function put($endpoint, $params = []);
+    public function delete($endpoint, $params = []);
+    public function request($method, $endpoint, $params = []);
+}

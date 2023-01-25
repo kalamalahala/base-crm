@@ -17,6 +17,7 @@
 use BaseCRM\ServerSide\Lead;
 use BaseCRM\ServerSide\BaseCRM_Shortcodes;
 use BaseCRM\Ajax\AjaxHandler;
+use BaseCRM\Rest\RestHandler;
 
 /**
  * The core plugin class.
@@ -62,6 +63,10 @@ class BaseCRM {
 	 * @var      string    $version    The current version of the plugin.
 	 */
 	protected $version;
+
+	protected $shortcodes;
+	protected $ajax;
+	protected $rest;
 
 	/**
 	 * Define the core functionality of the plugin.
@@ -166,6 +171,7 @@ class BaseCRM {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 		
 		$this->ajax = new AjaxHandler();
+		$this->rest = new RestHandler();
 	}
 
 	/**
