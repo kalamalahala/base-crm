@@ -85,6 +85,8 @@ class RestHandler implements RestInterface
 
     public function insert_lead_from_vtp() {
 
+        error_log(print_r($_POST, true));
+
         $form_id = $_POST['form_id'] ?? null;
         if ($form_id == 2) {
             $form_data = array(
@@ -96,12 +98,12 @@ class RestHandler implements RestInterface
                 'lead_type' => 'other',
                 'lead-notes' => json_encode($_POST)
             );
-        } else if ($form_id == 13) {
+        } else if (!$form_id) {
             $form_data = array(
-                'first_name' => $_POST['1_3'] ?? null,
-                'last_name' => $_POST['1_6'] ?? null,
-                'email' => $_POST['44'] ?? null,
-                'phone' => $_POST['51'] ?? null,
+                'first_name' => $_POST['first_name'] ?? null,
+                'last_name' => $_POST['last_name'] ?? null,
+                'email' => $_POST['email'] ?? null,
+                'phone' => $_POST['phone'] ?? null,
                 'lead_source' => 'TJG WCN',
                 'lead_type' => 'other',
                 'lead-notes' => json_encode($_POST)

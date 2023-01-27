@@ -61,21 +61,8 @@ export const presentationForm = () => {
             const formDataObject = $(this).serializeArray();
             presentationFormHandler(formDataObject);
             return;
-            // const formDataQueryString = $.param(formDataObject);
-
-            // console.log("formDataObject", formDataObject);
-            // console.log("formDataQueryString", formDataQueryString);
-
-            // // add all params and query string to url
-            // Object.keys(extraParams).forEach((key) => {
-            //     baseUrl.searchParams.append(key, extraParams[key]);
-            // });
-            // baseUrl.searchParams.append("data", formDataQueryString);
-
-            // window.open(baseUrl, "_blank");
         }
-
-        return doSubmit;
+        return;
     });
     const beginPresentationButton = $("#presentation-script-select-button");
 
@@ -91,9 +78,6 @@ export const presentationForm = () => {
     });
 
     // hidden variable fields
-    const isMarriedField = $("#presentation-form input[name='is-married']");
-    const leadIdField = $("input[name='lead-id']");
-
     const beginPill = $("#begin-pill");
     const stepOnePill = $("#step-one-pill");
     const stepTwoPill = $("#step-two-pill");
@@ -131,6 +115,7 @@ export const presentationForm = () => {
     const planTypes = Array.from(planTypeRadio).map((radio) => {
         return radio.value;
     });
+
     planTypeRadio.on("change", (e) => {
         let selectedOption = e.target.value;
         let selectedPlanType = planTypes.find((planType) => {
@@ -679,9 +664,8 @@ export const presentationForm = () => {
         e.preventDefault();
 
         let phoneValid = phoneField.hasClass("is-valid");
-        let emailValid = emailField.hasClass("is-valid");
 
-        if (!phoneValid || !emailValid) {
+        if (!phoneValid) {
             return;
         }
 
@@ -702,7 +686,7 @@ export const presentationForm = () => {
         let appointmentId = referralFormData[2].value;
         let referralFirstName = referralFormData[3].value;
         let referralLastName = referralFormData[4].value;
-        let referralEmail = referralFormData[5].value;
+        let referralSpouseName = referralFormData[5].value;
         let referralPhone = referralFormData[6].value;
         let referralRelationship = referralFormData[7].value;
 
@@ -733,7 +717,7 @@ export const presentationForm = () => {
         submissionData.append("appointment_id", appointmentId);
         submissionData.append("referral_first_name", referralFirstName);
         submissionData.append("referral_last_name", referralLastName);
-        submissionData.append("referral_email", referralEmail);
+        submissionData.append("referral_spouse_name", referralSpouseName);
         submissionData.append("referral_phone", referralPhone);
         submissionData.append("referral_relationship", referralRelationship);
         submissionData.append("action", ajaxAction);

@@ -27,7 +27,8 @@ $lead_types = $lead->lead_types();
                                             'cskw',
                                             'cskr'
                                         );
-                                        $disabled = in_array($short, $allowed_types) ? '' : 'disabled';
+                                        $disabled = in_array($short, $allowed_types) ? true : 'disabled';
+                                        if ($disabled !== true) continue;
                                         echo "<option value='$short' $disabled>$long</option>";
                                     }
                                     ?>

@@ -120,7 +120,8 @@ $scripts = $scripts->lead_types();
                                                 'cskr',
                                                 'cskw',
                                             ];
-                                            $disabled = in_array($id, $allowed_script_ids) ? '' : 'disabled';
+                                            $disabled = in_array($id, $allowed_script_ids) ? true : 'disabled';
+                                            if ($disabled !== true) continue;
                                             echo '<option value="' . $id . '" ' . $disabled . '>' . $name . '</option>';
                                         }
                                         ?>
@@ -221,28 +222,6 @@ $scripts = $scripts->lead_types();
                                 </div>
                             </div>
                         </div>
-                        <button class="btn btn-primary btn-lg" id="begin-transition-button">Go to Transition <i class="fa-solid fa-arrow-right"></i></button>
-                    </div>
-                    <div class="tab-pane" id="step-two" role="tabpanel" aria-labelledby="step-two-tab">
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="28" aria-valuemin="0" aria-valuemax="100" style="width: 28%">2/7</div>
-                        </div>
-                        <hr>
-                        <div class="transition-script script-text">
-                            <p class="h1">Transition & Needs Analysis</p>
-                            <hr>
-                            <p class="lead mb-5">
-                                Now <span class="lead-first-name">[client name]</span>, as we discussed earlier, my company is very active in the community.
-                                In addition to protecting the children of our communities with programs like the child safe program, we also provide financial
-                                relief to those who qualify with our insurance products. The products we offer pay you or your family in the event of sickness,
-                                accident, or even death. Now <span class="lead-first-name">[client name]</span>, I'm not sure that you'll qualify for <strong>ANY</strong>
-                                of these products, but you have been approved for a FREE needs analysis and a NO-COST insurance policy. The policy will cover you and
-                                your spouse for $3,000 each, and each of your children for $1,000.
-                            </p>
-                            <p class="lead mb-5">
-                                Let's start with the needs analysis. <span class="script-reminder">(go to CE3)</span>
-                            </p>
-                        </div>
                         <div class="referrals-form-container mb-5"> <!-- Referrals Form -->
                             <div class="row">
                                 <div class="col">
@@ -266,13 +245,10 @@ $scripts = $scripts->lead_types();
                             </div>
                             <div class="row">
                                 <div class="col-6">
-                                    <div class="input-group has-validation mb-3">
+                                    <div class="input-group mb-3">
                                         <div class="form-floating">
-                                            <input type="text" name="referral-email" placeholder="Email Address" id="emailFloating" class="form-control" form="referrals-form">
-                                            <label for="emailFloating">Email</label>
-                                        </div>
-                                        <div class="invalid-feedback">
-                                            Enter a valid email address.
+                                            <input type="text" name="referral-spouse-name" placeholder="Spouse's Name" id="spouseNameFloating" class="form-control" form="referrals-form">
+                                            <label for="spouseNameFloating">Spouse's Name</label>
                                         </div>
                                     </div>
                                 </div>
@@ -283,7 +259,7 @@ $scripts = $scripts->lead_types();
                                             <label for="phoneFloating">Phone</label>
                                         </div>
                                         <div class="invalid-feedback">
-                                            Enter a vaid phone number.
+                                            Enter a valid phone number.
                                         </div>
                                     </div>
                                 </div>
@@ -294,6 +270,12 @@ $scripts = $scripts->lead_types();
                                     <div class="form-floating mb-3">
                                         <input type="text" name="relationship-to-referrer" placeholder="Relationship to Referrer" id="relationshipToReferrerFloating" class="form-control" form="referrals-form">
                                         <label for="relationshipToReferrerFloating">Relationship to Referrer</label>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-floating mb-3">
+                                            <textarea class="form-control" name="referral-notes" id="referralNotesFloating" style="height:100px;" placeholder="Notes"></textarea>
+                                            <label for="referralNotesFloating">Notes</label>
                                     </div>
                                 </div>
                                 <div class="col-6">
@@ -316,6 +298,29 @@ $scripts = $scripts->lead_types();
                             </div>
 
                         </div>
+                        <button class="btn btn-primary btn-lg" id="begin-transition-button">Go to Transition <i class="fa-solid fa-arrow-right"></i></button>
+                    </div>
+                    <div class="tab-pane" id="step-two" role="tabpanel" aria-labelledby="step-two-tab">
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="28" aria-valuemin="0" aria-valuemax="100" style="width: 28%">2/7</div>
+                        </div>
+                        <hr>
+                        <div class="transition-script script-text">
+                            <p class="h1">Transition & Needs Analysis</p>
+                            <hr>
+                            <p class="lead mb-5">
+                                Now <span class="lead-first-name">[client name]</span>, as we discussed earlier, my company is very active in the community.
+                                In addition to protecting the children of our communities with programs like the child safe program, we also provide financial
+                                relief to those who qualify with our insurance products. The products we offer pay you or your family in the event of sickness,
+                                accident, or even death. Now <span class="lead-first-name">[client name]</span>, I'm not sure that you'll qualify for <strong>ANY</strong>
+                                of these products, but you have been approved for a FREE needs analysis and a NO-COST insurance policy. The policy will cover you and
+                                your spouse for $3,000 each, and each of your children for $1,000.
+                            </p>
+                            <p class="lead mb-5">
+                                Let's start with the needs analysis. <span class="script-reminder">(go to CE3)</span>
+                            </p>
+                        </div>
+                       
                         <button class="btn btn-primary btn-lg" id="begin-needs-analysis-button">Go to Needs Analysis <i class="fa-solid fa-arrow-right"></i></button>
                     </div>
                     <div class="tab-pane" id="step-three" role="tabpanel" aria-labelledby="step-three-tab">
