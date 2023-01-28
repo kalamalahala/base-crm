@@ -31,11 +31,8 @@ $scripts = $scripts->lead_types();
             </div>
             <div class="modal-footer">
                 <button id="previous-button" class="btn btn-primary" disabled><i class="fa-solid fa-arrow-left"></i>&nbsp;Previous</button>
-                <button id="next-button" class="btn btn-primary">Next&nbsp;<i class="fa-solid fa-arrow-right"></i></button>
+                <button id="next-button" class="btn btn-primary" disabled>Next&nbsp;<i class="fa-solid fa-arrow-right"></i></button>
             </div>
         </div>
     </div>
 </div>
-
-
-

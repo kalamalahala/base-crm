@@ -43,14 +43,14 @@ $lead_types = $lead->lead_types();
                         <div class="col-12">
                             <p class="h4">Employed?</p>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="lead-is-employed" id="lead-is-employed-yes">
-                                <label class="form-check-label" for="is-employed-yes">
+                                <input class="form-check-input" type="radio" name="lead-is-employed" id="lead-is-employed-yes" value="Yes">
+                                <label class="form-check-label" for="lead-is-employed-yes">
                                     Yes
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="lead-is-employed" id="lead-is-employed-no" checked>
-                                <label class="form-check-label" for="is-employed-no">
+                                <input class="form-check-input" type="radio" name="lead-is-employed" id="lead-is-employed-no" value="No" checked>
+                                <label class="form-check-label" for="lead-is-employed-no">
                                     No
                                 </label>
                             </div>
@@ -71,13 +71,13 @@ $lead_types = $lead->lead_types();
                             <p class="h4">Rebuttals?</p>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="lead-has-rebuttals" id="lead-has-rebuttals-yes" value="Yes">
-                                <label class="form-check-label" for="has-rebuttals-yes">
+                                <label class="form-check-label" for="lead-has-rebuttals-yes">
                                     Yes
                                 </label>
                             </div>
                             <div class="form-check mb-3">
                                 <input type="radio" class="form-check-input" name="lead-has-rebuttals" id="lead-has-rebuttals-no" value="No" checked>
-                                <label class="form-check-label" for="has-rebuttals-no">
+                                <label class="form-check-label" for="lead-has-rebuttals-no">
                                     No
                                 </label>
                             </div>

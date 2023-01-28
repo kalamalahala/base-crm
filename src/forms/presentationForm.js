@@ -590,6 +590,7 @@ export const presentationForm = () => {
         }
         showScript(selectedScript, scriptSelectOptionArray);
         previousButton.attr("disabled", false);
+        nextButton.attr("disabled", false);
         Tab.getOrCreateInstance(stepOnePill).show();
     });
 

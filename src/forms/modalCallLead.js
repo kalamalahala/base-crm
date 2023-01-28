@@ -107,7 +107,7 @@ export const callLeadModalHandler = () => {
                 modal.modal("hide");
                 // open the call clinic in a new window, passing the form data
                 window.open(
-                    "https://thejohnson.group/agent-portal/agent/call-clinic/?" +
+                    "https://thejohnson.group/agent-portal/agent/call-clinic/?close_on_submit=true&" +
                         formData,
                     "_blank",
                 );
