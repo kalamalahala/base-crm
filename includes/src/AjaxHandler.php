@@ -205,4 +205,22 @@ class AjaxHandler implements AjaxInterface
 
         $this->json_response($response, $status);
     }
+
+    public function get_leads_for_admin()
+    {
+        $leads = new Lead();
+        $leads = $leads->getLeadsForAdmin();
+        $this->json_response($leads);
+    }
+
+    public function assign_leads() {
+        $leads = new Lead();
+        $lead_ids = $_POST['leads'];
+        // $lead_id_string = implode(',', $lead_ids);
+        // foreach ($lead_ids as $key => $lead_id) {
+        //     $lead_ids[$key] = (int) $lead_id;
+        // }
+        $leads = $leads->assignLeads($_POST['agent'], $lead_ids);
+        $this->json_response($leads);
+    }
 }

@@ -9,18 +9,21 @@
 
     $plugin_page_ids = BaseCRM::plugin_page_ids();
     extract($plugin_page_ids, EXTR_PREFIX_ALL, 'page');
+
+    $page_id = get_the_ID();
     
-    $home_active = $page_basecrm == get_the_ID() ? 'px-2 active' : 'px-0';
-    $leads_active = $page_basecrm_leads == get_the_ID() ? 'px-2 active' : 'px-0';
-    $appointments_active = $page_basecrm_appointments == get_the_ID() ? 'px-2 active' : 'px-0';
-    $logs_active = $page_basecrm_logs == get_the_ID() ? 'px-2 active' : 'px-0';
-    $settings_active = $page_basecrm_settings == get_the_ID() ? 'px-2 active' : 'px-0';
+    $home_active = $page_basecrm == $page_id ? 'px-2 active' : 'px-0';
+    $leads_active = $page_basecrm_leads == $page_id ? 'px-2 active' : 'px-0';
+    $appointments_active = $page_basecrm_appointments == $page_id ? 'px-2 active' : 'px-0';
+    $logs_active = $page_basecrm_logs == $page_id ? 'px-2 active' : 'px-0';
+    $settings_active = $page_basecrm_settings == $page_id ? 'px-2 active' : 'px-0';
 
     $disabled = current_user_can('administrator') ? '' : 'class="disabled"';
 
     if ($current_user->ID !== 0) {
         $agent_name = BaseCRM::agent_name($current_user->ID, 'full');
     } else {
+        wp_redirect(get_site_url() . '/login', 302, 'BaseCRM');
         $agent_name = 'Guest';
     }
 

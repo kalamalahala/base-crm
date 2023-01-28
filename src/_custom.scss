@@ -109,6 +109,7 @@ main {
 
   .main-content {
     max-width: -webkit-fill-available;
+    max-height: 100vh;
     overflow-y: scroll !important;
   }
 

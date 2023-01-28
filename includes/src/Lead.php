@@ -575,8 +575,8 @@ class Lead implements LeadInterface
 
         $first_name = $data['first_name'] ?? null;
         $last_name = $data['last_name'] ?? null;
-        $phone = $data['phone'] ?? null;
-        $email = $data['email'] ?? null;
+        $phone = $data['phone'] ?? $data['phone-field'] ?? null;
+        $email = $data['email'] ?? $data['email-field'] ?? null;
         $lead_type = $data['lead_type'] ?? null;
         $lead_status = $data['lead_status'] ?? null;
         $lead_disposition = $data['lead_disposition'] ?? null;
@@ -614,6 +614,67 @@ class Lead implements LeadInterface
         $query = "SELECT * FROM {$this->table} WHERE email = '{$email}'";
         $result = $wpdb->get_results($query);
         return (count($result) > 0) ? false : true;
+    }
+
+    public function getLeadsForAdmin() {
+        global $wpdb;
+        $wp_usermeta_table = $wpdb->prefix . 'usermeta';
+        $query = "SELECT l.id,
+            l.assigned_to,
+            l.first_name,
+            l.last_name,
+            l.phone,
+            l.email,
+            l.lead_type,
+            l.lead_source,
+            l.lead_disposition,
+            l.created_at,
+            l.updated_at,
+            (SELECT meta_value FROM {$wp_usermeta_table} WHERE user_id = l.assigned_to AND meta_key = 'first_name') AS assigned_to_first_name,
+            (SELECT meta_value FROM {$wp_usermeta_table} WHERE user_id = l.assigned_to AND meta_key = 'last_name') AS assigned_to_last_name
+            FROM {$this->table} l
+            ";
+        $result = $wpdb->get_results($query);
+        $response = [];
+        $response['result'] = $result;
+        $response['error'] = $wpdb->last_error;
+        $response['leads'] = array_map(function ($lead) {
+            return new Lead($lead->id);
+        }, $result);
+        $response['recordsTotal'] = count($result);
+        $response['recordsFiltered'] = count($result);
+        $response['draw'] = $_POST['draw'] ?? $_GET['draw'] ?? 1;
+        
+        return $response;
+    }
+
+    public function assignLeads($user_id, $lead_ids) {
+        
+        global $wpdb;
+        $updates = 0;
+        
+        foreach ($lead_ids as $lead_id) {
+            $query = "UPDATE {$this->table} SET assigned_to = {$user_id} WHERE id = {$lead_id}";
+            $result = $wpdb->query($query);
+            $updates += $result;
+        }
+
+        $query = $wpdb->last_query;
+        
+
+        if ($result > 0) {
+            $response['success'] = true;
+            $response['message'] = $result . ' Leads assigned successfully';
+        } else {
+            $response['success'] = true;
+            $response['message'] = 'No Leads assigned';
+        }
+
+        $response['error'] = $wpdb->last_error;
+        $response['query'] = $query;
+        $response['updates'] = $updates;
+
+        return $response;
     }
 
 

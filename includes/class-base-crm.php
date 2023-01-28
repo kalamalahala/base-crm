@@ -352,4 +352,16 @@ class BaseCRM {
 		return $name[$mode];
 	}
 
+	public static function get_all_user_names() {
+		$filter = ''; // get_option('basecrm_user_filter') todo: add filter option
+		
+		$users = get_users();
+		$user_names = array();
+		foreach ($users as $user) {
+			$user_names[$user->ID] = self::agent_name($user->ID, 'full'); // [user_id => user_name]
+		}
+
+		return $user_names;
+	}
+
 }

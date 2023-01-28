@@ -114,6 +114,7 @@ class BaseCRM_Public
 				'current_page' => $_SERVER['REQUEST_URI'],
 				'script_list' => $scripts,
 				'is_admin' => $is_admin,
+				'user_names' => $this->get_user_names(),
 			)
 		);
 	}
@@ -157,5 +158,21 @@ class BaseCRM_Public
 		} else {
 			show_admin_bar(true);
 		}
+	}
+
+	public function get_user_names() {
+		$filter = ''; // get_option('basecrm_user_filter') todo: add filter option
+		
+		$users = get_users();
+		$user_names = array();
+		foreach ($users as $user) {
+			if (isset($user->first_name) && isset($user->last_name)) {
+				$user_names[$user->ID] = $user->first_name . ' ' . $user->last_name;
+			} else {
+				$user_names[$user->ID] = $user->display_name;
+			}
+		}
+
+		return $user_names;
 	}
 }

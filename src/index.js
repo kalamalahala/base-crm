@@ -8,6 +8,7 @@ import { modalCreateLeadForm } from "./forms/modalCreateLeadForm";
 import { dtButtonListeners } from "./tables/dtButtonListeners";
 import { callLeadModalHandler } from "./forms/modalCallLead";
 import { presentationForm } from "./forms/presentationForm";
+import { adminTable } from "./tables/adminTable";
 const $ = jQuery;
 const currentPage = base_crm.current_page;
 
@@ -28,9 +29,18 @@ $(document).ready(function () {
         }
     };
 
+    const loadAdminTable = () => {
+        console.log('current page: ', currentPage);
+        if (currentPage === "/base/settings/") {
+            console.log("admin table");
+            adminTable();
+            dtButtonListeners();
+        }
+    };
+
     loadLeadTable();
     loadAppointmentTable();
+    loadAdminTable();
     modalCreateLeadForm();
     presentationForm();
-    
 });

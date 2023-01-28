@@ -14,13 +14,13 @@
 </head>
 <body>
 
-
-<main> <!-- full width and height container -->
+<main> <!-- full width and height container  -->
     <div class="base-sidebar container-fluid">
         <div class="row flex-nowrap">
             <?php echo BaseCRM::include_navbar(); ?>
             <div class="content col">
                 Logs
+               
             </div>
         </div>
         
