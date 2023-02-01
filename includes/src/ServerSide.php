@@ -7,6 +7,7 @@ require_once(plugin_dir_path(dirname(__FILE__)) . 'src/Shortcodes.php');
 require_once(plugin_dir_path(dirname(__FILE__)) . 'src/AjaxHandler.php');
 require_once(plugin_dir_path(dirname(__FILE__)) . 'src/Appointment.php');
 require_once(plugin_dir_path(dirname(__FILE__)) . 'src/RestHandler.php');
+require_once(plugin_dir_path(dirname(__FILE__)) . 'src/BaseEmailHandler.php');
 
 interface LeadInterface
 {
@@ -51,4 +52,9 @@ interface RestInterface
     public function patch($endpoint, $params = []);
     public function put($endpoint, $params = []);
     public function delete($endpoint, $params = []);
+}
+
+interface EmailInterface
+{
+    public function sendEmail();
 }

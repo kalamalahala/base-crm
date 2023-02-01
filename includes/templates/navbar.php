@@ -30,7 +30,7 @@
     
 ?>
 <?php echo BaseCRM::snip('modal-create-lead-form'); ?>
-<?php echo BaseCRM::snip('modal-call-lead'); ?>
+<?php echo BaseCRM::snip('modal-call-lead-vtp'); ?>
 <?php echo BaseCRM::snip('modal-presentation'); ?>
 <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark" id="plugin-navbar">
     <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">

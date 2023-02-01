@@ -62,7 +62,7 @@ export const dtButtonListeners = () => {
             has_children: $(this).data("has-children"),
             num_children: $(this).data("num-children"),
         };
-
+        
         populateScriptFields(data);
     });
 

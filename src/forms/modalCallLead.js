@@ -9,6 +9,7 @@ const scriptList = base_crm.script_list;
 const scriptListArray = Object.keys(scriptList);
 
 const modal = $("#modal-call-lead");
+const vtpModal = $("#modal-call-lead-vtp");
 const leadFirstNameSpan = $(".lead-first-name");
 const leadLastNameSpan = $(".lead-last-name");
 const leadRelationshipSpan = $(".lead-relationship");
@@ -29,9 +30,13 @@ const leadNumChildrenField = $("#lead-num-children");
 const leadIdField = $("#lead-id");
 const scriptSelect = $("#script-select");
 const rebuttalsRadio = modal.find('input[name="lead-has-rebuttals"]');
+const vtpRebuttalsRadio = vtpModal.find('input[name="lead-has-rebuttals"]');
 const marriedRadio = modal.find('input[name="lead-is-married"]');
+const vtpMarriedRadio = vtpModal.find('input[name="lead-is-married"]');
 const childrenRadio = modal.find('input[name="lead-has-children"]');
+const vtpChildrenRadio = vtpModal.find('input[name="lead-has-children"]');
 const employedRadio = modal.find('input[name="lead-is-employed"]');
+const vtpEmployedRadio = vtpModal.find('input[name="lead-is-employed"]');
 
 const submitButton = $("#call-lead-submit");
 const submitButtonHTML = submitButton.html();
@@ -71,6 +76,7 @@ export const callLeadModalHandler = () => {
 
     childrenRadio.on("change", function () {
         let hasChildren = $(this).val();
+        console.log(hasChildren);
         if (hasChildren === "Yes") {
             showChildrenFields();
         } else {
@@ -106,11 +112,12 @@ export const callLeadModalHandler = () => {
                 // close the modal
                 modal.modal("hide");
                 // open the call clinic in a new window, passing the form data
-                window.open(
-                    "https://thejohnson.group/agent-portal/agent/call-clinic/?close_on_submit=true&" +
-                        formData,
-                    "_blank",
-                );
+                // window.open(
+                //     "https://thejohnson.group/agent-portal/agent/call-clinic/?close_on_submit=true&" +
+                //         formData,
+                //     "_blank",
+                // );
+                alert("Call logged");
             },
             error: function (error) {
                 console.log(error);
@@ -123,7 +130,39 @@ export const callLeadModalHandler = () => {
         });
     });
 
-    $(document).on('shown.bs.modal', '#modal-call-lead', function () {
+    $("#send-client-registration-email").on("click", function (e) {
+        e.preventDefault();
+        let button = $(this);
+        let buttonHTML = button.html();
+        let formData = new FormData($(this).closest("form")[0]);
+        formData.append("action", ajaxAction);
+        formData.append("nonce", ajaxNonce);
+        formData.append("method", "send_client_registration_email");
+
+        // disable the button
+        button.prop("disabled", true);
+        button.html(
+            `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Sending Email...`,
+        );
+
+        aaTest(formData)
+            .then((response) => {
+                console.log(`promise error on 150 on then()`,response);
+                button.html(buttonHTML);
+            })
+            .catch((error) => {
+                console.log(`promise error, 154 catch()`, error);
+                button.removeClass("btn-primary");
+                button.addClass("btn-danger");
+                button.html(`<i class="fas fa-exclamation-triangle"></i> Error Sending Email, Try Again`);
+            })
+            .finally(() => {
+                // enable the button
+                button.prop("disabled", false);
+            });
+    });
+
+    $(document).on("shown.bs.modal", "#modal-call-lead", function () {
         // set the date picker
         const dateTimeField = $("#lead-appointment-date");
         console.log(dateTimeField);
@@ -143,7 +182,6 @@ export const callLeadModalHandler = () => {
 };
 
 export const populateScriptFields = (dataObject) => {
-    console.log(dataObject);
     leadIdField.val(dataObject.id);
     leadFirstNameSpan.text(dataObject.first_name);
     leadLastNameSpan.text(dataObject.last_name);
@@ -156,7 +194,15 @@ export const populateScriptFields = (dataObject) => {
     leadTypeField.val(dataObject.lead_type);
     leadSpouseFirstNameField.val(dataObject.spouse_first_name);
 
-    if (dataObject.num_children === null || dataObject.num_children === "" || dataObject.num_children === 0 || dataObject.num_children === "0" || dataObject.num_children === "null" || dataObject.num_children === "undefined" || dataObject.num_children === undefined) {
+    if (
+        dataObject.num_children === null ||
+        dataObject.num_children === "" ||
+        dataObject.num_children === 0 ||
+        dataObject.num_children === "0" ||
+        dataObject.num_children === "null" ||
+        dataObject.num_children === "undefined" ||
+        dataObject.num_children === undefined
+    ) {
         leadNumChildrenField.val(0);
     } else {
         leadNumChildrenField.val(dataObject.num_children);
@@ -186,7 +232,9 @@ export const populateScriptFields = (dataObject) => {
     }
 
     // select the script that matches the lead type
-    scriptSelect.val(dataObject.lead_type);
+    if (dataObject.lead_type) {
+        scriptSelect.val(dataObject.lead_type);
+    }
     showScriptHideOthers(dataObject.lead_type);
 
     if (dataObject.lead_type !== "cskw") {
@@ -194,7 +242,7 @@ export const populateScriptFields = (dataObject) => {
     }
     $(".rebuttals-question").removeClass("d-none");
 
-    $("#modal-call-lead").modal("show");
+    $("#modal-call-lead-vtp").modal("show");
 };
 
 /**
@@ -246,3 +294,26 @@ const hideChildrenFields = () => {
     $("#children-col-2").addClass("d-none");
     $("#children-col-2").find("input").prop("disabled", true);
 };
+
+async function aaTest(formData) {
+    try {
+        let results = '';
+        results = await $.ajax({
+            url: ajaxUrl,
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+        });
+
+        return results.json();
+        
+    }
+
+    catch (e) {
+        console.log('async 323');
+        console.log(e);
+        return e;
+    }
+
+}

@@ -148,17 +148,17 @@ class BaseCRM_Public
 		return $template;
 	}
 
-	public function remove_admin_bar()
-	{
-		$page_ids = BaseCRM::plugin_page_ids();
-		$is_page = is_page($page_ids);
+	// public function remove_admin_bar()
+	// {
+	// 	$page_ids = BaseCRM::plugin_page_ids();
+	// 	$is_page = is_page($page_ids);
 
-		if ($is_page) {
-			show_admin_bar(false);
-		} else {
-			show_admin_bar(true);
-		}
-	}
+	// 	if ($is_page) {
+	// 		show_admin_bar(false);
+	// 	} else {
+	// 		show_admin_bar(true);
+	// 	}
+	// }
 
 	public function get_user_names() {
 		$filter = ''; // get_option('basecrm_user_filter') todo: add filter option

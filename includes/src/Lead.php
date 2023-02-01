@@ -427,6 +427,7 @@ class Lead implements LeadInterface
             'pos' => 'POS',
             'opai' => 'OPAI',
             'other' => 'Other (See Notes)',
+            'vtp' => 'Virtual Tax Pro',
         ];
 
         return $array;
@@ -675,6 +676,14 @@ class Lead implements LeadInterface
         $response['updates'] = $updates;
 
         return $response;
+    }
+
+    public function getAssignedAgentPhone() {
+        $assigned_to = $this->assigned_to;
+        
+        // get 'agent_phone' meta key for this user ID
+        $agent_phone = get_user_meta($assigned_to, 'agent_phone', true);
+        return $agent_phone;
     }
 
 

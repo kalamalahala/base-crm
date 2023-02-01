@@ -5,6 +5,7 @@ namespace BaseCRM\Ajax;
 use BaseCRM\ServerSide\AjaxInterface;
 use BaseCRM\ServerSide\Lead;
 use BaseCRM\ServerSide\Appointment;
+use BaseCRM\ServerSide\BaseEmailHandler;
 
 class AjaxHandler implements AjaxInterface
 {
@@ -114,9 +115,9 @@ class AjaxHandler implements AjaxInterface
         $lead_id = $lead_id ?? $_POST['lead_id'] ?? $_GET['lead_id'] ?? null;
 
 
-        $lead = new Lead( $lead_id );
+        $lead = new Lead($lead_id);
         $lead_types = $lead->lead_types();
-        $lead_type = $lead_types[ $_POST['script-select'] ];
+        $lead_type = $lead_types[$_POST['script-select']];
         // $lead->updateLead($lead_id, array('lead_type' => $lead_type));
 
         // explode the date and time
@@ -148,7 +149,7 @@ class AjaxHandler implements AjaxInterface
     {
         $lead_id = $_POST['lead_id'] ?? $_GET['lead_id'] ?? null;
         $lead = new Lead($lead_id);
-        $this->json_response($lead);        
+        $this->json_response($lead);
     }
 
 
@@ -213,7 +214,8 @@ class AjaxHandler implements AjaxInterface
         $this->json_response($leads);
     }
 
-    public function assign_leads() {
+    public function assign_leads()
+    {
         $leads = new Lead();
         $lead_ids = $_POST['leads'];
         // $lead_id_string = implode(',', $lead_ids);
@@ -222,5 +224,70 @@ class AjaxHandler implements AjaxInterface
         // }
         $leads = $leads->assignLeads($_POST['agent'], $lead_ids);
         $this->json_response($leads);
+    }
+
+    public function send_client_registration_email()
+    {
+        // init lead object
+        $lead = new Lead($_POST['lead_id']);
+
+        // exit if no lead id
+        if (!$lead->id) {
+            $this->json_response(array('error' => 'Invalid lead id'), 400);
+        }
+
+        // get email addresses
+        $email_on_file = $lead->email;
+        $specified_email = $_POST['lead-email'] ?? null;
+
+        // if valid, update lead email if necessary, else return error
+        if ($email_on_file !== $specified_email) {
+            if (filter_var($lead->email, FILTER_VALIDATE_EMAIL) === false) {
+                $lead->updateLead($_POST['lead_id'], array('email' => $specified_email));
+            } else {
+                $this->json_response(array('error' => 'Invalid email address'), 400);
+            }
+        }
+
+        $agent_phone = $lead->getAssignedAgentPhone();
+
+        $email = new BaseEmailHandler();
+
+        $vtp_headers = array(
+            'Content-Type: text/html; charset=UTF-8',
+            'From: ' . get_bloginfo('name') . ' <' . get_bloginfo('admin_email') . '>',
+            'Reply-To: ' . get_bloginfo('name') . ' <' . get_bloginfo('admin_email') . '>',
+            'X-Mailer: PHP/' . phpversion(),
+            'Message-ID: <' . time() . '-' . get_bloginfo('admin_email') . '>' . "\r\n",
+        );
+
+        $body = <<<EMAIL
+        <div style="font-family: 'Poppins', sans-serif; font-size: 14pt; color: #222222;">
+            <p style="font-size: 16pt; font-weight: bold;">Welcome, $lead->first_name to Virtual Tax Pro!</p>
+            <p>Thank you for beginning your registration with Virtual Tax Pro. We are excited to work with you and look forward to providing you with the best tax preparation experience possible.</p>
+            <p>Below is a link to your client portal. Please click the link to create your account and upload your documents.</p>
+            <p><a href="https://vtp.thejohnson.group/client-registration/?base=$lead->id" target="_blank" title="Complete your Registration">Complete Your Registration Here</a></p>
+            <p>Once you have created your account, you will receive an email with a link to begin your Client Intake form. This form will help us gather the information we need to prepare your taxes.</p>
+            <p>If you have any questions, please contact your Tax Professional at <a href="tel:$agent_phone" target="_blank" title="Call or Text Your Tax Professional">&#128241; $agent_phone </a></p>
+            <p>Thank you,</p>
+            <p>Regards,
+            <img class="alignnone wp-image-2276" src="https://vtp.thejohnson.group/wp-content/uploads/2023/01/vtp_logo.png" alt="" width="106" height="69" />
+            <span style="font-size: 14px;">Email: <a href="info@vtp.thejohnson.group">info@vtp.thejohnson.group</a></span>
+            <span style="font-size: 14px;">Phone: <a href="tel:+13863013703">(386) 301-3703</a></span></p>
+        </div>
+        EMAIL;
+
+        $email->setHeaders($vtp_headers);
+        $email->setTo($lead->email);
+        $email->setSubject('Virtual Tax Pro Client Registration');
+        $email->setMessageBody($body);
+
+        $outgoing = $email->sendEmail();
+
+        if ($outgoing) {
+            $this->json_response(array('success' => true));
+        } else {
+            $this->json_response(array('error' => 'There was a problem sending the email'), 400);
+        }
     }
 }

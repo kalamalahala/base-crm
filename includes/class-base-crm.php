@@ -189,7 +189,7 @@ class BaseCRM {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 		$this->loader->add_action( 'template_include', $plugin_public, 'template_include' );
-		$this->loader->add_filter( 'show_admin_bar', $plugin_public, 'remove_admin_bar' );
+		// $this->loader->add_filter( 'show_admin_bar', $plugin_public, 'remove_admin_bar' );
 		
 		$this->ajax = new AjaxHandler();
 	}
