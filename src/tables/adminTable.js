@@ -65,8 +65,10 @@ export const adminTable = () => {
             },
             {
                 data: "assigned_to",
+                defaultContent: "Unassigned",
                 render: function (data, type, row, meta) {
-                    return base_crm.user_names[row.assigned_to];
+                    let assignedName = base_crm.user_names[row.assigned_to];
+                    return assignedName;
                 },
             },
             {

@@ -34,9 +34,9 @@ export const leadTable = () => {
                     return `${row.first_name} ${row.last_name}`;
                 },
             },
-            { data: "last_name" },
             { data: "phone" },
             { data: "lead_disposition" },
+            { data: "date_last_contacted" },
             {
                 data: "id",
                 render: function (data, type, row, meta) {
