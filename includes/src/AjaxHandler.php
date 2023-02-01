@@ -256,9 +256,7 @@ class AjaxHandler implements AjaxInterface
         $vtp_headers = array(
             'Content-Type: text/html; charset=UTF-8',
             'From: ' . get_bloginfo('name') . ' <' . get_bloginfo('admin_email') . '>',
-            'Reply-To: ' . get_bloginfo('name') . ' <' . get_bloginfo('admin_email') . '>',
-            'X-Mailer: PHP/' . phpversion(),
-            'Message-ID: <' . time() . '-' . get_bloginfo('admin_email') . '>' . "\r\n",
+            'Reply-To: ' . get_bloginfo('name') . ' <' . get_bloginfo('admin_email') . '>'
         );
 
         $body = <<<EMAIL
@@ -270,9 +268,9 @@ class AjaxHandler implements AjaxInterface
             <p>Once you have created your account, you will receive an email with a link to begin your Client Intake form. This form will help us gather the information we need to prepare your taxes.</p>
             <p>If you have any questions, please contact your Tax Professional at <a href="tel:$agent_phone" target="_blank" title="Call or Text Your Tax Professional">&#128241; $agent_phone </a></p>
             <p>Thank you,</p>
-            <p>Regards,
-            <img class="alignnone wp-image-2276" src="https://vtp.thejohnson.group/wp-content/uploads/2023/01/vtp_logo.png" alt="" width="106" height="69" />
-            <span style="font-size: 14px;">Email: <a href="info@vtp.thejohnson.group">info@vtp.thejohnson.group</a></span>
+            <p>Regards,</p>
+            <p><img class="alignnone wp-image-2276" src="https://vtp.thejohnson.group/wp-content/uploads/2023/01/vtp_logo.png" alt="" width="106" height="69" /><br/>
+            <span style="font-size: 14px;">Email: <a href="info@vtp.thejohnson.group">info@vtp.thejohnson.group</a></span><br/>
             <span style="font-size: 14px;">Phone: <a href="tel:+13863013703">(386) 301-3703</a></span></p>
         </div>
         EMAIL;

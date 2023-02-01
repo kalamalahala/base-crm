@@ -306,14 +306,14 @@ async function aaTest(formData) {
             contentType: false,
         });
 
-        return results.json();
+        return results;
         
     }
 
     catch (e) {
         console.log('async 323');
         console.log(e);
-        return e;
+        return false;
     }
 
 }
