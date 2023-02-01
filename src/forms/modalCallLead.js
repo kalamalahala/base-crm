@@ -148,17 +148,21 @@ export const callLeadModalHandler = () => {
         aaTest(formData)
             .then((response) => {
                 console.log(`promise error on 150 on then()`,response);
-                button.html(buttonHTML);
+                button.removeClass("btn-primary");
+                button.addClass("btn-success");
+                button.html(`<i class="fa-solid fa-check"></i> Email Sent!`);
             })
             .catch((error) => {
                 console.log(`promise error, 154 catch()`, error);
                 button.removeClass("btn-primary");
                 button.addClass("btn-danger");
-                button.html(`<i class="fas fa-exclamation-triangle"></i> Error Sending Email, Try Again`);
+                button.html(`<i class="fa-solid fa-exclamation-triangle"></i> Error Sending Email, Try Again`);
             })
             .finally(() => {
                 // enable the button
-                button.prop("disabled", false);
+                setTimeout(() => {
+                    button.prop("disabled", false);
+                }, 2000);
             });
     });
 

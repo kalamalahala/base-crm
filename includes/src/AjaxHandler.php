@@ -250,6 +250,9 @@ class AjaxHandler implements AjaxInterface
         }
 
         $agent_phone = $lead->getAssignedAgentPhone();
+        $tel_link = (!empty($agent_phone)) ?
+            `<p>If you have any questions, please contact your Tax Professional at <a href="tel:$agent_phone" target="_blank" title="Call or Text Your Tax Professional">&#128241; $agent_phone </a></p>` :
+            `<p>If you have any questions, please contact us as soon as possible by email or by phone.</p>`;
 
         $email = new BaseEmailHandler();
 
@@ -260,18 +263,17 @@ class AjaxHandler implements AjaxInterface
         );
 
         $body = <<<EMAIL
-        <div style="font-family: 'Poppins', sans-serif; font-size: 14pt; color: #222222;">
+        <div style="font-family: 'Poppins', sans-serif; font-size: 12pt; color: #222222;">
             <p style="font-size: 16pt; font-weight: bold;">Welcome, $lead->first_name to Virtual Tax Pro!</p>
-            <p>Thank you for beginning your registration with Virtual Tax Pro. We are excited to work with you and look forward to providing you with the best tax preparation experience possible.</p>
-            <p>Below is a link to your client portal. Please click the link to create your account and upload your documents.</p>
+            <p>Thank you for beginning your registration with Virtual Tax Pro. We are excited to work with you and look forward to providing you with the best tax preparation experience possible. Below is a link to your client portal. Please click the link to create your account and upload your documents.</p>
             <p><a href="https://vtp.thejohnson.group/client-registration/?base=$lead->id" target="_blank" title="Complete your Registration">Complete Your Registration Here</a></p>
             <p>Once you have created your account, you will receive an email with a link to begin your Client Intake form. This form will help us gather the information we need to prepare your taxes.</p>
-            <p>If you have any questions, please contact your Tax Professional at <a href="tel:$agent_phone" target="_blank" title="Call or Text Your Tax Professional">&#128241; $agent_phone </a></p>
+            <p>$tel_link</p>
             <p>Thank you,</p>
             <p>Regards,</p>
-            <p><img class="alignnone wp-image-2276" src="https://vtp.thejohnson.group/wp-content/uploads/2023/01/vtp_logo.png" alt="" width="106" height="69" /><br/>
-            <span style="font-size: 14px;">Email: <a href="info@vtp.thejohnson.group">info@vtp.thejohnson.group</a></span><br/>
-            <span style="font-size: 14px;">Phone: <a href="tel:+13863013703">(386) 301-3703</a></span></p>
+            <p><img class="alignnone wp-image-2276" src="https://vtp.thejohnson.group/wp-content/uploads/2023/01/vtp_logo.png" alt="" width="130" height="69" /><br/>
+            <span style="font-size: 10pt;">Email: <a href="info@vtp.thejohnson.group">info@vtp.thejohnson.group</a></span><br/>
+            <span style="font-size: 10pt;">Phone: <a href="tel:+13863013703">(386) 301-3703</a></span></p>
         </div>
         EMAIL;
 
