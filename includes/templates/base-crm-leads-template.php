@@ -62,8 +62,9 @@
                                                             <th><?php echo BaseCRM::i18n('Name'); ?></th> <!-- 2 -->
                                                             <th><?php echo BaseCRM::i18n('Phone'); ?></th> <!-- 3 -->
                                                             <th><?php echo BaseCRM::i18n('Disposition'); ?></th> <!-- 4 -->
-                                                            <th><?php echo BaseCRM::i18n('Last Contact'); ?></th> <!-- 5 -->
-                                                            <th><?php echo BaseCRM::i18n('Actions'); ?></th> <!-- 6 -->
+                                                            <th><?php echo BaseCRM::i18n('Lead Type'); ?></th> <!-- 5 -->
+                                                            <th><?php echo BaseCRM::i18n('Last Contact'); ?></th> <!-- 6 -->
+                                                            <th><?php echo BaseCRM::i18n('Actions'); ?></th> <!-- 7 -->
                                                         </tr>
                                                     </thead>
                                                     <tbody>

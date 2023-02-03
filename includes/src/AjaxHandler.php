@@ -226,6 +226,30 @@ class AjaxHandler implements AjaxInterface
         $this->json_response($leads);
     }
 
+    public function vtp_contact() {
+        $lead_id = $_POST['lead_id'] ?? $_GET['lead_id'] ?? null;
+        if (!$lead_id) {
+            $this->json_response(array('error' => 'Invalid lead id'), 400);
+        }
+
+        $lead = new Lead($lead_id);
+        $update_data = [
+            'date_last_contacted' => $lead->datetime_now('Y-m-d H:i:s'),
+            'lead_disposition' => 'VTP Contacted',
+            'lead_status' => 'Called',
+        ];
+        $update = $lead->wpdbUpdateLead($lead_id, $update_data);
+        // $disp = $lead->dispositionLead($lead_id, 'VTP Contact');
+        // $cont = $lead->updateProp('date_last_contacted', $lead->datetime_now('Y-m-d H:i:s'));
+
+        $error = $update ? false : true;
+
+        $this->json_response(array('success' => $error, 'lead' => $lead));
+    }
+
+
+
+
     public function send_client_registration_email()
     {
         // init lead object
@@ -242,11 +266,12 @@ class AjaxHandler implements AjaxInterface
 
         // if valid, update lead email if necessary, else return error
         if ($email_on_file !== $specified_email) {
-            if (filter_var($lead->email, FILTER_VALIDATE_EMAIL) === false) {
-                $lead->updateLead($_POST['lead_id'], array('email' => $specified_email));
-            } else {
-                $this->json_response(array('error' => 'Invalid email address'), 400);
-            }
+            // if (filter_var($specified_email, FILTER_VALIDATE_EMAIL) === false) {
+            //     $lead->updateLead($_POST['lead_id'], array('email' => $specified_email));
+            // } else {
+            //     $this->json_response(array('error' => 'Invalid email address'), 400);
+            // }
+            $lead->email = $specified_email;
         }
 
         $agent_phone = $lead->getAssignedAgentPhone();
@@ -264,11 +289,9 @@ class AjaxHandler implements AjaxInterface
 
         $body = <<<EMAIL
         <div style="font-family: 'Poppins', sans-serif; font-size: 12pt; color: #222222;">
-            <p style="font-size: 16pt; font-weight: bold;">Welcome, $lead->first_name to Virtual Tax Pro!</p>
-            <p>Thank you for beginning your registration with Virtual Tax Pro. We are excited to work with you and look forward to providing you with the best tax preparation experience possible. Below is a link to your client portal. Please click the link to create your account and upload your documents.</p>
+            <p style="font-weight: bold;">Hi $lead->first_name,</p>
+            <p>Thank you for choosing Virtual Tax Pro's to take care of your tax needs. Please click the link below to create your account and provide the necessary documentation to get your return completed quickly.</p>
             <p><a href="https://vtp.thejohnson.group/client-registration/?base=$lead->id" target="_blank" title="Complete your Registration">Complete Your Registration Here</a></p>
-            <p>Once you have created your account, you will receive an email with a link to begin your Client Intake form. This form will help us gather the information we need to prepare your taxes.</p>
-            <p>$tel_link</p>
             <p>Thank you,</p>
             <p>Regards,</p>
             <p><img class="alignnone wp-image-2276" src="https://vtp.thejohnson.group/wp-content/uploads/2023/01/vtp_logo.png" alt="" width="130" height="69" /><br/>

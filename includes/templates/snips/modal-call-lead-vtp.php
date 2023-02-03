@@ -15,26 +15,26 @@ $lead_types = $lead->lead_types();
             </div>
             <form action="" id="call-lead-form-vtp">
                 <div class="modal-body">
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-12">
                             <div class="input-group mb-3">
                                 <label for="script-select" class="input-group-text">Select Script</label>
                                 <select name="script-select" id="script-select" class="form-select">
                                     <option value="Select a Script" selected>Select a Script</option>
                                     <?php
-                                    foreach ($lead_types as $short => $long) {
-                                        $allowed_types = array(
-                                            'vtp', // just the one for now for testing
-                                        );
-                                        $disabled = in_array($short, $allowed_types) ? true : 'disabled';
-                                        if ($disabled !== true) continue;
-                                        echo "<option value='$short' $disabled>$long</option>";
-                                    }
+                                    // foreach ($lead_types as $short => $long) {
+                                    //     $allowed_types = array(
+                                    //         'vtp', // just the one for now for testing
+                                    //     );
+                                    //     $disabled = in_array($short, $allowed_types) ? true : 'disabled';
+                                    //     if ($disabled !== true) continue;
+                                    //     echo "<option value='$short' $disabled>$long</option>";
+                                    // }
                                     ?>
                                 </select>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <?php echo BaseCRM::snip('script-vtp'); ?>
                     <!-- Does the client have a job? Yes/No radio -->
                     <!-- <div class="row employment-question d-none">
@@ -54,15 +54,7 @@ $lead_types = $lead->lead_types();
                             </div>
                         </div>
                     </div> -->
-                    <!-- Conversation Notes Textarea -->
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="form-floating">
-                                <textarea name="conversation-notes" id="conversation-notes" class="form-control mb-3" style="height: 115px;"></textarea>
-                                <label for="conversation-notes">Conversation Notes</label>
-                            </div>
-                        </div>
-                    </div>
+                    
                     <!-- Rebuttals? Yes/No -->
                     <!-- <div class="row rebuttals-question d-none">
                         <div class="col-12">
@@ -83,7 +75,7 @@ $lead_types = $lead->lead_types();
                     </div> -->
                     <?php // echo BaseCRM::snip('script-rebuttals'); 
                     ?>
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-12">
                             <p class="lead">OK, this is what I'll do, I'll call you <span class="referral-text">(choose a day)</span> at <span class="referral-text">(choose a time)</span> <span class="script-reminder">Give two time options. For example, if the client wants to set for 5, ask if they'd like you to call betwen 5 & 5:30, or 5:30 & 6.</span></p>
                             <p class="lead">Do me a favor, grab a pen and paper <span class="script-reminder">(provide name, time, agent number & ask to repeat)</span></p>
@@ -91,8 +83,8 @@ $lead_types = $lead->lead_types();
                         </div>
                     </div>
                     <h4>Tie Down Information</h4>
-                    <hr>
-                    <div class="row mb-3">
+                    <hr> -->
+                    <!-- <div class="row mb-3">
                         <div class="col-12">
                             <p class="h4">What is your email address?</p>
                             <div class="input-group has-validation mb-3">
@@ -105,8 +97,8 @@ $lead_types = $lead->lead_types();
 
                             <button id="send-client-registration-email" class="btn btn-primary w-100"><i class="fa-solid fa-envelope"></i> Send Client Registration Email</button>
                         </div>
-                    </div>
-                    <div class="row mb-3">
+                    </div> -->
+                    <!-- <div class="row mb-3">
                         <div class="col-12" id="married-col">
                             <p class="h4">Is <span class="lead-first-name">name</span> married?</p>
                             <div class="form-check">
@@ -189,8 +181,8 @@ $lead_types = $lead->lead_types();
                                 <input type="text" class="form-control" name="lead-bank-name" id="lead-bank-name" placeholder="Bank Name" aria-label="Bank Name" aria-describedby="lead-bank-name">
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
+                    </div> -->
+                    <!-- <div class="row">
                         <div class="col">
                             <h4>Tie Down</h4>
                             <hr>
@@ -216,9 +208,9 @@ $lead_types = $lead->lead_types();
                                 Talk to you soon, have a great day!
                             </p>
                         </div>
-                    </div>
+                    </div> -->
 
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col">
                             <h4>Name and Phone Number</h4>
                             <hr>
@@ -245,7 +237,7 @@ $lead_types = $lead->lead_types();
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- <div class="row">
                         <div class="col">
                             <h4>Pick Appointment Time</h4>
@@ -263,7 +255,7 @@ $lead_types = $lead->lead_types();
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" id="call-lead-submit">Finish Call & Send Intake Form</button>
+                    <button type="submit" class="btn btn-primary" id="call-lead-submit">Finish Call</button>
                 </div>
                 <input type="hidden" name="ccid" value="base">
                 <input type="hidden" name="bid" value="base">

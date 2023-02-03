@@ -63,6 +63,10 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
 
 @import 'flatpickr/dist/flatpickr.min.css';
 
+#vtp-script-container {
+  font-family: 'Poppins', sans-serif;
+}
+
 .lead {
   font-size: 32px;
   font-weight: 400;

@@ -36,7 +36,21 @@ export const leadTable = () => {
             },
             { data: "phone" },
             { data: "lead_disposition" },
-            { data: "date_last_contacted" },
+            { data: "lead_type" },
+            {
+                data: "date_last_contacted_string",
+                // render: function (data, type, row, meta) {
+                //     if (
+                //         row.date_last_contacted == null ||
+                //         row.date_last_contacted == "" ||
+                //         row.date_last_contacted == "0000-00-00 00:00:00"
+                //     ) {
+                //         return "";
+                //     } else {
+                //         return row.date_last_contacted;
+                //     }
+                // },
+            },
             {
                 data: "id",
                 render: function (data, type, row, meta) {

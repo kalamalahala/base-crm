@@ -4,6 +4,7 @@ namespace BaseCRM\ServerSide;
 
 use BaseCRM\ServerSide\Appointment;
 use BaseCRM;
+use DateTime;
 use WP_User;
 
 class Lead implements LeadInterface
@@ -45,6 +46,8 @@ class Lead implements LeadInterface
     public $is_policyholder;
     public $is_spouse_policyholder;
 
+    public $date_last_contacted_string;
+
     private $table;
     private $meta_table;
 
@@ -77,6 +80,13 @@ class Lead implements LeadInterface
         $lead = $this->setLead($lead_array);
 
         return $lead;
+    }
+
+    public function updateProp($prop, $value)
+    {
+        $this->$prop = $value;
+
+        return $this->$prop;
     }
 
     private function setLead(array $data)
@@ -218,12 +228,12 @@ class Lead implements LeadInterface
         $this->setLead($data_array);                                    // set lead object properties
 
         if ($this->id) {
-            $this->updateLead($this->id, $data_array);                  // update lead object properties
+            $this->updateLead($this->id, $data_array);                       // update lead object properties
         } else {
-            $this->id = $this->insertLead();                            // create new lead
-            if ($data_array['lead_type'] === 'other') {                 // if lead type is other, create lead meta entry
-                $notes = $post['lead-notes'] ?? $_POST['lead_notes'] ?? '';   // front end form field name is lead-notes
-                $this->addLeadMeta($this->id, 'lead_notes', $notes);    // add lead notes to lead meta table
+            $this->id = $this->insertLead();                                // create new lead
+            $notes = $post['lead-notes'] ?? $_POST['lead_notes'] ?? null;   // front end form field name is lead-notes
+            if ($notes) {
+                $this->addLeadMeta($this->id, 'lead_notes', $notes);            // add lead notes to lead meta table
             }
         }
 
@@ -314,7 +324,27 @@ class Lead implements LeadInterface
 
         $response['leads'] = array_map(function ($lead) {
 
-            return new Lead($lead->id);
+            $lead_to_modify = new Lead($lead->id);
+
+            $last_contacted = $lead_to_modify->date_last_contacted;
+            if ($last_contacted && $last_contacted !== '0000-00-00 00:00:00') {
+                $now = new DateTime($this->datetime_now('Y-m-d H:i:s'));
+                $last_contacted = new DateTime($last_contacted);
+                $interval = $now->diff($last_contacted);
+
+                if ($interval->format('%a') == 0) {
+                    $lead_to_modify->date_last_contacted_string = 'Today';
+                } elseif ($interval->format('%a') == 1) {
+                    $lead_to_modify->date_last_contacted_string = 'Yesterday';
+                } else {
+                    $lead_to_modify->date_last_contacted_string = $interval->format('%a days ago');
+                }
+
+            } else {
+                $lead_to_modify->date_last_contacted_string = 'Never';
+            }
+
+            return $lead_to_modify;
         }, $leads);
 
         $response['recordsTotal'] = count($leads);
@@ -388,6 +418,20 @@ class Lead implements LeadInterface
     public function yeet()
     {
         return 'yeet';
+    }
+
+    public function wpdbUpdateLead($id, $data)
+    {
+        global $wpdb;
+        $update = $wpdb->update(
+            $this->table,
+            $data,
+            [
+                'id' => $id,
+            ]
+        );
+
+        return $update;
     }
 
     public function addLeadMeta($lead_id, $meta_key, $meta_value)

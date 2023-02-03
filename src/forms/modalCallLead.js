@@ -84,50 +84,103 @@ export const callLeadModalHandler = () => {
         }
     });
 
-    $("#call-lead-form").on("submit", function (e) {
+    $("#call-lead-form-vtp").on("submit", function (e) {
         e.preventDefault();
         let form = $(this);
-        let formData = form.serialize();
+        let button = $(this).find("button[type='submit']");
+        let currentText = button.html();
 
-        let formDataObject = new FormData(form[0]);
-        formDataObject.append("action", ajaxAction);
-        formDataObject.append("nonce", ajaxNonce);
-        formDataObject.append("method", "call_lead");
+        button.html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Logging...`);
+        button.prop("disabled", true);
 
-        // disable the submit button
-        submitButton.prop("disabled", true);
-        submitButton.html(
-            '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Scheduling Appointment...',
-        );
-
-        // send the form data to the server
+        // ajax call to update disposition and last contact date
         $.ajax({
             url: ajaxUrl,
             type: "POST",
-            data: formDataObject,
-            processData: false,
-            contentType: false,
+            data: {
+                action: ajaxAction,
+                nonce: ajaxNonce,
+                method: "vtp_contact",
+                lead_id: leadIdField.val(),
+            },
             success: function (response) {
                 console.log(response);
-                // close the modal
-                modal.modal("hide");
-                // open the call clinic in a new window, passing the form data
-                // window.open(
-                //     "https://thejohnson.group/agent-portal/agent/call-clinic/?close_on_submit=true&" +
-                //         formData,
-                //     "_blank",
-                // );
-                alert("Call logged");
             },
             error: function (error) {
                 console.log(error);
             },
             complete: function () {
-                // enable the submit button
-                submitButton.prop("disabled", false);
-                submitButton.html(submitButtonHTML);
-            },
+                // reset form jQuery
+                form.trigger("reset");
+                // reset form HTML
+                form[0].reset();
+
+                button.html(currentText);
+                button.prop("disabled", false);
+
+                // close the modal
+                vtpModal.modal("hide");
+            }
         });
+
+
+
+
+
+
+
+        // // reset form jQuery
+        // form.trigger("reset");
+        // // reset form HTML
+        // form[0].reset();
+
+        // // close the modal
+        // vtpModal.modal("hide");
+
+        // let form = $(this);
+        // let formData = form.serialize();
+
+        // let formDataObject = new FormData(form[0]);
+        // formDataObject.append("action", ajaxAction);
+        // formDataObject.append("nonce", ajaxNonce);
+        // formDataObject.append("method", "call_lead");
+
+        // // disable the submit button
+        // submitButton.prop("disabled", true);
+        // submitButton.html(
+        //     '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Scheduling Appointment...',
+        // );
+
+        // send the form data to the server
+        // $.ajax({
+        //     url: ajaxUrl,
+        //     type: "POST",
+        //     data: formDataObject,
+        //     processData: false,
+        //     contentType: false,
+        //     success: function (response) {
+        //         console.log(response);
+        //         // close the modal
+        //         modal.modal("hide");
+        //         // open the call clinic in a new window, passing the form data
+        //         // window.open(
+        //         //     "https://thejohnson.group/agent-portal/agent/call-clinic/?close_on_submit=true&" +
+        //         //         formData,
+        //         //     "_blank",
+        //         // );
+        //         alert("Call logged");
+        //     },
+        //     error: function (error) {
+        //         console.log(error);
+        //     },
+        //     complete: function () {
+        //         // enable the submit button
+        //         submitButton.prop("disabled", false);
+        //         submitButton.html(submitButtonHTML);
+        //     },
+        // });
+
+
     });
 
     $("#send-client-registration-email").on("click", function (e) {
@@ -198,6 +251,8 @@ export const populateScriptFields = (dataObject) => {
     leadTypeField.val(dataObject.lead_type);
     leadSpouseFirstNameField.val(dataObject.spouse_first_name);
 
+    console.log(dataObject.lead_type);
+
     if (
         dataObject.num_children === null ||
         dataObject.num_children === "" ||
@@ -239,12 +294,12 @@ export const populateScriptFields = (dataObject) => {
     if (dataObject.lead_type) {
         scriptSelect.val(dataObject.lead_type);
     }
-    showScriptHideOthers(dataObject.lead_type);
+    // showScriptHideOthers(dataObject.lead_type);
 
-    if (dataObject.lead_type !== "cskw") {
-        $(".employment-question").removeClass("d-none");
-    }
-    $(".rebuttals-question").removeClass("d-none");
+    // if (dataObject.lead_type !== "cskw") {
+    //     $(".employment-question").removeClass("d-none");
+    // }
+    // $(".rebuttals-question").removeClass("d-none");
 
     $("#modal-call-lead-vtp").modal("show");
 };

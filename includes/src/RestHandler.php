@@ -17,7 +17,8 @@ class RestHandler implements RestInterface
         add_action('rest_api_init', array($this, 'makeRoutes'));
     }
 
-    public function makeRoutes() {
+    public function makeRoutes()
+    {
         register_rest_route('basecrm/v1', '/leads/vtp', array(
             'methods' => 'POST',
             'callback' => array($this, 'insert_lead_from_vtp'),
@@ -27,25 +28,27 @@ class RestHandler implements RestInterface
         ));
     }
 
-    public function authorizeRest() {
-        $valid_sources = [
+    /**
+     * Attempt to authorize the REST API request
+     *
+     * @return boolean
+     */
+    public function authorizeRest(): bool
+    {
+        $valid_sources = [                                  // valid source urls
             'thejohnson.group'
         ];
-        
-        $source_url = $_POST['source_url'] ?? null;
-        if ($source_url === false) {
-            return false;
-        }
 
-        $valid_source = false;
-        foreach ($valid_sources as $valid_source) {
-            if (strpos($source_url, $valid_source) !== false) {
-                $valid_source = true;
-                break;
+        $source_url = $_POST['source_url'] ?? null;         // source url
+        if (!empty($source_url)) {                          // if source url is not empty
+            foreach ($valid_sources as $url) {              // loop through valid sources
+                if (strpos($source_url, $url) !== false) {  // if source url contains valid source
+                    return true;                            // return true
+                }
             }
         }
 
-        return $valid_source;
+        return false;                                       // return false
     }
 
     public function get($endpoint, $params = [])
@@ -72,7 +75,7 @@ class RestHandler implements RestInterface
     {
         // ...
     }
-    
+
     private function getLeads($params = [])
     {
         // ...
@@ -83,11 +86,15 @@ class RestHandler implements RestInterface
         // ...
     }
 
-    public function insert_lead_from_vtp() {
+    public function insert_lead_from_vtp()
+    {
 
+        error_log('insert_lead_from_vtp before creating form data array');
         error_log(print_r($_POST, true));
 
         $form_id = $_POST['form_id'] ?? null;
+        $form_data = [];
+
         if ($form_id == 2) {
             $form_data = array(
                 'first_name' => $_POST['1_3'] ?? null,
@@ -98,17 +105,28 @@ class RestHandler implements RestInterface
                 'lead_type' => 'other',
                 'lead-notes' => json_encode($_POST)
             );
-        } else if (!$form_id) {
+        } else if ($form_id == 13) {
             $form_data = array(
-                'first_name' => $_POST['first_name'] ?? null,
-                'last_name' => $_POST['last_name'] ?? null,
-                'email' => $_POST['email'] ?? null,
-                'phone' => $_POST['phone'] ?? null,
-                'lead_source' => 'TJG WCN',
-                'lead_type' => 'other',
-                'lead-notes' => json_encode($_POST)
+                'first_name' => $_POST['first_name'] ?? '',
+                'last_name' => $_POST['last_name'] ?? '',
+                'email' => $_POST['email'] ?? '',
+                'phone' => $_POST['phone'] ?? '',
+                'lead_source' => $_POST['lead_source'] ?? '',
+                'lead_type' => $_POST['lead_type'] ?? '',
+                'date_last_contacted' => $_POST['date_last_contacted'] ?? '',
+                'lead-notes' => json_encode($_POST['entry'])
             );
         }
+
+        if (empty($form_data)) {
+            return $this->json_response(array(
+                'status' => 'error',
+                'message' => 'No form data'
+            ), 400);
+        }
+
+        error_log('form data array only');
+        error_log(print_r($form_data, true));
 
         $lead = new Lead();
         $lead->processPost($form_data);
@@ -125,8 +143,6 @@ class RestHandler implements RestInterface
                 'message' => 'Lead not created'
             ), 400);
         }
-
-        
     }
 
     public function json_response($data, $status = 200)
