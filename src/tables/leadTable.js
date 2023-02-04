@@ -83,6 +83,7 @@ export const leadTable = () => {
                                 data-is-employed="${row.is_employed}"
                                 data-has-children="${row.has_children}"
                                 data-num-children="${row.num_children}"
+                                data-last-appointment="${row.date_last_appointment}"
                                 ><i class="fa-regular fa-paper-plane"></i> Begin Script - ${row.first_name}</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item disabled base-crm-view-lead" href="#" data-id="${row.id}"><i class="fa-regular fa-eye"></i> View</a></li>

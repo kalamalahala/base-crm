@@ -250,8 +250,29 @@ export const populateScriptFields = (dataObject) => {
     leadEmailField.val(dataObject.email);
     leadTypeField.val(dataObject.lead_type);
     leadSpouseFirstNameField.val(dataObject.spouse_first_name);
+    
+    let wcn_date = dataObject.wcn_date;
+    if (wcn_date === null || wcn_date === "" || wcn_date === "null" || wcn_date === "undefined" || wcn_date === undefined || wcn_date === "0000-00-00 00:00:00") {
+        wcn_date = "no record";
+    }
 
-    console.log(dataObject.lead_type);
+    let no_cost_policy = dataObject.lead_type;
+    let friendlyNames = {
+        "adp": "$3,000 Accidental Death Policy",
+        "csk": "Child Safe Kit",
+        "cskw": "Child Safe Kit",
+        "cskr": "Child Safe Kit",
+        "p750k": "$3,000 Accidental Death Policy",
+        "vtp": "$3,000 Accidental Death Policy (VTP)",
+    };
+
+    if (friendlyNames.hasOwnProperty(no_cost_policy)) {
+        no_cost_policy = friendlyNames[no_cost_policy];
+    }
+
+    $('.no-cost-policy').text(no_cost_policy);
+    $('.wcn-date').text(wcn_date);
+    // console.log(dataObject.lead_type);
 
     if (
         dataObject.num_children === null ||

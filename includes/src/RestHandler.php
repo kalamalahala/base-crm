@@ -114,6 +114,7 @@ class RestHandler implements RestInterface
                 'lead_source' => $_POST['lead_source'] ?? '',
                 'lead_type' => $_POST['lead_type'] ?? '',
                 'date_last_contacted' => $_POST['date_last_contacted'] ?? '',
+                'date_last_appointment' => $_POST['date_last_appointment'] ?? '',
                 'lead-notes' => json_encode($_POST['entry'])
             );
         }

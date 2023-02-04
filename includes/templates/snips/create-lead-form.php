@@ -83,7 +83,10 @@ $lead_types = $lead->lead_types();
                     foreach ($lead_types as $short => $long) {
                         $allowed_types = array(
                             'cskw',
-                            'cskr'
+                            'cskr',
+                            'adp',
+                            'other',
+                            'vtp'
                         );
                         $disabled = in_array($short, $allowed_types) ? true : 'disabled';
                         if ($disabled !== true) continue;

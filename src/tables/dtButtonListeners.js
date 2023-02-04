@@ -61,6 +61,7 @@ export const dtButtonListeners = () => {
             is_employed: $(this).data("is-employed"),
             has_children: $(this).data("has-children"),
             num_children: $(this).data("num-children"),
+            wcn_date: $(this).data("last-appointment"),
         };
         
         populateScriptFields(data);

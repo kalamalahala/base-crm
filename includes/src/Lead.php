@@ -344,6 +344,13 @@ class Lead implements LeadInterface
                 $lead_to_modify->date_last_contacted_string = 'Never';
             }
 
+            $last_appointment_date  = $lead_to_modify->date_last_appointment;
+            if ($last_appointment_date && $last_appointment_date !== '0000-00-00 00:00:00') {
+                $lead_to_modify->date_last_appointment = date('m/d/Y', strtotime($last_appointment_date));
+            } else {
+                $lead_to_modify->date_last_appointment = 'No Record';
+            }
+
             return $lead_to_modify;
         }, $leads);
 
