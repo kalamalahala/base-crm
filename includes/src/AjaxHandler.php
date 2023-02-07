@@ -226,7 +226,8 @@ class AjaxHandler implements AjaxInterface
         $this->json_response($leads);
     }
 
-    public function vtp_contact() {
+    public function vtp_contact()
+    {
         $lead_id = $_POST['lead_id'] ?? $_GET['lead_id'] ?? null;
         if (!$lead_id) {
             $this->json_response(array('error' => 'Invalid lead id'), 400);
@@ -311,6 +312,111 @@ class AjaxHandler implements AjaxInterface
             $this->json_response(array('success' => true));
         } else {
             $this->json_response(array('error' => 'There was a problem sending the email'), 400);
+        }
+    }
+
+    public function bulk_upload_leads()
+    {
+        // this is all built assuming this is a gravity forms export from
+        // wcn form id 13
+
+        // unstringify csvData
+        $csvData = json_decode(stripslashes($_POST['csvData']));
+        $leads_to_upload = array();
+        foreach ($csvData as $key => $row) {
+            $leads_to_upload[] = (array) $row;
+        }
+
+        // init lead object
+        $lead = new Lead();
+        $count = 0;
+        $data = array();
+        $errors = array();
+
+        // loop through csvData and insert each row
+        foreach ($leads_to_upload as $row) {
+            // build lead data array
+            $data['first_name'] = $row['Applicant Name (First)'];
+            $data['last_name'] = $row['Applicant Name (Last)'];
+            $data['email'] = $row['Client Email'];
+            $data['phone'] = $row['Client Phone Number'];
+            $data['date_last_appointment'] = $row['Entry Date'];
+            $data['date_last_contacted'] = $row['Entry Date'];
+            $data['lead_type'] = $row['Select Which No-Cost Offer Used'];
+            $data['lead_disposition'] = 'After Appointment';
+            $data['number_of_referrals_to_date'] = $row['Number of Referrals Collected'];
+            $data['assigned_to'] = 0;
+            $data['lead_notes'] = json_encode($row);
+
+            $sale = $row['Was there a Sale?'];
+            if ($sale === 'Yes') {
+                $data['has_bank_account'] = 'Yes';
+                $data['bank_account_type'] = 'Checking';
+                $data['bank_account_number'] = $row['Account Number'];
+                $data['bank_routing_number'] = $row['Routing Number'];
+                $data['bank_name'] = $row['Bank Name'];
+                $data['date_last_sale'] = $row['Entry Date'];
+            }
+            $data['lead_status'] = ($sale === 'Yes') ? 'Sold Policy' : 'Recent Appointment - No Sale';
+
+            // insert lead
+            $insert = $lead->processPost($data);
+
+            // if insert was successful, increment count
+            if (!is_array($insert)) {
+                $count++;
+            } else {
+                $error = array(
+                    'row' => $row,
+                    'error' => $insert
+                );
+                $errors[] = $error;
+            }
+        }
+
+        // return success message
+        $this->json_response(array('success' => true, 'count' => $count, 'errors' => $errors));
+    }
+
+    public function add_epic_referral() {
+        $lead = new Lead();
+
+        $first_name = (isset($_POST['referral-first-name'])) ? $_POST['referral-first-name'] : '';
+        $last_name = (isset($_POST['referral-last-name'])) ? $_POST['referral-last-name'] : '';
+        $email = (isset($_POST['referral-email'])) ? $_POST['referral-email'] : '';
+        $phone = (isset($_POST['referral-phone'])) ? $_POST['referral-phone'] : '';
+        $lead_type = 'Manual Entry';
+        $lead_disposition = '';
+        $lead_status = '';
+
+        $notes = array(
+            'address' => [
+                'street' => (isset($_POST['referral-street-address'])) ? $_POST['referral-street-address'] : '',
+                'city' => (isset($_POST['referral-city'])) ? $_POST['referral-city'] : '',
+                'state' => (isset($_POST['referral-state'])) ? $_POST['referral-state'] : '',
+                'zip' => (isset($_POST['referral-zip'])) ? $_POST['referral-zip'] : '',
+            ],
+            'dob' => (isset($_POST['referral-dob'])) ? $_POST['referral-dob'] : '',
+            'notes' => (isset($_POST['referral-notes'])) ? $_POST['referral-notes'] : '',
+        );
+
+        $data = array(
+            'first_name' => $first_name,
+            'last_name' => $last_name,
+            'email' => $email,
+            'phone' => $phone,
+            'lead_type' => $lead_type,
+            'lead_disposition' => $lead_disposition,
+            'lead_status' => $lead_status,
+            'lead_notes' => json_encode($notes),
+        );
+
+        $insert = $lead->processPost($data);
+
+        if (is_array($insert)) {
+            $this->json_response(array('error' => $insert), 400);
+        } else {
+            $this->json_response(array('success' => true, 'id' => $insert));
         }
     }
 }

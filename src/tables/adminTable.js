@@ -23,7 +23,6 @@ export const adminTable = () => {
             url: dtUrlString,
             type: "GET",
             dataSrc: function (json) {
-                console.log(base_crm.user_names);
                 return json.leads;
             },
         },

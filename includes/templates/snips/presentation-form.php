@@ -74,11 +74,11 @@ $scripts = $scripts->lead_types();
         <div class="col-12">
             <!-- Tab panes -->
             <!-- nested form inputs parent form element: referrals-form -->
-            <form action="" method="" id="referrals-form">
+           <!-- <form action="" method="" id="referrals-form">
                 <input type="hidden" name="user-id" value="<?php echo $user_id; ?>">
                 <input type="hidden" name="lead-id" value="0">
                 <input type="hidden" name="appointment-id" value="0">
-            </form>
+            </form> -->
             <form id="presentation-form" class="presentation-form repeater" action="">
                 <!-- hidden variables -->
                 <input type="hidden" name="lead-id" value="0">
@@ -222,7 +222,8 @@ $scripts = $scripts->lead_types();
                                 </div>
                             </div>
                         </div>
-                        <div class="referrals-form-container mb-5"> <!-- Referrals Form -->
+                        <!--
+                        <div class="referrals-form-container mb-5"> <!-- Referrals Form
                             <div class="row">
                                 <div class="col">
                                     <p class="h1">Collect Referrals <span class="badge bg-primary" id="referral-count"><span class="referral-count-num">0</span> <i class="fa-solid fa-user"></i></span></p>
@@ -266,7 +267,7 @@ $scripts = $scripts->lead_types();
                             </div>
                             <div class="row">
                                 <div class="col-6">
-                                    <!-- Relationship to Referrer Text -->
+                                    <!-- Relationship to Referrer Text
                                     <div class="form-floating mb-3">
                                         <input type="text" name="relationship-to-referrer" placeholder="Relationship to Referrer" id="relationshipToReferrerFloating" class="form-control" form="referrals-form">
                                         <label for="relationshipToReferrerFloating">Relationship to Referrer</label>
@@ -279,7 +280,7 @@ $scripts = $scripts->lead_types();
                                     </div>
                                 </div>
                                 <div class="col-6">
-                                    <!-- Submit #referrals-form -->
+                                    <!-- Submit #referrals-form
                                     <button type="button" class="btn btn-primary btn-lg btn-whos-next">Who's Next?</button>
                                 </div>
                             </div>
@@ -297,7 +298,7 @@ $scripts = $scripts->lead_types();
                                 </div>
                             </div>
 
-                        </div>
+                        </div> -->
                         <button class="btn btn-primary btn-lg" id="begin-transition-button">Go to Transition <i class="fa-solid fa-arrow-right"></i></button>
                     </div>
                     <div class="tab-pane" id="step-two" role="tabpanel" aria-labelledby="step-two-tab">

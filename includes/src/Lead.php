@@ -186,7 +186,7 @@ class Lead implements LeadInterface
     {
         $validation = $this->validatePost($post);
         if ($validation !== true) {
-            wp_send_json(['success' => false, 'errors' => $validation]);
+            return $validation;
         }
         $data_array['id'] = $post['id'] ?? 0;
         $data_array['created_at'] = $post['created_at'] ?? $this->datetime_now('Y-m-d H:i:s');
@@ -208,7 +208,7 @@ class Lead implements LeadInterface
         $data_array['is_employed'] = ($post['is-employed'] ?? $_POST['is-employed'] ?? 'No') === 'Yes' ? 1 : 0; // front end form field name is is-employed
         $data_array['has_children'] = ($post['has-children'] ?? $_POST['has-children'] ?? 'No') === 'Yes' ? 1 : 0; // front end form field name is has-children}
         $data_array['num_children'] = $post['num_children'] ?? $_POST['num-children-field'] ?? 0; // front end form field name is num-children-field
-        $data_array['has_bank_account'] = ($post['has-bank-account'] ?? $_POST['has-bank-account'] ?? 'No') === 'Yes' ? 1 : 0; // front end form field name is has-bank-account
+        $data_array['has_bank_account'] = ($post['has_bank_account'] ?? $post['has-bank-account'] ?? $_POST['has-bank-account'] ?? 'No') === 'Yes' ? 1 : 0; // front end form field name is has-bank-account
         $data_array['bank_account_type'] = $post['bank_account_type'] ?? $_POST['bank-account-type-field'] ?? ''; // front end form field name is bank-account-type-field
         $data_array['bank_name'] = $post['bank_name'] ?? $_POST['bank-name-field'] ?? ''; // front end form field name is bank-name-field
         $data_array['bank_account_number'] = $post['bank_account_number'] ?? $_POST['bank-account-number-field'] ?? ''; // front end form field name is bank-account-number-field
@@ -231,7 +231,7 @@ class Lead implements LeadInterface
             $this->updateLead($this->id, $data_array);                       // update lead object properties
         } else {
             $this->id = $this->insertLead();                                // create new lead
-            $notes = $post['lead-notes'] ?? $_POST['lead_notes'] ?? null;   // front end form field name is lead-notes
+            $notes = $post['lead_notes'] ?? $post['lead-notes'] ?? $_POST['lead_notes'] ?? null;   // front end form field name is lead-notes
             if ($notes) {
                 $this->addLeadMeta($this->id, 'lead_notes', $notes);            // add lead notes to lead meta table
             }

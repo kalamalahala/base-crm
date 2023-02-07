@@ -21,6 +21,7 @@
     "libphonenumber-js": "^1.10.15",
     "moment": "^2.29.4",
     "node-sass": "^8.0.0",
+    "papaparse": "^5.3.2",
     "postcss": "^8.4.20",
     "postcss-loader": "^7.0.2",
     "precss": "^4.0.0",

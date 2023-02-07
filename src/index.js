@@ -9,12 +9,14 @@ import { dtButtonListeners } from "./tables/dtButtonListeners";
 import { callLeadModalHandler } from "./forms/modalCallLead";
 import { presentationForm } from "./forms/presentationForm";
 import { adminTable } from "./tables/adminTable";
+import { bulkUpload } from "./forms/bulkUpload";
+import { referralsForm } from "./forms/referralsForm";
 const $ = jQuery;
 const currentPage = base_crm.current_page;
 
 $(document).ready(function () {
     const loadLeadTable = () => {
-        if (currentPage === "/base/leads/") {
+        if (currentPage.includes("/base/leads/")) {
             leadTable();
             callLeadModalHandler();
             createLeadForm();
@@ -23,18 +25,17 @@ $(document).ready(function () {
     };
 
     const loadAppointmentTable = () => {
-        if (currentPage === "/base/appointments/") {
+        if (currentPage.includes("/base/appointments/")) {
             appointmentTable();
             dtButtonListeners();
         }
     };
 
     const loadAdminTable = () => {
-        console.log('current page: ', currentPage);
-        if (currentPage === "/base/settings/") {
-            console.log("admin table");
+        if (currentPage.includes("/base/settings/")) {
             adminTable();
             dtButtonListeners();
+            bulkUpload();
         }
     };
 
@@ -43,4 +44,5 @@ $(document).ready(function () {
     loadAdminTable();
     modalCreateLeadForm();
     presentationForm();
+    referralsForm();
 });

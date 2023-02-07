@@ -604,159 +604,159 @@ export const presentationForm = () => {
         Tab.getOrCreateInstance(stepThreePill).show();
     });
 
-    // referral validation
-    // validate phone field
-    const phoneField = $('.referrals-form-container input[name="referral-phone"]');
-    const emailField = $('.referrals-form-container input[name="referral-email"]');
-    phoneField.on("change", function () {
-        let phone = phoneField.val();
-        let validate = validatePhoneField(phone);
+    // // referral validation
+    // // validate phone field
+    // const phoneField = $('.referrals-form-container input[name="referral-phone"]');
+    // const emailField = $('.referrals-form-container input[name="referral-email"]');
+    // phoneField.on("change", function () {
+    //     let phone = phoneField.val();
+    //     let validate = validatePhoneField(phone);
 
-        if (validate instanceof ParseError) {
-            phoneField.addClass("is-invalid");
-            phoneField.removeClass("is-valid");
+    //     if (validate instanceof ParseError) {
+    //         phoneField.addClass("is-invalid");
+    //         phoneField.removeClass("is-valid");
 
-            switch (validate.message) {
-                case "TOO_SHORT":
-                    phoneField
-                        .parent()
-                        .siblings(".invalid-feedback")
-                        .text("Phone number must be at least 10 digits.").show();
-                    break;
-                case "TOO_LONG":
-                    phoneField
-                        .parent()
-                        .siblings(".invalid-feedback")
-                        .text("Phone number must be no more than 15 digits.").show();
-                    break;
-                default:
-                    phoneField
-                        .parent()
-                        .siblings(".invalid-feedback")
-                        .text("Phone number is invalid.").show();
-                    break;
-            }
-        } else {
-            phoneField.removeClass("is-invalid");
-            phoneField.addClass("is-valid");
-            phoneField.parent().siblings(".invalid-feedback").text("").hide();
+    //         switch (validate.message) {
+    //             case "TOO_SHORT":
+    //                 phoneField
+    //                     .parent()
+    //                     .siblings(".invalid-feedback")
+    //                     .text("Phone number must be at least 10 digits.").show();
+    //                 break;
+    //             case "TOO_LONG":
+    //                 phoneField
+    //                     .parent()
+    //                     .siblings(".invalid-feedback")
+    //                     .text("Phone number must be no more than 15 digits.").show();
+    //                 break;
+    //             default:
+    //                 phoneField
+    //                     .parent()
+    //                     .siblings(".invalid-feedback")
+    //                     .text("Phone number is invalid.").show();
+    //                 break;
+    //         }
+    //     } else {
+    //         phoneField.removeClass("is-invalid");
+    //         phoneField.addClass("is-valid");
+    //         phoneField.parent().siblings(".invalid-feedback").text("").hide();
 
-            phoneField.val(validate);
-        }
-    });
+    //         phoneField.val(validate);
+    //     }
+    // });
 
-    // validate email field
-    emailField.on("change", function () {
-        let email = emailField.val();
-        let validate = EmailValidator.validate(email);
+    // // validate email field
+    // emailField.on("change", function () {
+    //     let email = emailField.val();
+    //     let validate = EmailValidator.validate(email);
 
-        if (validate) {
-            emailField.removeClass("is-invalid");
-            emailField.addClass("is-valid");
-            emailField.parent().siblings(".invalid-feedback").text("").hide();
-        } else {
-            emailField.addClass("is-invalid");
-            emailField.removeClass("is-valid");
-            emailField.parent().siblings(".invalid-feedback").text("Entered email is invalid.").show();
-        }
-    });
+    //     if (validate) {
+    //         emailField.removeClass("is-invalid");
+    //         emailField.addClass("is-valid");
+    //         emailField.parent().siblings(".invalid-feedback").text("").hide();
+    //     } else {
+    //         emailField.addClass("is-invalid");
+    //         emailField.removeClass("is-valid");
+    //         emailField.parent().siblings(".invalid-feedback").text("Entered email is invalid.").show();
+    //     }
+    // });
 
-    $('.referrals-form-container button[type="button"]').on("click", (e) => {
-        e.preventDefault();
+    // $('.referrals-form-container button[type="button"]').on("click", (e) => {
+    //     e.preventDefault();
 
-        let phoneValid = phoneField.hasClass("is-valid");
+    //     let phoneValid = phoneField.hasClass("is-valid");
 
-        if (!phoneValid) {
-            return;
-        }
+    //     if (!phoneValid) {
+    //         return;
+    //     }
 
-        let referralsForm = $("#referrals-form");
-        let referralsFormContainer = $(".referrals-form-container");
-        let referralsFormButton = $(
-            '.referrals-form-container button[type="button"].btn-whos-next',
-        );
-        let referralsFormButtonText = referralsFormButton.text();
+    //     let referralsForm = $("#referrals-form");
+    //     let referralsFormContainer = $(".referrals-form-container");
+    //     let referralsFormButton = $(
+    //         '.referrals-form-container button[type="button"].btn-whos-next',
+    //     );
+    //     let referralsFormButtonText = referralsFormButton.text();
 
-        referralsFormContainer.find(".alert").addClass("d-none");
+    //     referralsFormContainer.find(".alert").addClass("d-none");
 
-        let referralFormData = referralsForm.serializeArray();
-        console.log(referralFormData);
+    //     let referralFormData = referralsForm.serializeArray();
+    //     console.log(referralFormData);
 
-        let userId = referralFormData[0].value;
-        let leadId = referralFormData[1].value;
-        let appointmentId = referralFormData[2].value;
-        let referralFirstName = referralFormData[3].value;
-        let referralLastName = referralFormData[4].value;
-        let referralSpouseName = referralFormData[5].value;
-        let referralPhone = referralFormData[6].value;
-        let referralRelationship = referralFormData[7].value;
+    //     let userId = referralFormData[0].value;
+    //     let leadId = referralFormData[1].value;
+    //     let appointmentId = referralFormData[2].value;
+    //     let referralFirstName = referralFormData[3].value;
+    //     let referralLastName = referralFormData[4].value;
+    //     let referralSpouseName = referralFormData[5].value;
+    //     let referralPhone = referralFormData[6].value;
+    //     let referralRelationship = referralFormData[7].value;
 
-        let currentReferralCount = $(".referral-count-num").text();
+    //     let currentReferralCount = $(".referral-count-num").text();
 
-        referralsFormButton.attr("disabled", true);
-        referralsFormButton.text("Adding Referral...");
+    //     referralsFormButton.attr("disabled", true);
+    //     referralsFormButton.text("Adding Referral...");
 
-        // let successChance = ((Math.floor(Math.random() * 100) + 1) > 50) ? true : false;
-        // let alertId = (successChance) ? "referral-success" : "referral-error";
+    //     // let successChance = ((Math.floor(Math.random() * 100) + 1) > 50) ? true : false;
+    //     // let alertId = (successChance) ? "referral-success" : "referral-error";
 
-        // let increment = (successChance) ? 1 : 0;
+    //     // let increment = (successChance) ? 1 : 0;
 
-        // setTimeout(() => {
-        //     referralsForm.trigger("reset");
-        //     $('.referral-count-num').text(parseInt(currentReferralCount) + increment);
-        //     referralsFormButton.text(referralsFormButtonText);
-        //     referralsFormButton.attr("disabled", false);
-        //     $('input[name="referral-first-name"]').focus();
-        //     $('.alert-first-name').text(referralFirstName);
-        //     $(`#${alertId}`).removeClass("d-none");
-        // }, 1000);
+    //     // setTimeout(() => {
+    //     //     referralsForm.trigger("reset");
+    //     //     $('.referral-count-num').text(parseInt(currentReferralCount) + increment);
+    //     //     referralsFormButton.text(referralsFormButtonText);
+    //     //     referralsFormButton.attr("disabled", false);
+    //     //     $('input[name="referral-first-name"]').focus();
+    //     //     $('.alert-first-name').text(referralFirstName);
+    //     //     $(`#${alertId}`).removeClass("d-none");
+    //     // }, 1000);
 
-        // okay now build the actual form submission ajax request
-        let submissionData = new FormData();
-        submissionData.append("user_id", userId);
-        submissionData.append("lead_id", leadId);
-        submissionData.append("appointment_id", appointmentId);
-        submissionData.append("referral_first_name", referralFirstName);
-        submissionData.append("referral_last_name", referralLastName);
-        submissionData.append("referral_spouse_name", referralSpouseName);
-        submissionData.append("referral_phone", referralPhone);
-        submissionData.append("referral_relationship", referralRelationship);
-        submissionData.append("action", ajaxAction);
-        submissionData.append("nonce", ajaxNonce);
-        submissionData.append("method", "add_referral");
+    //     // okay now build the actual form submission ajax request
+    //     let submissionData = new FormData();
+    //     submissionData.append("user_id", userId);
+    //     submissionData.append("lead_id", leadId);
+    //     submissionData.append("appointment_id", appointmentId);
+    //     submissionData.append("referral_first_name", referralFirstName);
+    //     submissionData.append("referral_last_name", referralLastName);
+    //     submissionData.append("referral_spouse_name", referralSpouseName);
+    //     submissionData.append("referral_phone", referralPhone);
+    //     submissionData.append("referral_relationship", referralRelationship);
+    //     submissionData.append("action", ajaxAction);
+    //     submissionData.append("nonce", ajaxNonce);
+    //     submissionData.append("method", "add_referral");
 
-        $.ajax({
-            url: ajaxUrl,
-            type: "POST",
-            data: submissionData,
-            processData: false,
-            contentType: false,
-            success: (response) => {
-                console.log(response);
-                if (response.success) {
-                    referralsForm.trigger("reset");
-                    $(".referral-count-num").text(
-                        parseInt(currentReferralCount) + 1,
-                    );
-                    referralsFormButton.text(referralsFormButtonText);
-                    referralsFormButton.attr("disabled", false);
-                    $('input[name="referral-first-name"]').focus();
-                    $(".alert-first-name").text(referralFirstName);
-                    $("#referral-success").removeClass("d-none");
-                } else {
-                    referralsFormButton.text(referralsFormButtonText);
-                    referralsFormButton.attr("disabled", false);
-                    $("#referral-error").removeClass("d-none");
-                }
-            },
-            error: (error) => {
-                console.log(error);
-                referralsFormButton.text(referralsFormButtonText);
-                referralsFormButton.attr("disabled", false);
-                $("#referral-error").removeClass("d-none");
-            },
-        });
-    });
+    //     $.ajax({
+    //         url: ajaxUrl,
+    //         type: "POST",
+    //         data: submissionData,
+    //         processData: false,
+    //         contentType: false,
+    //         success: (response) => {
+    //             console.log(response);
+    //             if (response.success) {
+    //                 referralsForm.trigger("reset");
+    //                 $(".referral-count-num").text(
+    //                     parseInt(currentReferralCount) + 1,
+    //                 );
+    //                 referralsFormButton.text(referralsFormButtonText);
+    //                 referralsFormButton.attr("disabled", false);
+    //                 $('input[name="referral-first-name"]').focus();
+    //                 $(".alert-first-name").text(referralFirstName);
+    //                 $("#referral-success").removeClass("d-none");
+    //             } else {
+    //                 referralsFormButton.text(referralsFormButtonText);
+    //                 referralsFormButton.attr("disabled", false);
+    //                 $("#referral-error").removeClass("d-none");
+    //             }
+    //         },
+    //         error: (error) => {
+    //             console.log(error);
+    //             referralsFormButton.text(referralsFormButtonText);
+    //             referralsFormButton.attr("disabled", false);
+    //             $("#referral-error").removeClass("d-none");
+    //         },
+    //     });
+    // });
 
     // Clear danger class if a valid script is selected
     scriptSelect.on("change", (e) => {
