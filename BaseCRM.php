@@ -35,7 +35,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 0.0.1 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'BaseCRM_VERSION', '0.0.1' );
+const BaseCRM_VERSION = '0.5.5';
 define( 'BaseCRM_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'BaseCRM_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
@@ -52,7 +52,7 @@ define( 'BaseCRM_PRESENTATIONS_TABLE', $prefix . 'base_crm_presentations' );
  * The code that runs during plugin activation.
  * This action is documented in includes/class-base-crm-activator.php
  */
-function init_BaseCRM() {
+function init_BaseCRM(): void {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-base-crm-activator.php';
 	BaseCRM_Activator::activate();
 }
@@ -61,7 +61,7 @@ function init_BaseCRM() {
  * The code that runs during plugin deactivation.
  * This action is documented in includes/class-base-crm-deactivator.php
  */
-function deactivate_BaseCRM() {
+function deactivate_BaseCRM(): void {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-base-crm-deactivator.php';
 	BaseCRM_Deactivator::deactivate();
 }
@@ -84,7 +84,7 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-base-crm.php';
  *
  * @since    0.0.1
  */
-function run_BaseCRM() {
+function run_BaseCRM(): void {
 
 	$plugin = new BaseCRM();
 	$plugin->run();
