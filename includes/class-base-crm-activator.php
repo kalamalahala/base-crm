@@ -46,7 +46,7 @@ class BaseCRM_Activator {
 		$appointments_table = BaseCRM_APPOINTMENTS_TABLE;
 		$presentations_table = BaseCRM_PRESENTATIONS_TABLE;
 
-		if (!BaseCRM::table_exists($leads_table)) {
+		if (true) {
 			$leads_table_sql = "CREATE TABLE $leads_table (
 				id mediumint(9) NOT NULL AUTO_INCREMENT,
 				created_at datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,

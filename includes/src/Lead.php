@@ -360,6 +360,21 @@ class Lead implements LeadInterface
         return $update;
     }
 
+    public function toClient($id) {
+        global $wpdb;
+        $update = $wpdb->update(
+            $this->table,
+            [
+                'is_client' => 1,
+            ],
+            [
+                'id' => $id,
+            ]
+        );
+
+        return $update;
+    }
+
     public function deleteLead($id)
     {
         global $wpdb;

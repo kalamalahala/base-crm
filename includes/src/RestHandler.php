@@ -25,7 +25,30 @@ class RestHandler implements RestInterface
                 return $this->authorizeRest();
             }
         ));
+        // update lead id field 'is_client' to 1
+        register_rest_route('basecrm/v1', '/to_client/(?P<id>\d+)', array(
+            'methods' => 'GET',
+            'callback' => array($this, 'to_client'),
+            'permission_callback' => function () {
+                return $this->authorizeRest();
+            }
+        ));
     }
+
+    public function to_client($id): void {
+        $id = $id['id'] ?? null;
+        if (!$id) {
+            echo 'no id';
+
+        }
+
+        $lead = new Lead();
+        $lead->toClient($id);
+
+        echo "Success: $id";
+
+    }
+
 
     public function authorizeRest() {
         $valid_sources = [
