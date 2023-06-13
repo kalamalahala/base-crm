@@ -259,13 +259,15 @@ class BaseCRM {
 		$basecrm_appointments_page = get_option('basecrm_appointments_page_id');
 		$basecrm_logs_page = get_option('basecrm_logs_page_id');
 		$basecrm_settings_page = get_option('basecrm_settings_page_id');
+        $basecrm_clients_page = get_option('basecrm_clients_page_id');
 
 		return [
 			'basecrm' => $basecrm_page,
 			'basecrm_leads' => $basecrm_leads_page,
 			'basecrm_appointments' => $basecrm_appointments_page,
 			'basecrm_logs' => $basecrm_logs_page,
-			'basecrm_settings' => $basecrm_settings_page
+			'basecrm_settings' => $basecrm_settings_page,
+            'basecrm_clients' => $basecrm_clients_page,
 		];
 	}
 

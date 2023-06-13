@@ -38,9 +38,10 @@ export const presentationForm = () => {
             };
 
             // redirect to: https://thejohnson.group/agent-portal/agent/reports/agent-wcn/?mode=create&cuid=null&agent_id=42215&redir=wcn with query string
-            const baseUrl = new URL(
-                "https://thejohnson.group/agent-portal/agent/reports/agent-wcn/",
-            );
+            // const baseUrl = new URL(
+            //     "https://thejohnson.group/agent-portal/agent/reports/agent-wcn/",
+            // );
+            const newUrl = new URL("https://thejohnson.group/agent-portal/needs-analysis-questionnarie/");
             const extraParams = {
                 mode: "create",
                 cuid: "null",
@@ -48,14 +49,15 @@ export const presentationForm = () => {
             };
 
             Object.keys(params).forEach((key) => {
-                baseUrl.searchParams.append(key, params[key]);
+                newUrl.searchParams.append(key, params[key]);
             });
 
             Object.keys(extraParams).forEach((key) => {
-                baseUrl.searchParams.append(key, extraParams[key]);
+                newUrl.searchParams.append(key, extraParams[key]);
             });
 
-            window.open(baseUrl, "_blank");
+            window.open(newUrl, "_blank");
+
 
             // serialize form data into query string
             const formDataObject = $(this).serializeArray();
@@ -682,14 +684,14 @@ export const presentationForm = () => {
         let referralFormData = referralsForm.serializeArray();
         console.log(referralFormData);
 
-        let userId = referralFormData[0].value;
-        let leadId = referralFormData[1].value;
-        let appointmentId = referralFormData[2].value;
-        let referralFirstName = referralFormData[3].value;
-        let referralLastName = referralFormData[4].value;
-        let referralSpouseName = referralFormData[5].value;
-        let referralPhone = referralFormData[6].value;
-        let referralRelationship = referralFormData[7].value;
+        let referralFirstName = referralFormData[0].value;
+        let referralLastName = referralFormData[1].value;
+        let referralSpouseName = referralFormData[2].value;
+        let referralPhone = referralFormData[3].value;
+        let referralRelationship = referralFormData[4].value;
+        let userId = referralFormData[5].value;
+        let leadId = referralFormData[6].value;
+        let appointmentId = referralFormData[7].value;
 
         let currentReferralCount = $(".referral-count-num").text();
 

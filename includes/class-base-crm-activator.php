@@ -83,6 +83,7 @@ class BaseCRM_Activator {
 				number_of_referrals_to_date mediumint(9) DEFAULT 0 NOT NULL,
 				is_policyholder tinyint(1) DEFAULT 0 NOT NULL,
 				is_spouse_policyholder tinyint(1) DEFAULT 0 NOT NULL,
+				is_client tinyint(1) DEFAULT 0 NOT NULL,
 				PRIMARY KEY (id)
 				) $charset_collate;";
 
@@ -212,12 +213,23 @@ class BaseCRM_Activator {
 			'post_parent' => $base_page_id
 		]);
 
+        $clients_page_id = wp_insert_post([
+            'post_title' => 'Clients',
+            'post_name' => 'clients',
+            'post_type' => 'page',
+            'post_status' => 'publish',
+            'post_content' => '[basecrm_clients]',
+            'post_author' => 1,
+            'post_parent' => $base_page_id
+        ]);
+
 		// Store page IDs in options table
 		update_option('basecrm_page_id', $base_page_id);
 		update_option('basecrm_leads_page_id', $leads_page_id);
 		update_option('basecrm_appointments_page_id', $appointments_page_id);
 		update_option('basecrm_logs_page_id', $logs_page_id);
 		update_option('basecrm_settings_page_id', $settings_page_id);
+        update_option('basecrm_clients_page_id', $clients_page_id);
 
 	}
 

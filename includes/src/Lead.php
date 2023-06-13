@@ -44,6 +44,7 @@ class Lead implements LeadInterface
     public $number_of_referrals_to_date;
     public $is_policyholder;
     public $is_spouse_policyholder;
+    public $is_client;
 
     private $table;
     private $meta_table;
@@ -67,7 +68,7 @@ class Lead implements LeadInterface
         }
 
         if (!empty($lead_id)) {
-            $this->construct_lead($lead_id);
+            $this->construct_lead((int) $lead_id);
         }
     }
 
@@ -116,6 +117,7 @@ class Lead implements LeadInterface
         $this->number_of_referrals_to_date = $data['number_of_referrals_to_date'];
         $this->is_policyholder = $data['is_policyholder'];
         $this->is_spouse_policyholder = $data['is_spouse_policyholder'];
+        $this->is_client = $data['is_client'];
 
         return $this;
     }
@@ -161,6 +163,7 @@ class Lead implements LeadInterface
                 'number_of_referrals_to_date' => $this->number_of_referrals_to_date,
                 'is_policyholder' => $this->is_policyholder,
                 'is_spouse_policyholder' => $this->is_spouse_policyholder,
+                'is_client' => $this->is_client,
             ]
         );
 
@@ -213,6 +216,7 @@ class Lead implements LeadInterface
         $data_array['number_of_referrals_to_date'] = $post['number_of_referrals_to_date'] ?? $this->number_of_referrals_to_date ?? 0;
         $data_array['is_policyholder'] = ($post['is-policyholder'] ?? $_POST['is-policyholder'] ?? 'No') === 'Yes' ? 1 : 0; // front end form field name is is-policyholder
         $data_array['is_spouse_policyholder'] = ($post['is-spouse-policyholder'] ?? $_POST['is-spouse-policyholder'] ?? 'No') === 'Yes' ? 1 : 0; // front end form field name is is-spouse-policyholder
+        $data_array['is_client'] = ($post['is-client'] ?? $_POST['is-client'] ?? 'No') === 'Yes' ? 1 : 0; // front end form field name is is-client
         
 
         $this->setLead($data_array);                                    // set lead object properties
@@ -583,6 +587,7 @@ class Lead implements LeadInterface
         $lead_source = $data['lead_source'] ?? null;
         $lead_notes = $data['lead_notes'] ?? null;
         $assigned_to = $data['assigned_to'] ?? null;
+//        $is_client = $data['is_client'] ?? null;
 
         if (empty($phone) && empty($email)) {
             $errors['phone'] = ($phone) ? '' : 'Phone is required if Email is empty';

@@ -40,6 +40,7 @@ class BaseCRM_Deactivator {
 			'basecrm_appointments_page_id',
 			'basecrm_logs_page_id',
 			'basecrm_settings_page_id',
+            'basecrm_clients_page_id',
 		];
 
 		foreach ($page_ids as $page_id) {

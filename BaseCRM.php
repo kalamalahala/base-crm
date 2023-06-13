@@ -9,7 +9,7 @@
  * that starts the plugin.
  *
  * @link              https://github.com/kalamalahala
- * @since             0.0.1
+ * @since             0.5.5
  * @package           BaseCRM
  *
  * @wordpress-plugin

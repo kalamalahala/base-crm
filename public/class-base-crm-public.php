@@ -83,6 +83,10 @@ class BaseCRM_Public
 		}
 
 		wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/base-crm-public.css', array(), $this->version, 'all');
+		add_action( 'wp_print_styles', function () {
+			wp_dequeue_style( 'fusion-dynamic-css' );
+			wp_deregister_style( 'fusion-dynamic-css' );
+		} );
 	}
 
 	/**
@@ -117,6 +121,19 @@ class BaseCRM_Public
 				'user_names' => $this->get_user_names(),
 			)
 		);
+
+		add_action( 'wp_print_scripts', function () {
+			$conflicting_scripts = [
+				'fusion-scripts',
+			];
+
+			// deploy this repo
+
+			foreach ( $conflicting_scripts as $script ) {
+				wp_dequeue_script( $script );
+				wp_deregister_script( $script );
+			}
+		} );
 	}
 
 	public function template_include($template)
@@ -140,6 +157,9 @@ class BaseCRM_Public
 				case is_page($page_ids['basecrm_settings']):
 					$template = BaseCRM_PLUGIN_PATH . 'includes/templates/base-crm-settings-template.php';
 					break;
+                case is_page($page_ids['basecrm_clients']):
+                    $template = BaseCRM_PLUGIN_PATH . 'includes/templates/base-crm-clients-template.php';
+                    break;
 				default:
 					return $template;
 			}

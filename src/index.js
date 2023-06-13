@@ -9,6 +9,8 @@ import { dtButtonListeners } from "./tables/dtButtonListeners";
 import { callLeadModalHandler } from "./forms/modalCallLead";
 import { presentationForm } from "./forms/presentationForm";
 import { adminTable } from "./tables/adminTable";
+import { clientsTable } from "./tables/clientsTable";
+
 const $ = jQuery;
 const currentPage = base_crm.current_page;
 
@@ -38,9 +40,17 @@ $(document).ready(function () {
         }
     };
 
+    const loadClientsTable = () => {
+        if (currentPage === "/base/clients/") {
+            clientsTable();
+            dtButtonListeners();
+        }
+    };
+
     loadLeadTable();
     loadAppointmentTable();
     loadAdminTable();
     modalCreateLeadForm();
     presentationForm();
+    loadClientsTable();
 });
