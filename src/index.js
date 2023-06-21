@@ -10,6 +10,7 @@ import { callLeadModalHandler } from "./forms/modalCallLead";
 import { presentationForm } from "./forms/presentationForm";
 import { adminTable } from "./tables/adminTable";
 import { clientsTable } from "./tables/clientsTable";
+import { ajaxTestingZone } from "./utils/ajaxTestingZone";
 
 const $ = jQuery;
 const currentPage = base_crm.current_page;
@@ -53,4 +54,5 @@ $(document).ready(function () {
     modalCreateLeadForm();
     presentationForm();
     loadClientsTable();
+    ajaxTestingZone();
 });

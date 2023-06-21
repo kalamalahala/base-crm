@@ -44,6 +44,9 @@
                             <div class="row mt-3">
                                 <div class="col">
                                     <h3><?php echo BaseCRM::i18n('Your Clients'); ?></h3>
+                                    <a href="#" class="btn btn-primary btn-sm" id="test-ajax">
+                                        <?php echo BaseCRM::i18n('Test Ajax'); ?>
+                                    </a>
                                     <table class="table table-striped table-hover" id="clients-table"
                                            style="width:100%;">
                                         <thead>

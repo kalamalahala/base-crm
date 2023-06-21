@@ -1,6 +1,6 @@
-<?php
+<?php /** @noinspection SqlNoDataSourceInspection */
 
-namespace BaseCRM\ServerSide;
+	namespace BaseCRM\ServerSide;
 
 use BaseCRM\ServerSide\AppointmentInterface;
 
@@ -8,29 +8,29 @@ use BaseCRM\ServerSide\AppointmentInterface;
 class Appointment implements AppointmentInterface
 {
 
-    public $id;
-    public $created_at;
-    public $updated_at;
-    public $lead_id;
-    public $agent_id;
-    public $appointment_date;
-    public $appointment_time;
-    public $appointment_type;
-    public $appointment_status;
-    public $appointment_notes;
+    public int $id;
+    public string $created_at;
+    public string $updated_at;
+    public int $lead_id;
+    public int $agent_id;
+    public string $appointment_date;
+    public string $appointment_time;
+    public string $appointment_type;
+    public string $appointment_status;
+    public string $appointment_notes;
 
-    public $appointments_table;
-    public $presentations_table;
+    private string $appointments_table;
+    private string $presentations_table;
 
-    public function __construct($id = null)
+    public function __construct(int $id = null)
     {
         if (defined('BaseCRM_APPOINTMENTS_TABLE') && defined('BaseCRM_PRESENTATIONS_TABLE')) {
             $this->appointments_table = BaseCRM_APPOINTMENTS_TABLE;
             $this->presentations_table = BaseCRM_PRESENTATIONS_TABLE;
         } else {
             global $wpdb;
-            $this->appointments_table = $wpdb->prefix . 'base_crm_appointments';
-            $this->presentations_table = $wpdb->prefix . 'base_crm_presentations';
+            $this->appointments_table = $wpdb->prefix . 'basecrm_appointments';
+            $this->presentations_table = $wpdb->prefix . 'basecrm_presentations';
         }
 
         if ($id) {
@@ -44,7 +44,7 @@ class Appointment implements AppointmentInterface
         global $wpdb;
         $appointments_table = $wpdb->prefix . 'basecrm_appointments';
         $appointment = $wpdb->get_row("SELECT * FROM $appointments_table WHERE id = $id");
-        if ($appointment) {
+        if (sizeof($appointment) == 1) {
             $this->id = $appointment->id;
             $this->created_at = $appointment->created_at;
             $this->updated_at = $appointment->updated_at;
@@ -57,35 +57,13 @@ class Appointment implements AppointmentInterface
             $this->appointment_notes = $appointment->appointment_notes;
         }
 
-        $appointment = new Appointment($appointment->id);
-        return $appointment;
+	    return new Appointment($appointment->id);
     }
 
-    public function getAppointmentByLeadId($lead_id)
-    {
-        global $wpdb;
-        $appointments_table = $wpdb->prefix . 'basecrm_appointments';
-        $appointment = $wpdb->get_row("SELECT * FROM $appointments_table WHERE lead_id = $lead_id");
-        if ($appointment) {
-            $this->id = $appointment->id;
-            $this->created_at = $appointment->created_at;
-            $this->updated_at = $appointment->updated_at;
-            $this->lead_id = $appointment->lead_id;
-            $this->agent_id = $appointment->agent_id;
-            $this->appointment_date = $appointment->appointment_date;
-            $this->appointment_time = $appointment->appointment_time;
-            $this->appointment_type = $appointment->appointment_type;
-            $this->appointment_status = $appointment->appointment_status;
-            $this->appointment_notes = $appointment->appointment_notes;
-        }
-    }
-
-    public function getAppointments()
-    {
+    public function getAll() {
         global $wpdb;
         $appointments_table = $wpdb->prefix . 'base_crm_appointments';
-        $appointments = $wpdb->get_results("SELECT * FROM $appointments_table");
-        return $appointments;
+	    return $wpdb->get_results("SELECT * FROM $appointments_table");
     }
 
     public function getAppointmentsForUser($user_id = null)
@@ -247,6 +225,10 @@ class Appointment implements AppointmentInterface
         $datetime->setTimezone(new \DateTimeZone('America/New_York'));
         return $datetime->format($format);
     }
+
+	public function getAppointments() {
+		// TODO: Implement getAppointments() method.
+	}
 }
 /**
  * Post Values
