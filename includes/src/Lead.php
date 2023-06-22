@@ -360,6 +360,32 @@ class Lead implements LeadInterface
         return $update;
     }
 
+    public function createClient($params = []) {
+
+        global $wpdb;
+
+        $new_data = [
+            'is_client' => 1,
+            'updated_at' => $this->datetime_now('Y-m-d H:i:s'),
+            'date_last_contacted' => $this->datetime_now('Y-m-d H:i:s'),
+        ];
+
+        if (sizeof($params) > 0) {
+            foreach ($params as $key => $value) {
+                $new_data[$key] = $value;
+            }
+        }
+
+
+        $update = $wpdb->update(
+            $this->table,
+            $new_data,
+            [
+                'id' => $this->id,
+            ]
+        );
+    }
+
     public function toClient($id) {
         global $wpdb;
         $update = $wpdb->update(

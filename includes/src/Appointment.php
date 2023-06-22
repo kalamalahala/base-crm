@@ -1,8 +1,9 @@
 <?php /** @noinspection SqlNoDataSourceInspection */
 
-	namespace BaseCRM\ServerSide;
+namespace BaseCRM\ServerSide;
 
 use BaseCRM\ServerSide\AppointmentInterface;
+use JetBrains\PhpStorm\NoReturn;
 
 
 class Appointment implements AppointmentInterface
@@ -29,8 +30,8 @@ class Appointment implements AppointmentInterface
             $this->presentations_table = BaseCRM_PRESENTATIONS_TABLE;
         } else {
             global $wpdb;
-            $this->appointments_table = $wpdb->prefix . 'basecrm_appointments';
-            $this->presentations_table = $wpdb->prefix . 'basecrm_presentations';
+            $this->appointments_table = $wpdb->prefix . 'base_crm_appointments';
+            $this->presentations_table = $wpdb->prefix . 'base_crm_presentations';
         }
 
         if ($id) {
@@ -43,8 +44,8 @@ class Appointment implements AppointmentInterface
     {
         global $wpdb;
         $appointments_table = $wpdb->prefix . 'basecrm_appointments';
-        $appointment = $wpdb->get_row("SELECT * FROM $appointments_table WHERE id = $id");
-        if (sizeof($appointment) == 1) {
+        $appointment = $wpdb->get_row("SELECT * FROM $this->appointments_table WHERE id = $id");
+        if ($appointment) {
             $this->id = $appointment->id;
             $this->created_at = $appointment->created_at;
             $this->updated_at = $appointment->updated_at;
@@ -55,15 +56,27 @@ class Appointment implements AppointmentInterface
             $this->appointment_type = $appointment->appointment_type;
             $this->appointment_status = $appointment->appointment_status;
             $this->appointment_notes = $appointment->appointment_notes;
+            return $this;
         }
-
-	    return new Appointment($appointment->id);
+        return new Appointment();
     }
 
-    public function getAll() {
+    public function getAppt(int $id): bool
+    {
+        $output = json_encode($this->getAppointment($id));
+        if ($output == '{}') {
+            echo "Appointment ID $id not found";
+            return false;
+        }
+        echo $output;
+        return true;
+    }
+
+    public function getAll()
+    {
         global $wpdb;
         $appointments_table = $wpdb->prefix . 'base_crm_appointments';
-	    return $wpdb->get_results("SELECT * FROM $appointments_table");
+        return $wpdb->get_results("SELECT * FROM $appointments_table");
     }
 
     public function getAppointmentsForUser($user_id = null)
@@ -88,8 +101,6 @@ class Appointment implements AppointmentInterface
                         WHERE a.agent_id = $user_id;";
 
 
-
-
         $appointments = $wpdb->get_results($query);
 
         $results = [];
@@ -98,52 +109,6 @@ class Appointment implements AppointmentInterface
         $results['error'] = $wpdb->last_error;
 
         return $appointments;
-    }
-
-    public function createAppointment($data)
-    {
-        global $wpdb;
-        $appointments_table = $wpdb->prefix . 'base_crm_appointments';
-
-
-        $insert = $wpdb->insert(
-            $appointments_table,
-            array(
-                'created_at' => $this->datetime_now('Y-m-d H:i:s'),
-                'updated_at' => $this->datetime_now('Y-m-d H:i:s'),
-                'lead_id' => $data['lead_id'],
-                'agent_id' => $data['agent_id'],
-                'appointment_date' => $data['appointment_date'],
-                'appointment_time' => $data['appointment_time'],
-                'appointment_type' => $data['appointment_type'],
-                'appointment_status' => $data['appointment_status'],
-                'appointment_notes' => $data['appointment_notes'] ?? '',
-            )
-        );
-
-        return $insert;
-
-        // if ($insert) {
-        //     $this->id = $wpdb->insert_id;
-        //     $this->created_at = $this->datetime_now('Y-m-d H:i:s');
-        //     $this->updated_at = $this->datetime_now('Y-m-d H:i:s');
-        //     $this->lead_id = $data['lead_id'];
-        //     $this->agent_id = $data['agent_id'];
-        //     $this->appointment_date = $data['appointment_date'];
-        //     $this->appointment_time = $data['appointment_time'];
-        //     $this->appointment_type = $data['appointment_type'];
-        //     $this->appointment_status = $data['appointment_status'];
-        //     $this->appointment_notes = $data['appointment_notes'] ?? '';
-
-        //     $results['success'] = true;
-        //     $results['message'] = 'Appointment created successfully';
-        //     $results['appointment'] = $this;
-        // } else {
-        //     $results['success'] = false;
-        //     $results['message'] = 'Appointment not created';
-        //     $results['errors'] = $wpdb->last_error;
-        //     $results['query'] = $wpdb->last_query;
-        // }
     }
 
     public function updateAppointment($id, $data)
@@ -193,7 +158,44 @@ class Appointment implements AppointmentInterface
         ));
     }
 
-    public function submit_presentation($form_data) {
+    public function createAppointment($data)
+    {
+        global $wpdb;
+        $appointments_table = $wpdb->prefix . 'base_crm_appointments';
+
+        $insert = $wpdb->insert(
+            $appointments_table,
+            array(
+                'created_at' => $this->datetime_now('Y-m-d H:i:s'),
+                'updated_at' => $this->datetime_now('Y-m-d H:i:s'),
+                'lead_id' => $data['lead_id'],
+                'agent_id' => $data['agent_id'],
+                'appointment_date' => $data['appointment_date'],
+                'appointment_time' => $data['appointment_time'],
+                'appointment_type' => $data['appointment_type'],
+                'appointment_status' => $data['appointment_status'],
+                'appointment_notes' => $data['appointment_notes'] ?? '',
+            )
+        );
+
+        return $insert;
+    }
+
+    /**
+     * Return a formatted date and time string.
+     *
+     * @param string $format
+     * @return string
+     */
+    public function datetime_now(string $format): string
+    {
+        $datetime = new \DateTime();
+        $datetime->setTimezone(new \DateTimeZone('America/New_York'));
+        return $datetime->format($format);
+    }
+
+    public function submit_presentation($form_data)
+    {
         global $wpdb;
         $appointments_table = $this->appointments_table;
         $presentations_table = $this->presentations_table;
@@ -213,22 +215,59 @@ class Appointment implements AppointmentInterface
         );
     }
 
-    /**
-     * Return a formatted date and time string.
-     *
-     * @param string $format
-     * @return string
-     */
-    public function datetime_now(string $format): string
+    public function getAppointments($params = []): array
     {
-        $datetime = new \DateTime();
-        $datetime->setTimezone(new \DateTimeZone('America/New_York'));
-        return $datetime->format($format);
+        $query = "SELECT * FROM $this->appointments_table WHERE ";
+
+        if (!isset($params['start_date'])) {
+            $params['start_date'] = '2020-01-01';
+        }
+
+        if (!isset($params['end_date'])) {
+            $params['end_date'] = date('Y-m-d');
+        }
+
+        if (isset($params['start_date']) && isset($params['end_date'])) {
+            $query .= "appointment_date BETWEEN '{$params['start_date']}' AND '{$params['end_date']}'";
+        }
+
+        if (isset($params['lead_id'])) {
+            $query .= " AND lead_id = {$params['lead_id']}";
+        }
+
+        if (isset($params['agent_id'])) {
+            $query .= " AND agent_id = {$params['agent_id']}";
+        }
+
+        if (isset($params['appointment_type'])) {
+            $query .= " AND appointment_type = '{$params['appointment_type']}'";
+        }
+
+        if (isset($params['appointment_status'])) {
+            $query .= " AND appointment_status = '{$params['appointment_status']}'";
+        }
+
+        if (isset($params['appointment_date'])) {
+            $query .= " AND appointment_date = '{$params['appointment_date']}'";
+        }
+
+        if (isset($params['appointment_time'])) {
+            $query .= " AND appointment_time = '{$params['appointment_time']}'";
+        }
+
+        if (isset($params['appointment_notes'])) {
+            $query .= " AND appointment_notes CONTAINS '{$params['appointment_notes']}'";
+        }
+
+        global $wpdb;
+        return $wpdb->get_results($query, ARRAY_A);
     }
 
-	public function getAppointments() {
-		// TODO: Implement getAppointments() method.
-	}
+    public function getAgentAppts(int $param): array
+    {
+        $params['agent_id'] = $param;
+        return $this->getAppointments($params);
+    }
 }
 /**
  * Post Values

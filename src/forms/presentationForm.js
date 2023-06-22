@@ -677,7 +677,7 @@ export const presentationForm = () => {
         let referralsFormButton = $(
             '.referrals-form-container button[type="button"].btn-whos-next',
         );
-        let referralsFormButtonText = referralsFormButton.text();
+        let referralsFormButtonText = referralsFormButton.html();
 
         referralsFormContainer.find(".alert").addClass("d-none");
 
@@ -696,7 +696,7 @@ export const presentationForm = () => {
         let currentReferralCount = $(".referral-count-num").text();
 
         referralsFormButton.attr("disabled", true);
-        referralsFormButton.text("Adding Referral...");
+        referralsFormButton.html("<div class='spinner-border spinner-border-sm' role='status'></div> Submitting...");
 
         // let successChance = ((Math.floor(Math.random() * 100) + 1) > 50) ? true : false;
         // let alertId = (successChance) ? "referral-success" : "referral-error";
@@ -737,23 +737,22 @@ export const presentationForm = () => {
                 console.log(response);
                 if (response.success) {
                     referralsForm.trigger("reset");
-                    $(".referral-count-num").text(
-                        parseInt(currentReferralCount) + 1,
-                    );
-                    referralsFormButton.text(referralsFormButtonText);
+                    let currentReferralCount = $(".referral-count-num").html();
+                    $(".referral-count-num").html(parseInt(currentReferralCount) + 1);
+                    referralsFormButton.html(referralsFormButtonText);
                     referralsFormButton.attr("disabled", false);
                     $('input[name="referral-first-name"]').focus();
                     $(".alert-first-name").text(referralFirstName);
                     $("#referral-success").removeClass("d-none");
                 } else {
-                    referralsFormButton.text(referralsFormButtonText);
+                    referralsFormButton.html(referralsFormButtonText);
                     referralsFormButton.attr("disabled", false);
                     $("#referral-error").removeClass("d-none");
                 }
             },
             error: (error) => {
                 console.log(error);
-                referralsFormButton.text(referralsFormButtonText);
+                referralsFormButton.html(referralsFormButtonText);
                 referralsFormButton.attr("disabled", false);
                 $("#referral-error").removeClass("d-none");
             },
@@ -967,7 +966,7 @@ export const populatePresentationData = (data) => {
     $(".lead-first-name").text(firstName);
     $("input[name=lead-id]").val(data.id);
     $("input[name=appointment-id]").val(data.appointment_id);
-    $("input[name=is-married").val(data.is_married);
+    $("input[name=is-married]").val(data.is_married);
     $("input[name=first-name]").val(firstName);
     $("input[name=last-name]").val(lastName);
     $("input[name=email]").val(data.email);

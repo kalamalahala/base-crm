@@ -6,8 +6,8 @@
 
 use BaseCRM\ServerSide\Lead;
 
-$agent_name = BaseCRM::agent_name( get_current_user_id(), 'first' );
-$user_id    = get_current_user_id();
+$agent_name = BaseCRM::agent_name(get_current_user_id(), 'first');
+$user_id = get_current_user_id();
 
 ?>
 
@@ -34,8 +34,11 @@ $user_id    = get_current_user_id();
             now or is there a better time to call you back?
         </p>
         <p class="lead">
-            <strong>No, later</strong>: <a href="#" title="Create Calendar Invite">Create Calendar Invite</a>
+            <strong>No, later</strong>: <a href="#" class="btn btn-primary btn-sm" id="test-ajax">
+                <?php echo BaseCRM::i18n('Test Ajax'); ?>
+            </a>
         </p>
+
         <p class="lead">
             <strong>Yes, time now</strong>: Again there are several hundred thousand kids who go missing in
             our country every year, and you know what it’s like to lose sight of your kids for just a few seconds.
@@ -169,19 +172,74 @@ $user_id    = get_current_user_id();
             </div>
         </form>
         </p>
+        <div class="row">
+            <div class="col">
+                <h4>Name and Phone Number</h4>
+                <hr>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+                            <input type="text" class="form-control" name="lead-first-name"
+                                   id="lead-first-name" placeholder="First Name" aria-label="First Name"
+                                   aria-describedby="lead-first-name">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+                            <input type="text" class="form-control" name="lead-last-name"
+                                   id="lead-last-name" placeholder="Last Name" aria-label="Last Name"
+                                   aria-describedby="lead-last-name">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text"><i class="fa-solid fa-phone"></i></span>
+                            <input type="text" class="form-control" name="lead-phone" id="lead-phone"
+                                   placeholder="Phone Number" aria-label="Phone Number"
+                                   aria-describedby="lead-phone">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <p class="h4">What is your email address?</p>
+                <div class="input-group has-validation mb-3">
+                    <span class="input-group-text"><i class="fa-solid fa-envelope"></i></span>
+                    <input type="text" class="form-control" name="lead-email" id="lead-email"
+                           placeholder="Email Address" aria-label="Email Address"
+                           aria-describedby="lead-email">
+                    <span class="invalid-feedback"></span>
+                </div>
+            </div>
+        </div>
         <p class="lead">
-            <a href="javascript:void(0);" class="btn btn-primary btn-lg btn-block" id="btn-continue">Child Safe Emailer
-                & SMS</a>
+            <a href="javascript:void(0);" class="btn btn-primary btn-lg btn-block" id="btn-continue">Send Child Safe Email & SMS</a>
             <script>
-                const $ = jQuery;
-                $( document ).ready( function () {
-                    $( '#btn-continue' ).click( function () {
+                jQuery(document).ready(function () {
+                    jQuery('#btn-continue').click(function () {
+                        let leadId = jQuery('#lead-id').val();
+
+                        let url = 'https://thejohnson.group/agent-portal/csp-emailer/?lead_id=' + leadId;
+                        let oldUrl = 'http://migrate-test.local/wp-json/basecrm/v1/get_calendar_invite_form/?lead_id=' + leadId;
                         // open a small window with no address bar, toolbars etc
-                        window.open( 'https://thejohnson.group/agent-portal/csp-emailer/',
+                        window.open(url,
                             'Child Safe Emailer & SMS',
-                            'width=500,height=500,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0' );
-                    } );
-                } );
+                            'width=500,height=500,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0');
+
+                        // jQuery.get(url, function (data) {
+                        //     console.log(data);
+                        //     jQuery('#fetch-container').html(data);
+                        // });
+                        //
+                        // jQuery('#modal-calendar-invite').modal('show');
+                    });
+                });
             </script>
         </p>
         <hr/>
@@ -193,10 +251,14 @@ $user_id    = get_current_user_id();
             To thank you for helping us to reach the community, I've been authorized to complete a FREE needs analysis.
         </p>
         <p class="lead">
-            In addition to providing services like the child safe program, my company also provides financial relief to those who qualify with our insurance products. The products we offer pay you or your family in the event of sickness, accident, or even death, and even helps you to build wealth based on what you qualify for.
+            In addition to providing services like the child safe program, my company also provides financial relief to
+            those who qualify with our insurance products. The products we offer pay you or your family in the event of
+            sickness, accident, or even death, and even helps you to build wealth based on what you qualify for.
         </p>
         <p class="lead">
-            Now <span class="lead-first-name">[client name]</span>, to be clear I’m not sure that you’ll qualify for any of these products, but if you do, your participation is completely optional and at your discretion. I'm going to ask you a few questions to see if it makes sense to proceed
+            Now <span class="lead-first-name">[client name]</span>, to be clear I’m not sure that you’ll qualify for any
+            of these products, but if you do, your participation is completely optional and at your discretion. I'm
+            going to ask you a few questions to see if it makes sense to proceed
         </p>
 
         <!--

@@ -25,7 +25,7 @@ $lead_types = $lead->lead_types();
 									<?php
 									foreach ( $lead_types as $short => $long ) {
 										$allowed_types = array(
-											'cskw',
+//											'cskw',
 											'cskr'
 										);
 										$disabled      = in_array( $short, $allowed_types ) ? true : 'disabled';
@@ -101,21 +101,6 @@ $lead_types = $lead->lead_types();
                             <p class="lead">Do me a favor, grab a pen and paper <span class="script-reminder">(provide name, time, agent number & ask to repeat)</span>
                             </p>
                             <p class="lead">To secure our appointment, I have a few questions:</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <h4>Tie Down Information</h4>
-                            <hr>
-                            <p class="h4">What is your email address?</p>
-                            <div class="input-group has-validation mb-3">
-                                <span class="input-group-text"><i class="fa-solid fa-envelope"></i></span>
-                                <input type="text" class="form-control" name="lead-email" id="lead-email"
-                                       placeholder="Email Address" aria-label="Email Address"
-                                       aria-describedby="lead-email">
-                                <span class="invalid-feedback"></span>
-                            </div>
-
                         </div>
                     </div>
                     <div class="row">
@@ -249,56 +234,23 @@ $lead_types = $lead->lead_types();
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col">
-                            <h4>Name and Phone Number</h4>
-                            <hr>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="input-group mb-3">
-                                        <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
-                                        <input type="text" class="form-control" name="lead-first-name"
-                                               id="lead-first-name" placeholder="First Name" aria-label="First Name"
-                                               aria-describedby="lead-first-name">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="input-group mb-3">
-                                        <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
-                                        <input type="text" class="form-control" name="lead-last-name"
-                                               id="lead-last-name" placeholder="Last Name" aria-label="Last Name"
-                                               aria-describedby="lead-last-name">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="input-group mb-3">
-                                        <span class="input-group-text"><i class="fa-solid fa-phone"></i></span>
-                                        <input type="text" class="form-control" name="lead-phone" id="lead-phone"
-                                               placeholder="Phone Number" aria-label="Phone Number"
-                                               aria-describedby="lead-phone">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
-                    <div class="row">
-                        <div class="col">
-                            <h4>Pick Appointment Time</h4>
-                            <hr>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="input-group mb-3">
-                                        <span class="input-group-text"><i class="fa-solid fa-calendar"></i></span>
-                                        <input type="text" class="form-control" name="lead-appointment-date"
-                                               id="lead-appointment-date" placeholder="Appointment Date"
-                                               aria-label="Appointment Date" aria-describedby="lead-appointment-date">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                     -->
+<!--                    <div class="row">-->
+<!--                        <div class="col">-->
+<!--                            <h4>Pick Appointment Time</h4>-->
+<!--                            <hr>-->
+<!--                            <div class="row">-->
+<!--                                <div class="col-md-12">-->
+<!--                                    <div class="input-group mb-3">-->
+<!--                                        <span class="input-group-text"><i class="fa-solid fa-calendar"></i></span>-->
+<!--                                        <input type="text" class="form-control" name="lead-appointment-date"-->
+<!--                                               id="lead-appointment-date" placeholder="Appointment Date"-->
+<!--                                               aria-label="Appointment Date" aria-describedby="lead-appointment-date">-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

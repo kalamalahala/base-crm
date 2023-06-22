@@ -119,6 +119,7 @@ class BaseCRM_Public
 				'script_list' => $scripts,
 				'is_admin' => $is_admin,
 				'user_names' => $this->get_user_names(),
+                'current_user_id' => get_current_user_id(),
 			)
 		);
 

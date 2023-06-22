@@ -20,7 +20,7 @@ interface LeadInterface
 interface AppointmentInterface
 {
     public function getAppointment($id): Appointment;
-    public function getAppointments();
+    public function getAppointments($params = []);
     public function createAppointment($data);
     public function updateAppointment($id, $data);
     public function deleteAppointment($id);
