@@ -33,7 +33,7 @@ $user_id = get_current_user_id();
         </p>
         <p class="lead">
             <strong>No, later</strong>: <a href="#" class="btn btn-primary btn-sm" id="test-ajax">
-                <?php echo BaseCRM::i18n('Test Ajax'); ?>
+                <i class="fa-regular fa-calendar"></i><?php echo BaseCRM::i18n('Create Calendar Invite'); ?>
             </a>
         </p>
 

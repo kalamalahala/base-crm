@@ -112,7 +112,8 @@ class RestHandler implements RestInterface
         $site = get_site_url();
         $valid_sources = [
             'thejohnson.group',
-            'migrate-test.local'
+            'migrate-test.local',
+	        'storm.local'
         ];
 
         foreach ($valid_sources as $source) {

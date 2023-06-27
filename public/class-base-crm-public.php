@@ -120,6 +120,7 @@ class BaseCRM_Public
 				'is_admin' => $is_admin,
 				'user_names' => $this->get_user_names(),
                 'current_user_id' => get_current_user_id(),
+				'site_url' => get_site_url(),
 			)
 		);
 

@@ -7,7 +7,7 @@ export function ajaxTestingZone() {
     $(document).ready(function () {
         $('#test-ajax').click(function () {
             // fetch endpoint https://migrate-test.local/wp-json/basecrm/v1/appointments
-            const restURL = "http://migrate-test.local/wp-json/basecrm/v1/";
+            const restURL = "/wp-json/basecrm/v1/";
             const endpoint = "calendar-form";
 
             const agentId = base_crm.current_user_id;
@@ -15,7 +15,7 @@ export function ajaxTestingZone() {
 
             $('#fetch-container').html('<div class="spinner-border" role="status"></div> Loading...');
 
-            $.get(restURL + endpoint + '?agent_id=' + agentId + '&lead_id=' + leadId, function (data) {
+            $.get(base_crm.site_url + restURL + endpoint + '?agent_id=' + agentId + '&lead_id=' + leadId, function (data) {
                 console.log(data);
                 $('#fetch-container').html(data);
                 $('#calendar-datepicker').flatpickr({
