@@ -4,8 +4,6 @@
  * Warm Market Script
  */
 
-use BaseCRM\ServerSide\Lead;
-
 $agent_name = BaseCRM::agent_name(get_current_user_id(), 'first');
 $user_id = get_current_user_id();
 
@@ -222,14 +220,54 @@ $user_id = get_current_user_id();
             <a href="javascript:void(0);" class="btn btn-primary btn-lg btn-block" id="btn-continue">Send Child Safe Email & SMS</a>
             <script>
                 jQuery(document).ready(function () {
-                    jQuery('#btn-continue').click(function () {
-                        let leadId = jQuery('#lead-id').val();
+                    jQuery('#btn-continue').click(function (e) {
+                        e.preventDefault();
+                        if (!confirm('Send email and SMS to ' + jQuery('#lead-first-name').val() + ' ' + jQuery('#lead-last-name').val() + '?')) {
+                            return false;
+                        }
 
+                        let buttonText = jQuery(this).html();
+                        jQuery(this).attr('disabled', true);
+                        jQuery(this).html('<i class="fa-solid fa-spinner fa-spin"></i> Sending...');
+
+                        let leadId = jQuery('#lead-id').val();
+                        let phone = jQuery('#lead-phone').val();
+                        let email = jQuery('#lead-email').val();
+
+                        let gfJSON = {
+                            "input_6": leadId,
+                            "input_5": "Yes",
+                            "input_1": email,
+                            "input_4": "Yes",
+                            "input_3": phone,
+                        };
+
+                        let submissionUrl = "https://thejohnson.group/wp-json/gf/v2/forms/115/submissions";
+
+                        jQuery.ajax({
+                            url: submissionUrl,
+                            type: 'POST',
+                            data: gfJSON,
+                            dataType: 'json',
+                            success: function (data) {
+                                console.log(data);
+                                jQuery('#btn-continue').html(buttonText);
+                            },
+                            error: function (data) {
+                                console.log(data);
+                                jQuery('#btn-continue').html(buttonText);
+                            },
+                            complete: function () {
+                                jQuery('#btn-continue').attr('disabled', false);
+                            }
+                        });
+
+                        /*
                         let url = 'https://thejohnson.group/agent-portal/csp-emailer/?lead_id=' + leadId;
                         let oldUrl = 'http://migrate-test.local/wp-json/basecrm/v1/get_calendar_invite_form/?lead_id=' + leadId;
-                        // open a small window with no address bar, toolbars etc
+                        // open a small window with no address bar, toolbars etc.
                         window.open(url,
-                            'Child Safe Emailer & SMS',
+                            'Child Safe Email & SMS',
                             'width=500,height=500,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0');
 
                         // jQuery.get(url, function (data) {
@@ -238,6 +276,7 @@ $user_id = get_current_user_id();
                         // });
                         //
                         // jQuery('#modal-calendar-invite').modal('show');
+                        */
                     });
                 });
             </script>

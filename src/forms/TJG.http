@@ -1,0 +1,13 @@
+POST https://thejohnson.group/wp-json/gf/v2/forms/115/submissions
+Content-Type: application/json
+
+{
+  "input_6": 24,
+  "input_5": "Yes",
+  "input_1": "solo.driver.bob@gmail.com",
+  "input_4": "Yes",
+  "input_3": "+19045321080"
+}
+
+###
+POST https://thejohnson.group/wp-json/gf/v2/forms/1/submissions
