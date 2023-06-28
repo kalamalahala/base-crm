@@ -1,6 +1,4 @@
-Add email and phone fields next to emailer button
+REST Endpoint wp-json/gf/v2/forms/114/entries
 
-fire off emailer when email button is clicked
-
-split fields in the needs analysis questionnaire
-
+parameters
+?search={"field_filters":%20[{"key":18,"value":"24","operator":"contains"}]}

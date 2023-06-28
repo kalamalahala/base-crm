@@ -132,7 +132,7 @@ class RestHandler implements RestInterface
         return json_encode($data);
     }
 
-    public function requestStatus($code): string
+    public function requestStatus(int $code): string
     {
         $status = array(
             200 => 'OK',
@@ -144,7 +144,7 @@ class RestHandler implements RestInterface
             500 => 'Internal Server Error',
             501 => 'Not Implemented',
         );
-        return ($status[$code]) ? $status[$code] : $status[500];
+        return ($status[$code]) ?: $status[500];
     }
     #endregion
 
