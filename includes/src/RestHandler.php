@@ -7,6 +7,7 @@
 namespace BaseCRM\Rest;
 
 use BaseCRM\ServerSide\Appointment;
+use BaseCRM\ServerSide\GFAPIHandler;
 use BaseCRM\ServerSide\RestInterface;
 use BaseCRM\ServerSide\Lead;
 use JetBrains\PhpStorm\NoReturn;
@@ -98,6 +99,14 @@ class RestHandler implements RestInterface
                 return $this->authorizeRest();
             }
         ));
+
+		register_rest_route( 'basecrm/v1/', '/client/', array(
+			'methods' => 'GET',
+			'callback' => array($this, 'getClientDetails'),
+			'permission_callback' => function () {
+				return $this->authorizeRest();
+			}
+		));
         #endregion
     }
 
@@ -169,7 +178,7 @@ class RestHandler implements RestInterface
         $appointment->getAppt($id);
     }
 
-    public function getAgentAppointments($params = []): void
+    #[NoReturn] public function getAgentAppointments($params = []): void
     {
         $id = $params['id'] ?? null;
         if (!$id) {
@@ -225,12 +234,13 @@ class RestHandler implements RestInterface
         // ...
     }
 
-    public function insert_lead_from_vtp()
-    {
+    public function insert_lead_from_vtp(): bool|string {
 
         error_log(print_r($_POST, true));
 
         $form_id = $_POST['form_id'] ?? null;
+		$form_data = false;
+
         if ($form_id == 2) {
             $form_data = array(
                 'first_name' => $_POST['1_3'] ?? null,
@@ -253,6 +263,8 @@ class RestHandler implements RestInterface
             );
         }
 
+		if (!$form_data) return false;
+
         $lead = new Lead();
         $lead->processPost($form_data);
 
@@ -261,7 +273,7 @@ class RestHandler implements RestInterface
                 'status' => 'success',
                 'message' => 'Lead created successfully',
                 'id' => $lead->id
-            ), 200);
+            ));
         } else {
             return $this->json_response(array(
                 'status' => 'error',
@@ -387,4 +399,18 @@ FORM;
 
         echo $this->json_response($results, $results['code']);
     }
+
+	public function getClientDetails( \WP_REST_Request $request ): \WP_REST_Response {
+		// collect lead id from endpoint
+		$lead_id = $request->get_param( 'lead_id' );
+		if (!$lead_id) { return new \WP_REST_Response('No lead id provided', 400 ); }
+
+		$gfapi = new GFAPIHandler();
+		$results = $gfapi->getMatchingEntries( $lead_id );
+
+		$response = new \WP_REST_Response();
+		$response->set_data( $results );
+		$response->set_status(200);
+		return $response;
+	}
 }

@@ -19,6 +19,7 @@
 
     use BaseCRM\ServerSide\Lead;
 
+
     ?>
     <link rel="stylesheet" type="text/css"
           href="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.13.1/b-2.3.3/b-html5-2.3.3/r-2.4.0/sp-2.1.0/sl-1.5.0/datatables.min.css"/>
@@ -44,6 +45,37 @@
                             <div class="row mt-3">
                                 <div class="col">
                                     <h3><?php echo BaseCRM::i18n('Your Clients'); ?></h3>
+                                    <div>
+                                        <p class="lead">Test me</p>
+                                        <a class="btn btn-primary fetch-test" href="#">Fetch</a>
+                                        <div class="fetch-result"></div>
+                                    </div>
+                                    <script type="text/javascript">
+                                        jQuery(document).ready(() => {
+                                            jQuery('.fetch-test').click((e) => {
+                                                e.preventDefault();
+                                                let button = jQuery(e.target);
+                                                let currentHTML = button.html();
+                                                let lead_id = 4;
+                                                let resultBox = jQuery('.fetch-result');
+
+                                                button.html('Loading...');
+                                                // endpoint /wp-json/basecrm/v1/client/?lead_id=4
+                                                jQuery.get(
+                                                    'https://storm.local/wp-json/basecrm/v1/client?lead_id=' + lead_id,
+                                                ).done((response) => {
+                                                    console.log(response);
+                                                    button.html(currentHTML);
+                                                    resultBox.html(JSON.stringify(response));
+                                                }).fail((error) => {
+                                                    console.log(error);
+                                                    button.html(currentHTML);
+                                                    resultBox.html(JSON.stringify(error));
+                                                });
+
+                                            });
+                                        });
+                                    </script>
                                     <table class="table table-striped table-hover" id="clients-table"
                                            style="width:100%;">
                                         <thead>

@@ -7,7 +7,7 @@ require_once(plugin_dir_path(dirname(__FILE__)) . 'src/Shortcodes.php');
 require_once(plugin_dir_path(dirname(__FILE__)) . 'src/AjaxHandler.php');
 require_once(plugin_dir_path(dirname(__FILE__)) . 'src/Appointment.php');
 require_once(plugin_dir_path(dirname(__FILE__)) . 'src/RestHandler.php');
-
+require_once(plugin_dir_path(dirname(__FILE__)) . 'src/GFAPIHandler.php');
 interface LeadInterface
 {
     public function getLead($id): Lead;
