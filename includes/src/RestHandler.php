@@ -100,7 +100,7 @@ class RestHandler implements RestInterface
             }
         ));
 
-		register_rest_route( 'basecrm/v1/', '/client/', array(
+		register_rest_route( 'basecrm/v1/', '/client', array(
 			'methods' => 'GET',
 			'callback' => array($this, 'getClientDetails'),
 			'permission_callback' => function () {

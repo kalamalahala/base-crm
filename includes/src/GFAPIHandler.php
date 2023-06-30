@@ -27,16 +27,18 @@ class GFAPIHandler
 
         // /wp-json/gf/v2/entries?form_ids[0]=$this->form_id&_labels=1&search={"field_filters": [{"key": $this->field_id, "value": $base_crm_lead_id}]}
 
-        $url = get_rest_url(null, 'gf/v2') . '/entries?form_ids[0]=' . $this->form_id . '&_labels=1&search={"field_filters": [{"key": ' . $this->field_id . ', "value": ' . $base_crm_lead_id . '}]}';
+//        $site_url = get_site_url()
 
-        $entries = wp_remote_get($url);
+//        $url = get_site_url() . '/wp-json/gf/v2/entries?form_ids[0]=' . $this->form_id . '&_labels=1&search={"field_filters": [{"key": ' . $this->field_id . ', "value": ' . $base_crm_lead_id . '}]}';
 
+
+//        $entries = wp_remote_get($url);
+        $entries = "fuck wp remote get";
         $lead = new Lead($base_crm_lead_id);
 
         $results = [
             'entries' => $entries,
             'lead' => $lead,
-            'url' => $url,
         ];
 
         return ($results) ?: false;

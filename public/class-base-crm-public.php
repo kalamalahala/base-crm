@@ -108,6 +108,7 @@ class BaseCRM_Public
 		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/base-crm-public.js', array('jquery'), $this->version, false);
 		wp_enqueue_script('basecrm-dist', BaseCRM_PLUGIN_URL . 'dist/main.js', array('jquery'), $this->version, true);
 
+        // base_crm object properties
 		wp_localize_script(
 			$this->plugin_name,
 			'base_crm',
@@ -123,8 +124,14 @@ class BaseCRM_Public
 				'site_url' => get_site_url(),
                 'username' => wp_get_current_user()->user_login,
                 'password' => wp_get_current_user()->user_pass,
+//                'rest_nonce' => wp_create_nonce( 'wp_rest' ),
 			)
 		);
+
+        wp_localize_script( 'wp-api', 'rest_settings', array(
+            'root' => esc_url_raw( rest_url() ),
+            'nonce' => wp_create_nonce( 'wp_rest' )
+        ));
 
 		add_action( 'wp_print_scripts', function () {
 			$conflicting_scripts = [
