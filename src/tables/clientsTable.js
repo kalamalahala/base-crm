@@ -97,6 +97,28 @@ export const clientsTable = () => {
         const id = $(e.currentTarget).data('id');
         const name = $(e.currentTarget).data('first-name') + ' ' + $(e.currentTarget).data('last-name');
         // REST endpoint /wp-json/basecrm/v1/client/?lead_id=id
+
+        $.ajax({
+            url: `/wp-json/basecrm/v1/client/?lead_id=${id}`,
+            type: 'GET',
+            headers: {
+                'Authorization': 'Basic ' + Base64.encode(basecrm.username + ':' + basecrm.password),
+            }
+        }).success((data, textStatus, jqXHR) => {
+            $('#modal-client-info-name').html(name);
+            $('#modal-client-info-body').html("<pre>" + JSON.stringify(data) + "</pre>");
+            $('#modal-client-info').modal('show');
+        }).error((jqXHR, textStatus, errorThrown) => {
+            console.log(jqXHR);
+            console.log(textStatus);
+            console.log(errorThrown);
+        }).complete((jqXHR, textStatus) => {
+            console.log(jqXHR);
+            console.log(textStatus);
+        });
+
+
+
         $.get(`/wp-json/basecrm/v1/client/?lead_id=${id}`, (data) => {
             $('#modal-client-info-name').html(name);
 
