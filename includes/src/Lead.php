@@ -304,10 +304,16 @@ class Lead implements LeadInterface
             $user_id = get_current_user_id();
         }
 
+        if ($_GET['is_client'] == 1) {
+            $get_clients = " AND is_client = 1";
+        } else {
+            $get_clients = "";
+        }
+
         global $wpdb;
         $leads = $wpdb->get_results(
             $wpdb->prepare(
-                "SELECT * FROM {$this->table} WHERE assigned_to = %d",
+                "SELECT * FROM {$this->table} WHERE assigned_to = %d $get_clients",
                 $user_id
             )
         );
@@ -721,6 +727,10 @@ class Lead implements LeadInterface
         $response['updates'] = $updates;
 
         return $response;
+    }
+
+    public function getClientsForUser() {
+
     }
 
 

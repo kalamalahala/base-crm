@@ -218,4 +218,12 @@
 //			$this->json_response( $appointments );
 		}
 		#endregion
+
+        #region Client Methods
+        #[NoReturn] public function get_clients_for_user(): void {
+            $clients = new Lead();
+            $clients = $clients->getClientsForUser();
+            $this->json_response( $clients );
+        }
+        #endregion
 	}

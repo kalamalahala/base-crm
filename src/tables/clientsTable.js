@@ -11,7 +11,8 @@ const dtUrlString =
     "&method=" +
     ajaxMethod +
     "&nonce=" +
-    ajaxNonce;
+    ajaxNonce +
+    "&is_client=1";
 
 export const clientsTable = () => {
     jQuery("#clients-table").DataTable({
@@ -52,25 +53,10 @@ export const clientsTable = () => {
                         <div class="dropstart">
                             <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
                             <ul class="dropdown-menu">
-                                <li class="dropdown-header">Lead Actions</li>
-                                <li><a class="dropdown-item base-crm-call-lead" href="#"
-                                data-id="${row.id}" 
-                                data-first-name="${row.first_name}" 
-                                data-last-name="${row.last_name}" 
-                                data-phone="${row.phone}" 
-                                data-email="${row.email}" 
-                                data-lead-type="${row.lead_type}" 
-                                data-lead-relationship="${row.lead_relationship}"
-                                data-lead-referred-by="${row.lead_referred_by}"
-                                data-is-married="${row.is_married}"
-                                data-spouse-first-name="${row.spouse_first_name}"
-                                data-is-employed="${row.is_employed}"
-                                data-has-children="${row.has_children}"
-                                data-num-children="${row.num_children}"
-                                ><i class="fa-regular fa-paper-plane"></i> Begin Script - ${row.first_name}</a></li>
+                                <li class="dropdown-header">Client Actions</li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item disabled base-crm-view-lead" href="#" data-id="${row.id}"><i class="fa-regular fa-eye"></i> View</a></li>
-                                <li><a class="dropdown-item disabled base-crm-edit-lead" href="#" data-id="${row.id}"><i class="fa-regular fa-pen-to-square"></i> Edit</a></li>
+                                <li><a class="dropdown-item base-crm-view-client" href="#" data-id="${row.id}" data-first-name="${row.first_name}" data-last-name="${row.last_name}"><i class="fa-regular fa-eye"></i> View</a></li>
+                                <li><a class="dropdown-item disabled base-crm-edit-lead" href="#" data-id="${row.id}" disabled><i class="fa-regular fa-pen-to-square"></i> Edit</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li class="dropdown-header">Lead Disposition</li>
                                 <li><a class="dropdown-item base-crm-disposition-lead" href="#" data-id="${row.id}" data-disposition="No Answer"><i class="fa-solid fa-phone-slash"></i> No Answer</a></li>
@@ -104,6 +90,27 @@ export const clientsTable = () => {
             [10, 25, 50, 100, -1],
             [10, 25, 50, 100, "All"],
         ],
+    });
+
+    $(document).on('click', '.base-crm-view-client', (e) => {
+        e.preventDefault();
+        const id = $(e.currentTarget).data('id');
+        const name = $(e.currentTarget).data('first-name') + ' ' + $(e.currentTarget).data('last-name');
+        // REST endpoint /wp-json/basecrm/v1/client/?lead_id=id
+        $.get(`/wp-json/basecrm/v1/client/?lead_id=${id}`, (data) => {
+            $('#modal-client-info-name').html(name);
+
+
+
+            $('#modal-client-info-body').html("<pre>" + JSON.stringify(data) + "</pre>");
+
+
+
+
+            $('#modal-client-info').modal('show');
+        });
+
+
     });
 
     // remove loading overlay on dt.init
