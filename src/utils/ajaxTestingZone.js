@@ -43,5 +43,29 @@ export function ajaxTestingZone() {
                 $('#modal-calendar-invite').modal('hide');
             });
         });
+
+        $(document).on('click', '#nonce-testing', (e) => {
+            e.preventDefault();
+            const nonce = wpApiSettings.nonce;
+            const url = wpApiSettings.root + 'gf/v2/entries';
+
+            $.ajax({
+                url: url,
+                method: 'GET',
+                beforeSend: (xhr) => {
+                    xhr.setRequestHeader('X-WP-Nonce', nonce);
+                },
+                success: (response) => {
+                    console.log(response);
+                    console.log(`URL: ${url}`);
+                    console.log('success');
+                },
+                error: (response) => {
+                    console.log(response);
+                    console.log(`URL: ${url}`);
+                    console.log('error');
+                },
+            });
+        });
     });
 }

@@ -47,7 +47,7 @@
                                     <h3><?php echo BaseCRM::i18n('Your Clients'); ?></h3>
                                     <div>
                                         <p class="lead">Test me</p>
-                                        <a class="btn btn-primary fetch-test" href="#">Fetch</a>
+                                        <a class="btn btn-primary fetch-test" href="#">Fetch</a> <a class="btn btn-primary" id="nonce-testing" href="#">Nonce</a>
                                         <div class="fetch-result"></div>
                                     </div>
                                     <script type="text/javascript">
