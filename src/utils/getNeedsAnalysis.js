@@ -25,6 +25,10 @@ export function getNeedsAnalysis(e) {
         },
         success: (response) => {
             console.log(response);
+            if (!response.entries.length) {
+                $('#modal-client-info-body').html('No Needs Analysis Found');
+                return;
+            }
             let entryId = response.entries[0].id;
             console.log('success, entry id: ' + entryId);
 
