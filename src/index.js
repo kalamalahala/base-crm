@@ -26,6 +26,7 @@ $(document).ready(function () {
     };
 
     const loadAppointmentTable = () => {
+        console.log('current page: ', currentPage);
         if (currentPage === "/base/appointments/") {
             appointmentTable();
             dtButtonListeners();

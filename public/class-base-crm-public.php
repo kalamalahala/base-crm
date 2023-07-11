@@ -44,6 +44,9 @@ class BaseCRM_Public
 	 */
 	private $version;
 
+	private int $na_form_id;
+	private int $gview_id;
+
 	/**
 	 * Initialize the class and set its properties.
 	 *
@@ -56,6 +59,8 @@ class BaseCRM_Public
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
+		$this->na_form_id = get_option('base_crm_na_form_id') ?: 114;
+		$this->gview_id = get_option('base_crm_gview_id') ?: 21918;
 	}
 
 	/**
@@ -124,7 +129,8 @@ class BaseCRM_Public
 				'site_url' => get_site_url(),
                 'username' => wp_get_current_user()->user_login,
                 'password' => wp_get_current_user()->user_pass,
-//                'rest_nonce' => wp_create_nonce( 'wp_rest' ),
+				'na_form_id' => $this->na_form_id,
+				'gview_id' => $this->gview_id,
 			)
 		);
 

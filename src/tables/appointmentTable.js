@@ -92,8 +92,6 @@ export const appointmentTable = () => {
         $("#appointment-table").DataTable().draw();
     });
 
-};
-
 $.fn.DataTable.ext.buttons.refresh = {
     text: "Refresh",
     action: function (e, dt, node, config) {
@@ -101,3 +99,5 @@ $.fn.DataTable.ext.buttons.refresh = {
         dt.ajax.reload();
     },
 };
+};
+
