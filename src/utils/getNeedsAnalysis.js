@@ -32,7 +32,7 @@ export function getNeedsAnalysis(e) {
             let entryId = response.entries[0].id;
             console.log('success, entry id: ' + entryId);
 
-            let gravityKitEndpoint = `gravityview/v1/views/${gkId}/entries/${entryId}.html`;
+            let gravityKitEndpoint = `gravityview/v1/views/${gkId}/entries/${entryId}?gv_response_format=html`;
             $.ajax({
                 url: wpApiSettings.root + gravityKitEndpoint,
                 method: 'GET',

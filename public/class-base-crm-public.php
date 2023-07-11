@@ -61,6 +61,11 @@ class BaseCRM_Public
 		$this->version = $version;
 		$this->na_form_id = get_option('base_crm_na_form_id') ?: 114;
 		$this->gview_id = get_option('base_crm_gview_id') ?: 21918;
+
+		if (str_contains(get_site_url(), 'johnson')) {
+			$this->na_form_id = 114;
+			$this->gview_id = 22221;
+		}
 	}
 
 	/**
