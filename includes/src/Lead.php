@@ -370,6 +370,8 @@ class Lead implements LeadInterface
 
         global $wpdb;
 
+		error_log('Setting lead id ' . $this->id . ' to client.');
+
         $new_data = [
             'is_client' => 1,
             'updated_at' => $this->datetime_now('Y-m-d H:i:s'),
@@ -390,6 +392,10 @@ class Lead implements LeadInterface
                 'id' => $this->id,
             ]
         );
+
+		if ($update) {
+			error_log('Lead id ' . $this->id . ' set to client.');
+		}
     }
 
     public function toClient($id) {
