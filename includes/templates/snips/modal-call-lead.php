@@ -261,6 +261,7 @@ $lead_types = $lead->lead_types();
                 <input type="hidden" name="ccid" value="base">
                 <input type="hidden" name="bid" value="base">
                 <input type="hidden" name="lead_id" id="lead-id" value="">
+                <input type="hidden" name="crm_id" id="crm-id" value="">
             </form>
 
         </div>

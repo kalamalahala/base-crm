@@ -82,6 +82,7 @@ export const callLeadModalHandler = () => {
         e.preventDefault();
         let form = $(this);
         let formData = form.serialize();
+        let crmId = $("#crm-id").val();
 
         let formDataObject = new FormData(form[0]);
         formDataObject.append("action", ajaxAction);
@@ -107,7 +108,7 @@ export const callLeadModalHandler = () => {
                 modal.modal("hide");
                 // open the call clinic in a new window, passing the form data
                 window.open(
-                    "https://thejohnson.group/agent-portal/needs-analysis-questionnarie/?close_on_submit=true&" +
+                    `https://thejohnson.group/agent-portal/needs-analysis-questionnarie/?crm_id=${crmId}&close_on_submit=true&` +
                         formData,
                     "_blank",
                 );
@@ -144,6 +145,8 @@ export const callLeadModalHandler = () => {
 
 export const populateScriptFields = (dataObject) => {
     console.log(dataObject);
+
+    jQuery("#crm-id").val(dataObject.id);
     leadIdField.val(dataObject.id);
     leadFirstNameSpan.text(dataObject.first_name);
     leadLastNameSpan.text(dataObject.last_name);

@@ -304,7 +304,7 @@ class Lead implements LeadInterface
             $user_id = get_current_user_id();
         }
 
-        if ($_GET['is_client'] == 1) {
+        if (isset($_GET['is_client']) && $_GET['is_client'] == 1) {
             $get_clients = " AND is_client = 1";
         } else {
             $get_clients = "";
