@@ -5,7 +5,7 @@
 <div class="modal fade hide" id="modal-client-info" tabindex="-1" role="dialog"
      aria-labelledby="modal-calendar-invite-title"
      aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title" id="modal-client-info-name">Client Name</h3>
