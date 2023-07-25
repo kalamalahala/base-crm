@@ -271,6 +271,11 @@ class BaseCRM {
 		];
 	}
 
+	public static function plugin_dir_path(): string
+	{
+		return plugin_dir_path( dirname( __FILE__ ) );
+	}
+
 	/**
 	 * Include the navbar template.
 	 *

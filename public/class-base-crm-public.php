@@ -124,6 +124,7 @@ class BaseCRM_Public
 			'base_crm',
 			array(
 				'ajax_url' => admin_url('admin-ajax.php'),
+				'rest_url' => rest_url(),
 				'ajax_action' => 'base_crm_ajax',
 				'ajax_nonce' => wp_create_nonce('base_crm_ajax_nonce'),
 				'current_page' => $_SERVER['REQUEST_URI'],

@@ -3,6 +3,7 @@
 	namespace BaseCRM\Ajax;
 
 	use BaseCRM\ServerSide\AjaxInterface;
+	use BaseCRM\ServerSide\BaseEmail;
 	use BaseCRM\ServerSide\Lead;
 	use BaseCRM\ServerSide\Appointment;
 	use JetBrains\PhpStorm\NoReturn;
@@ -39,6 +40,22 @@
 
 			// ensure exit
 			die();
+		}
+
+		#[NoReturn] public function base_email(): void {
+			if (!isset($_POST['base_email'])) {
+				$this->json_response( array( 'error' => 'Invalid request' ), 400 );
+			}
+
+			$email = new BaseEmail();
+			$email->set_to( $_POST['base_email']['to'] )
+			      ->set_subject( $_POST['base_email']['subject'] )
+			      ->set_message( $_POST['base_email']['message'] )
+			      ->set_attachments( $_POST['base_email']['attachments'] );
+
+			$status = $email->send();
+
+			$this->json_response( array( 'success' => $status ));
 		}
 
 		// BaseCRM Lead Methods

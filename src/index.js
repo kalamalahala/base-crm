@@ -11,6 +11,8 @@ import { presentationForm } from "./forms/presentationForm";
 import { adminTable } from "./tables/adminTable";
 import { clientsTable } from "./tables/clientsTable";
 import { ajaxTestingZone } from "./utils/ajaxTestingZone";
+import { baseEmailer } from "./utils/baseEmailer";
+import { showLogModal } from "./utils/showLog";
 
 const $ = jQuery;
 const currentPage = base_crm.current_page;
@@ -56,4 +58,6 @@ $(document).ready(function () {
     presentationForm();
     loadClientsTable();
     ajaxTestingZone();
+    baseEmailer();
+    showLogModal();
 });
