@@ -150,6 +150,8 @@
 					Message: {$this->message}
 					Headers: {$this->headers}
 					Attachments: {$this->attachments}
+					
+					Send Status: {$send_status}
 				
 HEREDOC;
 
