@@ -2,6 +2,8 @@
 
 namespace BaseCRM\ServerSide;
 
+use SendGrid\Mail\Mail;
+
 class BaseEmail
 {
     public string $to;
@@ -143,8 +145,13 @@ class BaseEmail
     #endregion
 
     #region Public Functions
+    /** @noinspection PhpUndefinedConstantInspection */
     public function send(): bool
     {
+        if (!defined('SENDGRID_API_KEY')) {
+            error_log('SENDGRID_API_KEY not defined');
+            return false;
+        }
         $required = ['to', 'from', 'subject', 'message', 'headers'];
         foreach ($required as $field) {
             if (empty($this->$field)) {
@@ -153,6 +160,22 @@ class BaseEmail
                 error_log('Exiting...');
                 return false;
             }
+        }
+
+        $email = new Mail();
+        $email->setFrom($this->from, "The Johnson Group");
+        $email->setSubject($this->subject);
+        $email->addTo($this->to);
+        $email->addContent("text/html", $this->message);
+
+        $sendgrid = new \SendGrid(SENDGRID_API_KEY );
+        try {
+            $response = $sendgrid->send($email);
+            error_log(print_r($response, true));
+            return true;
+        } catch (\Exception $e) {
+            error_log($e->getMessage());
+            return false;
         }
 
         $send_status = false;
@@ -185,25 +208,22 @@ HEREDOC;
     public function set_default_body($lead_data): void
     {
         $this->message = <<<HEREDOC
-Hi {$lead_data['first_name']}, included are the details for your appointment with your agent {$lead_data['agent_name']}:
+Hi {$lead_data['first_name']}, included are the details for your appointment with your agent {$lead_data['agent_name']}:<br /><br />
 
-<strong>Date &amp; Time:</strong> {$lead_data['appointment_date']}
-<strong>Appointment Type:</strong> {$lead_data['appointment_type']}
-<strong>Your Contact Number:</strong> {$lead_data['contact_phone']}
+<strong>Date &amp; Time:</strong> {$lead_data['appointment_date']}<br />
+<strong>Appointment Type:</strong> {$lead_data['appointment_type']}<br />
+<strong>Your Contact Number:</strong> {$lead_data['contact_phone']} <br />
 HEREDOC;
         if ($lead_data['notes']) {
-            $this->message .= <<<HEREDOC
-
-<strong>Notes:</strong> {$lead_data['notes']}
-
-HEREDOC;
+            $this->message .= "<br /><strong>Notes:</strong> {$lead_data['notes']}<br />";
         }
+
         $this->message .= <<<HEREDOC
-Regards,
-<img class="alignnone wp-image-2276" src="https://thejohnson.group/wp-content/uploads/2021/02/BlackTextLogo.png" alt="" width="106" height="69" />
-<span style="font-size: 14px;">Email: <a href="info@thejohnson.group">info@thejohnson.group</a></span>
-<span style="font-size: 14px;">Phone: <a href="tel:+13863013703">(386) 301-3703</a></span>
-<span style="font-size: 14px;"><mark><strong>Note: This email is intended only for internal use. If you have received this email in error, please discard it and notify the admin. Thank you.</strong></mark></span>
+<br />Regards,
+<br /><img class="alignnone wp-image-2276" src="https://thejohnson.group/wp-content/uploads/2021/02/BlackTextLogo.png" alt="" width="106" height="69" />
+<br /><span style="font-size: 14px;">Email: <a href="info@thejohnson.group">info@thejohnson.group</a></span>
+<br /><span style="font-size: 14px;">Phone: <a href="tel:+13863013703">(386) 301-3703</a></span>
+<br /><span style="font-size: 14px;"><mark><strong>Note: This email is intended only for internal use. If you have received this email in error, please discard it and notify the admin. Thank you.</strong></mark></span>
 HEREDOC;
     }
     #endregion

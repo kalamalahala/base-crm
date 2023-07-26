@@ -57,7 +57,7 @@ class AjaxHandler implements AjaxInterface
 
         $to = $_POST['data']['lead_email_address'];
         $agent_name = BaseCRM::agent_name($_POST['data']['agent_id']);
-        $appointment_date = date('F j, Y', strtotime($_POST['data']['appointment_date']));
+        $appointment_date = date('F j, Y \a\t g:i a', strtotime($_POST['data']['appointment_date']));
 
         if ($_POST['data']['appointment_type'] != '' && $_POST['data']['appointment_type'] != 'Child Safe Kit') {
             $appointment_type = $_POST['data']['appointment_type'];
@@ -93,7 +93,7 @@ class AjaxHandler implements AjaxInterface
 
         error_log(print_r($email, true));
 
-        $this->json_response(array('success' => $status));
+        $this->json_response(array('success' => $status, 'email' => print_r($email, true)));
     }
 
     // BaseCRM Lead Methods
