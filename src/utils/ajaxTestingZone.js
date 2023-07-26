@@ -64,51 +64,33 @@ export function ajaxTestingZone() {
         });
 
 
-        $('#test-ajax').click(function () {
-            // fetch endpoint https://migrate-test.local/wp-json/basecrm/v1/appointments
-            const restURL = "basecrm/v1/calendar-form";
-
-            const agentId = base_crm.current_user_id;
-            const leadId = $('#lead-id').val();
-
-            $('#fetch-container').html('<div class="spinner-border" role="status"></div> Loading...');
-
-            $.ajax({
-                url: wpApiSettings.root + restURL + '?agent_id=' + agentId + '&lead_id=' + leadId,
-                method: 'GET',
-                beforeSend: (xhr) => {
-                    xhr.setRequestHeader('X-WP-Nonce', wpApiSettings.nonce)
-                },
-                success: (response) => {
-                    $('#fetch-container').html(response);
-                    $('#calendar-datepicker').flatpickr({
-                        static: false,
-                        enableTime: true,
-                        dateFormat: "Y-m-d H:i",
-                        minDate: "today",
-                        time_24hr: false,
-                        altInput: true,
-                        altFormat: "F j, Y \\a\\t h:i K",
-                        minuteIncrement: 30,
-                    });
-                },
-                error: (response) => {
-                    $('#fetch-container').html(response.responseJSON);
-                }
-            });
-            $('#modal-calendar-invite').removeClass('hide').modal('show');
-        });
-
-        $(document).on('submit', '#calendar-invite-form', function (e) {
+        $('#test-ajax').click(function (e) {
             e.preventDefault();
-            const formData = $(this).serialize();
-            const restURL = "http://migrate-test.local/wp-json/basecrm/v1/";
-            const endpoint = "appointment/new";
+            // populate hidden fields
+            let data = e.target.dataset;
+            let form = $('#calendar-invite-form');
+            let agent_id = base_crm.current_user_id;
 
-            $.get(restURL + endpoint + '?' + formData, function (data) {
-                console.log(data);
-                $('#modal-calendar-invite').modal('hide');
+            form.find('input[name="lead_id"]').val(data.leadId);
+            form.find('input[name="agent_id"]').val(agent_id);
+            form.find('input[name="lead_email_address"]').val(data.leadEmail);
+
+            // flatpickr
+            $('#calendar-datepicker').flatpickr({
+                static: false,
+                enableTime: true,
+                dateFormat: "Y-m-d H:i",
+                defaultDate: "today",
+                defaultHour: 9,
+                defaultMinute: 0,
+                time_24hr: false,
+                altInput: true,
+                altFormat: "F j, Y \\a\\t h:i K",
+                minuteIncrement: 30,
             });
+
+            // open the modal
+            $('#modal-calendar-invite').modal('show');
         });
 
         $(document).on('click', '#nonce-testing', (e) => {

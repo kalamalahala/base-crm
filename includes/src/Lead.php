@@ -736,7 +736,7 @@ class Lead implements LeadInterface
     }
 
     public function getClientsForUser() {
-
+        return '';
     }
 
 

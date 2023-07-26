@@ -16,7 +16,7 @@
  * Plugin Name:       Base CRM
  * Plugin URI:        https://thejohnson.group/
  * Description:       Base CRM is a Lead Management plugin that provides a front-end area for website members to upload referrals while out in the field.
- * Version:           0.0.1
+ * Version:           0.7.6
  * Author:            Tyler Karle
  * Author URI:        https://github.com/kalamalahala
  * License:           GPL-2.0+
@@ -34,8 +34,9 @@ if ( ! defined( 'WPINC' ) ) {
  * Currently plugin version.
  * Start at version 0.0.1 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
+ * Don't forget to update the boilerplate heading above to display in the WP Plugins area.
  */
-const BaseCRM_VERSION = '0.5.5';
+const BaseCRM_VERSION = '0.7.6';
 define( 'BaseCRM_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'BaseCRM_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 

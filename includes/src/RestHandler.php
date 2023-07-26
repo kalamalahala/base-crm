@@ -6,7 +6,8 @@
 
 	namespace BaseCRM\Rest;
 
-	use BaseCRM\ServerSide\Appointment;
+	use BaseCRM;
+    use BaseCRM\ServerSide\Appointment;
 	use BaseCRM\ServerSide\GFAPIHandler;
 	use BaseCRM\ServerSide\RestInterface;
 	use BaseCRM\ServerSide\Lead;
@@ -125,6 +126,16 @@
 				}
 			));
 			#endregion
+
+            #region Lead Methods
+            register_rest_route( 'basecrm/v1', '/lead/(?P<id>\d+)', array(
+                'methods'             => 'GET',
+                'callback'            => array( $this, 'getLead' ),
+                'permission_callback' => function () {
+                    return $this->authorizeRest();
+                }
+            ));
+            #endregion
 		}
 
 
@@ -315,6 +326,8 @@
 		}
 
 		public function getCalendarForm(): void {
+            echo 0;
+            /** DEPRECATED
 			$agent_id         = $_GET['agent_id'] ?? get_current_user_id();
 			$lead_id          = $_GET['lead_id'] ?? null;
 			$appointment_type = $_GET['appointment_type'] ?? 'Child Safe Kit - Referral';
@@ -324,6 +337,38 @@
                 echo $this->json_response( $form, 400 );
                 die();
 			}
+
+            $lead = new Lead( $lead_id );
+            $agent_name = BaseCRM::agent_name( $agent_id );
+
+            $default_content = <<<HTML
+Hi {$lead->first_name}, included are the details for your appointment with your agent {$agent_name}:
+
+<strong>Date &amp; Time:</strong> <span id="appointment-datetime">should quick edit</span>
+<strong>Appointment Type:</strong> {$appointment_type}
+<strong>Your Contact Number:</strong> {$lead->phone}
+
+Regards,
+<img class="alignnone wp-image-2276" src="https://thejohnson.group/wp-content/uploads/2021/02/BlackTextLogo.png" alt="" width="106" height="69" />
+<span style="font-size: 10pt;">Email: <a href="info@thejohnson.group">info@thejohnson.group</a></span>
+<span style="font-size: 10pt;">Phone: <a href="tel:+13863013703">(386) 301-3703</a></span>
+<span style="font-size: 10pt;"><mark><strong>Note: This email is intended only for internal use. If you have received this email in error, please discard it and notify the admin. Thank you.</strong></mark></span>
+HTML;
+
+            $tinyMCE = BaseCRM::calendar_invite_editor_box('appointment_notes', $default_content,  array(
+                'textarea_name' => 'appointment_notes',
+                'textarea_rows' => 10,
+                'media_buttons' => false,
+                'teeny'         => true,
+                'tinymce'       => array(
+                    'toolbar1' => 'bold,italic,underline,link,unlink,undo,redo',
+                    'toolbar2' => '',
+                    'toolbar3' => '',
+                ),
+                'quicktags'     => false,
+                'editor_css'    => '<style>#wp-appointment_notes-wrap{display:none;}</style>',
+            ));
+
 
 			$form = <<<FORM
     <div class="row">
@@ -336,7 +381,8 @@
     <div class="row">
         <div class="col">
             <label for="appointment_notes" class="form-label w-100">Appointment Notes
-            <textarea name="appointment_notes" id="appointment_notes" cols="30" rows="10" class="form-control"></textarea></label>
+                {$tinyMCE}
+            </label>
         </div>
     </div>
     <div class="row">
@@ -348,11 +394,12 @@
             <input type="hidden" name="agent_id" value="$agent_id">
             <input type="hidden" name="lead_id" value="$lead_id">
             <input type="hidden" name="appointment_type" value="$appointment_type">
-            <input type="hidden" name="appointment_time" value="10:00">
-            <input type="hidden" name="appointment_timezone" value="America/New_York">
+            <input type="hidden" name="lead_name" value="{$lead->first_name} {$lead->last_name}">
+            <input type="hidden" name="agent_name" value="$agent_name">
 FORM;
 
-			echo $this->json_response( $form );
+//			echo $this->json_response( $form );
+            **/
 		}
 
 		public function getCalendarInviteForm(): void {
@@ -442,7 +489,7 @@ FORM;
 			echo $this->json_response( 'getLeads' );
 		}
 
-		private function getLead(): void {
+		public function getLead(): void {
 			// ...
 			echo $this->json_response( 'getLead' );
 		}

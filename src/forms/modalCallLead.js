@@ -146,6 +146,15 @@ export const callLeadModalHandler = () => {
 export const populateScriptFields = (dataObject) => {
     console.log(dataObject);
 
+    let calInvButton = jQuery('#test-ajax');
+
+    calInvButton.attr('data-lead-id', dataObject.id);
+    calInvButton.attr('data-lead-first-name', dataObject.first_name);
+    calInvButton.attr('data-lead-last-name', dataObject.last_name);
+    calInvButton.attr('data-lead-phone', dataObject.phone);
+    calInvButton.attr('data-lead-email', dataObject.email);
+    calInvButton.attr('data-lead-type', dataObject.lead_type);
+
     jQuery("#crm-id").val(dataObject.id);
     leadIdField.val(dataObject.id);
     leadFirstNameSpan.text(dataObject.first_name);
