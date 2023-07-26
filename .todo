@@ -2,3 +2,14 @@ REST Endpoint wp-json/gf/v2/forms/114/entries
 
 parameters
 ?search={"field_filters":%20[{"key":18,"value":"24","operator":"contains"}]}
+
+
+/// If yes to policies, add input field to list amount of coverage
+
+Yes I have coverage through my employer and non-employer separate yes or no questions
+
+Split health information section to primary, spouse, and child
+
+adjust confirmation html to be more obvious, possibly with button
+
+403 forbidden on retrieving gravity view entries
