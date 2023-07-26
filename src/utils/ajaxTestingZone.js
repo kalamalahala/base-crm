@@ -66,27 +66,35 @@ export function ajaxTestingZone() {
 
         $('#test-ajax').click(function () {
             // fetch endpoint https://migrate-test.local/wp-json/basecrm/v1/appointments
-            const restURL = "/wp-json/basecrm/v1/";
-            const endpoint = "calendar-form";
+            const restURL = "basecrm/v1/calendar-form";
 
             const agentId = base_crm.current_user_id;
             const leadId = $('#lead-id').val();
 
             $('#fetch-container').html('<div class="spinner-border" role="status"></div> Loading...');
 
-            $.get(base_crm.site_url + restURL + endpoint + '?agent_id=' + agentId + '&lead_id=' + leadId, function (data) {
-                console.log(data);
-                $('#fetch-container').html(data);
-                $('#calendar-datepicker').flatpickr({
-                    static: false,
-                    enableTime: true,
-                    dateFormat: "Y-m-d H:i",
-                    minDate: "today",
-                    time_24hr: false,
-                    altInput: true,
-                    altFormat: "F j, Y \\a\\t h:i K",
-                    minuteIncrement: 30,
-                });
+            $.ajax({
+                url: wpApiSettings.root + restURL + '?agent_id=' + agentId + '&lead_id=' + leadId,
+                method: 'GET',
+                beforeSend: (xhr) => {
+                    xhr.setRequestHeader('X-WP-Nonce', wpApiSettings.nonce)
+                },
+                success: (response) => {
+                    $('#fetch-container').html(response);
+                    $('#calendar-datepicker').flatpickr({
+                        static: false,
+                        enableTime: true,
+                        dateFormat: "Y-m-d H:i",
+                        minDate: "today",
+                        time_24hr: false,
+                        altInput: true,
+                        altFormat: "F j, Y \\a\\t h:i K",
+                        minuteIncrement: 30,
+                    });
+                },
+                error: (response) => {
+                    $('#fetch-container').html(response.responseJSON);
+                }
             });
             $('#modal-calendar-invite').removeClass('hide').modal('show');
         });

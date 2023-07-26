@@ -320,7 +320,9 @@
 			$appointment_type = $_GET['appointment_type'] ?? 'Child Safe Kit - Referral';
 
 			if ( ! $lead_id ) {
-				echo 'no lead id';
+				$form = "No lead id provided";
+                echo $this->json_response( $form, 400 );
+                die();
 			}
 
 			$form = <<<FORM
