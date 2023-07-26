@@ -42,6 +42,7 @@ export function baseEmailer() {
                     }
                 },
                 success: (response) => {
+                    console.log(response);
                     alert('Appointment reminder email dispatched to ' + betterFormData.lead_email_address + '!');
                     $(this).trigger('reset');
                     $('#modal-calendar-invite').modal('hide');

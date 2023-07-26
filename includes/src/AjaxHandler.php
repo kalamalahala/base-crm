@@ -55,7 +55,7 @@ class AjaxHandler implements AjaxInterface
 
         $lead = new Lead($_POST['data']['lead_id']);
 
-        $to = "$lead->first_name $lead->last_name <{$_POST['data']['lead_email_address']}>";
+        $to = $_POST['data']['lead_email_address'];
         $agent_name = BaseCRM::agent_name($_POST['data']['agent_id']);
         $appointment_date = date('F j, Y', strtotime($_POST['data']['appointment_date']));
 
@@ -86,6 +86,12 @@ class AjaxHandler implements AjaxInterface
         $email->set_attachments('');
 
         $status = $email->send();
+
+        if (!$status) {
+            $this->json_response(array('error' => 'Email failed to send'), 400);
+        }
+
+        error_log(print_r($email, true));
 
         $this->json_response(array('success' => $status));
     }

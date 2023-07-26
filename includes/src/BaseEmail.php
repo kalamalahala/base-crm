@@ -148,6 +148,9 @@ class BaseEmail
         $required = ['to', 'from', 'subject', 'message', 'headers'];
         foreach ($required as $field) {
             if (empty($this->$field)) {
+                error_log('Empty Field: ' . $field);
+                error_log(print_r($this, true));
+                error_log('Exiting...');
                 return false;
             }
         }
